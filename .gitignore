@@ -1,5 +1,8 @@
 # Node Installation Packages
 node_modules/
 
+# TypeScript compiled files
+dist/
+
 # Environment Variables
 .env
