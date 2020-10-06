@@ -1,28 +1,29 @@
 require('dotenv').config();
 import config = require('./config.json');
+import UQManager = require('./plugins/UQManager/UQManager');
 
 import Discord = require('discord.js');
 const client = new Discord.Client();
 const token = new RegExp (config.xiera.token, config.xiera.flags);
 
-// Xiera's startup message
+// Startup. Run all startup functions once the Discord client is ready
 client.once('ready', () => {
+  
+  /* --- All startup scripts loaded and complete ---*/
   console.log('Hi-CAST Xiera, up and ready!');
 })
 
 // Upon receiving a message from a channel she's in or a DM
 client.on('message', message => {
   let now = new Date();
-  let time = `${now.getUTCFullYear()}/${now.getUTCMonth()}/${now.getUTCDate()} ${now.getUTCHours()}:${now.getUTCMinutes()}:${now.getUTCSeconds()} UTC`;
-  //console.log(message);
+
+  // Create a timestamp in the format: YYYY/MM/DD HH:MM:SS
+  let time: string = `${now.getUTCFullYear()}/${now.getUTCMonth()}/${now.getUTCDate()} ${now.getUTCHours()}:${now.getUTCMinutes()}:${now.getUTCSeconds()} UTC`;
 
   // Stop Xiera from trying to talk to herself (or any other bots)
   if (message.author.bot) return;
 
-  /*
-    The bot behaves differently depending where the message originated from
-  */
-
+  /* Xiera Responses */
   // Direct Messages
   if (message.channel.type === 'dm') {
     // TODO: DMs should not require the bot flag to initiate.
