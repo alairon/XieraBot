@@ -4,4 +4,6 @@ A Discord bot to help with numerous ARKS operations. Originally an excuse for th
 ## Current Developments
 * Scheduled UQ search. Only want to know when the next Profound Darkness fight is? Don't want to know when the next Yamato fight is? Ask Xiera for any developments from the ARKS Intelligence Bureau!
 
-This is a fan project and not associated with SEGA.
+
+## Disclaimer
+This is a fan project and not associated with SEGA. [Phantasy Star Online 2 (C) SEGA](https://pso2.com)
