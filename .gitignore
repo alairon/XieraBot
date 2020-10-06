@@ -4,5 +4,8 @@ node_modules/
 # TypeScript compiled files
 dist/
 
+# Downloade iCalendar files
+ical/
+
 # Environment Variables
 .env
