@@ -5,6 +5,10 @@
   },
   "writeData": {
     "url": "https://calendar.google.com/calendar/ical/q9vhte9052gcqfbqe1i84akeps@group.calendar.google.com/public/basic.ics",
-    "dest": "./ical/data.ics"
+    "dest": "./ical/urgentEvents.ics"
+  },
+  "casinoData": {
+    "url": "https://calendar.google.com/calendar/ical/gkuse6kpb8hees75j47644eqmo@group.calendar.google.com/public/basic.ics",
+    "dest": "./ical/casino.ics"
   }
 }
