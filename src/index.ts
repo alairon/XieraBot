@@ -1,14 +1,22 @@
 require('dotenv').config();
 import config = require('./config.json');
-import UQManager = require('./plugins/UQManager/UQManager');
+import Quests = require('./plugins/UQManager/quests');
+import Casino = require('./plugins/UQManager/casino');
 
 import Discord = require('discord.js');
 const client = new Discord.Client();
 const token = new RegExp (config.xiera.token, config.xiera.flags);
 
+let quests = new Quests.Events();
+quests.initEvents();
+quests.setEvents();
+
+let casino = new Casino.Events();
+casino.initEvents();
+//casino.setEvents();
+
 // Startup. Run all startup functions once the Discord client is ready
 client.once('ready', () => {
-  
   /* --- All startup scripts loaded and complete ---*/
   console.log('Hi-CAST Xiera, up and ready!');
 })
@@ -30,6 +38,11 @@ client.on('message', message => {
     if (token.test(message.content)) {
       message.channel.send(`Hi ${message.author.username}, just letting you know that you won't need to flag me down when we're talking through a DM :happy:`);
       console.log('Remove !xiera, then read command');
+    }
+    else if (/!test/mi.test(message.content)){
+      message.channel.send('Someone requested I run a quick test. Please check the visiphone terminal for details.');
+      quests.displayEvents();
+      casino.displayEvents();
     }
     else {
       console.log('Read command without !xiera');
