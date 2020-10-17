@@ -39,8 +39,9 @@ export class UQManager {
 
   // Downloads .ics data from a link, then loads the data
   private async initWeb(): Promise<object> {
-    let results = await this.loadNetworkEventCalendar();
-    return results;
+    const results = await this.loadNetworkEventCalendar();
+    const data = await this.parseEvents(results);
+    return data;
   }
 
   // Loads the data from a local or freshly downloaded .ics file
@@ -124,4 +125,33 @@ export class UQManager {
     let events = await ical.async.parseFile(source);
     return (events);
   }
+
+  private async parseEvents(data: object): Promise<Array<object>> {
+    let indexData: Array<object> = [];
+    const eventData = <eventObject>data;
+    for (const idx in eventData){
+      const uid = eventData[idx].uid;
+      const summary = eventData[idx].summary;
+      const startTime = await this.jsDate(eventData[idx].start);
+      const endTime = await this.jsDate(eventData[idx].end);
+      const event = { uid, summary, startTime, endTime };
+      indexData.push(event);
+    }
+
+    return indexData;
+  }
+
+  private async jsDate(icalDate: string): Promise<Date> {
+    const date: Date = new Date(icalDate.toString());
+    return (date);
+  }
+}
+
+interface eventObject {
+  [index: string]: {
+    uid: string, 
+    summary: string,
+    start: string,
+    end: string
+  };
 }
