@@ -1,0 +1,18 @@
+{
+  "Framework": {
+    "Name": null,
+    "Location": null,
+    "Target": null,
+    "Tags": [null],
+    "Availability": [null],
+    "Supercedes": null,
+    "ParentQuest": null,
+    "MinMainLvl": 0,
+    "MinSubLvl": 0,
+    "PartySize": 0,
+    "TimeLimit": 0,
+    "MaxCompletion": 0,
+    "NotableAffixes": [null],
+    "Vehicles": null
+  }
+}
