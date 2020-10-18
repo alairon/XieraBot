@@ -8,23 +8,23 @@ export class Events extends Main.UQManager {
     this.events = {};
   }
 
-  getEvents(): object {
+  public getEvents(): object {
     return (this.events);
   }
 
-  async initEvents(): Promise<void> {
+  public async initEvents(): Promise<void> {
     let events = await this.init();
     this.events = events;
   }
 
-  setEvents(): void{
+  public setEvents(): void{
     let eventObject: object = this.events;
     for (const value of Object.values(eventObject)){
       console.log ([value.start, value.end, value.summary]);
     }
   }
 
-  displayEvents(): void {
+  public displayEvents(): void {
     console.log(this.events);
   }
 }
