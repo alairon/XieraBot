@@ -24,7 +24,7 @@ export class UQManager {
     return (this.icalFile);
   }
 
-  public async init(): Promise<object> {
+  protected async init(): Promise<object> {
     if (typeof(this.url) === 'undefined'){
       console.log(`The URL hasn't been set. Attempting to read the local database.`);
       let localResults = await this.initLocal();
@@ -40,7 +40,8 @@ export class UQManager {
   // Downloads .ics data from a link, then loads the data
   private async initWeb(): Promise<object> {
     const results = await this.loadNetworkEventCalendar();
-    const data = await this.parseEvents(results);
+    const calData = await this.parseEvents(results);
+    const data = await this.sortByDate(calData);
     return data;
   }
 
@@ -132,8 +133,8 @@ export class UQManager {
     for (const idx in eventData){
       const uid = eventData[idx].uid;
       const summary = eventData[idx].summary;
-      const startTime = await this.jsDate(eventData[idx].start);
-      const endTime = await this.jsDate(eventData[idx].end);
+      const startTime = await this.dateToString(eventData[idx].start);
+      const endTime = await this.dateToString(eventData[idx].end);
       const event = { uid, summary, startTime, endTime };
       indexData.push(event);
     }
@@ -141,12 +142,26 @@ export class UQManager {
     return indexData;
   }
 
-  private async jsDate(icalDate: string): Promise<Date> {
+  private async dateToString(icalDate: string): Promise<Date> {
     const date: Date = new Date(icalDate.toString());
     return (date);
   }
+
+  private async sortByDate(events: Array<object>): Promise<Array<object>> {
+    events.sort((a: eventObject, b: eventObject) => {
+      const aStartTime = a.startTime;
+      const bStartTime = b.startTime;
+
+      if (aStartTime < bStartTime) return (-1);
+      if (aStartTime > bStartTime) return (1);
+      return (0);
+    });
+    
+    return (events);
+  }
 }
 
+// TypeScript interface to let the complier know what to expect in an event object
 interface eventObject {
   [index: string]: {
     uid: string, 
