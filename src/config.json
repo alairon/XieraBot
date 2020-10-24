@@ -1,11 +1,11 @@
 {
   "xiera": {
-    "token": "^(!xiera\\s?).*",
+    "token": "^x!\\s?",
     "flags": "imu"
   },
   "writeData": {
     "url": "https://calendar.google.com/calendar/ical/q9vhte9052gcqfbqe1i84akeps@group.calendar.google.com/public/basic.ics",
-    "dest": "./ical/urgentEvents.ics"
+    "dest": "./ical/events.ics"
   },
   "casinoData": {
     "url": "https://calendar.google.com/calendar/ical/gkuse6kpb8hees75j47644eqmo@group.calendar.google.com/public/basic.ics",
