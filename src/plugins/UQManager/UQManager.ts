@@ -2,11 +2,13 @@ import https = require('https');
 import fs = require('fs');
 import ical = require('node-ical');
 import path = require('path');
+import Search = require('./search');
 
-export class UQManager {
+export class UQManager  {
   private icalDir: string; // PATH to the iCalendar directory
   private icalFile: string; // NAME of the .ics file
   private url: string; // URL to the .ics file
+  private fuse: any; // Fuse search
 
   constructor(icalDir: string, icalFile: string, url?: string){
     this.icalDir = icalDir;
@@ -24,7 +26,9 @@ export class UQManager {
     return (this.icalFile);
   }
 
+  // Initializes the ical
   protected async init(): Promise<object> {
+    // If no URL was provided
     if (typeof(this.url) === 'undefined'){
       console.log(`The URL hasn't been set. Attempting to read the local database.`);
       let localResults = await this.initLocal();
@@ -49,6 +53,14 @@ export class UQManager {
   private async initLocal(): Promise<object>{
     let results = await this.loadEventCalendar();
     return results;
+  }
+
+  protected searchInit(events: object, searchConfig: object){
+    this.fuse = new Search.SearchManager(events, searchConfig);
+  }
+
+  protected searchEvents(searchTerm: string): object{
+    return (this.fuse.searchEvents(searchTerm));
   }
 
   // Downloads an iCalendar file from the internet and saves the results into a local .ics file.
@@ -127,6 +139,7 @@ export class UQManager {
     return (events);
   }
 
+  // Trims the fat from the ICS object
   private async parseEvents(data: object): Promise<Array<object>> {
     let indexData: Array<object> = [];
     const eventData = <eventObject>data;
@@ -142,11 +155,19 @@ export class UQManager {
     return indexData;
   }
 
+  // Converts the string found in the ICS file into a JS date
   private async dateToString(icalDate: string): Promise<Date> {
     const date: Date = new Date(icalDate.toString());
     return (date);
   }
 
+  // Generates an ISO string based on UTC
+  public getUTCString(date: Date): string{
+    const UTCDate: Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds()));
+    return UTCDate.toISOString();
+  }
+
+  // Sorts the events by date
   private async sortByDate(events: Array<object>): Promise<Array<object>> {
     events.sort((a: eventObject, b: eventObject) => {
       const aStartTime = a.startTime;
@@ -156,13 +177,24 @@ export class UQManager {
       if (aStartTime > bStartTime) return (1);
       return (0);
     });
-    
+
     return (events);
+  }
+
+  // Saves the parsed events currently in memory to a JSON file
+  protected async saveEvents(events: object): Promise<void>{
+    const dest = path.join(this.icalDir, this.icalFile);
+    console.log(dest);
+    fs.writeFile(dest, JSON.stringify(events, null, 2), (err) => {
+      if (err) {
+        console.error('The file cannot be written to.');
+      }
+    });
   }
 }
 
 // TypeScript interface to let the complier know what to expect in an event object
-interface eventObject {
+export interface eventObject {
   [index: string]: {
     uid: string, 
     summary: string,
