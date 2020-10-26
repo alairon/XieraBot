@@ -2,7 +2,7 @@
   "name": "xierabot",
   "version": "1.0.0",
   "description": "A Discord Bot that focuses on PSO2 functions",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "start": "node dist/index",
     "postinstall": "tsc",
