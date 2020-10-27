@@ -9,6 +9,6 @@
     "target": "ES2019",
     "outDir": "dist"
   },
-  "include": ["src/**/*", "src/index.js"],
+  "include": ["src/**/*", "src/index.js", "src/xiera.json"],
   "exclude": ["node_modules"]
 }
