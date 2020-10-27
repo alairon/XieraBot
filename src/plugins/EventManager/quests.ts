@@ -85,7 +85,7 @@ export class Events extends Main.EventManager {
     // Searches the events based on user input
     if (searchTerm){
       const searchResults: object = this.searchQuery(searchTerm);
-      let searchLimit = 10;
+      let searchLimit = 5;
       let omittedResults = 0;
 
       if (Object.keys(searchResults).length == 0){
