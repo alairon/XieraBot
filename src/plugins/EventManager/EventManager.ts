@@ -4,16 +4,18 @@ import ical = require('node-ical');
 import path = require('path');
 import Search = require('./search');
 
-export class UQManager  {
+export class EventManager  {
   private icalDir: string; // PATH to the iCalendar directory
   private icalFile: string; // NAME of the .ics file
   private url: string; // URL to the .ics file
   private fuse: any; // Fuse search
+  private lastRefreshDate: number;
+  private refreshInterval: number;
 
-  constructor(icalDir: string, icalFile: string, url?: string){
-    this.icalDir = icalDir;
-    this.icalFile = icalFile;
+  constructor(url: string, refreshInterval: number){
     this.url = url;
+    this.refreshInterval = refreshInterval;
+    this.lastRefreshDate = new Date().getTime();
   }
 
   // Returns a string representing the URL to a .ics file
@@ -26,16 +28,21 @@ export class UQManager  {
     return (this.icalFile);
   }
 
+  private setURL(url: string): void {
+    this.url = url;
+  }
+
   // Initializes the ical
-  protected async init(): Promise<object> {
-    // If no URL was provided
-    if (typeof(this.url) === 'undefined'){
+  protected async init(url?: string): Promise<object> {
+    // If no URL was provided and no URL was set
+    if (typeof(this.url) === 'undefined' && typeof(url) === 'undefined'){
       console.log(`The URL hasn't been set. Attempting to read the local database.`);
       let localResults = await this.initLocal();
       return localResults;
     }
     else{
-      console.log(`Attempting to gather data from the network.`);
+      if (url) this.setURL(url);
+      console.log(`Attempting to gather data from ${this.url}`);
       let webResults = await this.initWeb();
       return webResults;
     }
@@ -46,6 +53,7 @@ export class UQManager  {
     const results = await this.loadNetworkEventCalendar();
     const calData = await this.parseEvents(results);
     const data = await this.sortByDate(calData);
+    this.resetLastRefreshDate();
     return data;
   }
 
@@ -120,7 +128,7 @@ export class UQManager  {
   // Downloads an iCalendar from the internet and immediately parses it. Returns a parsed object.
   private async loadNetworkEventCalendar(): Promise<object>{
     if (typeof(this.url) === 'undefined'){
-      console.log(`You'll need to configure a URL first!`);
+      console.log(`You'll need to set a URL first!`);
       return;
     }
     const webEvents = await ical.async.fromURL(this.url);
@@ -179,6 +187,16 @@ export class UQManager  {
     });
 
     return (events);
+  }
+
+  // Determines if a calendar refresh is required.
+  private async needsRefresh(): Promise<boolean>{
+    const now = new Date().getTime();
+    return ((now - this.lastRefreshDate) > (this.refreshInterval * 3600000));
+  }
+
+  private async resetLastRefreshDate(): Promise<void>{
+    const now = new Date().getTime();
   }
 
   // Saves the parsed events currently in memory to a JSON file

@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import Main = require('./UQManager');
+import Main = require('./EventManager');
 import MessageManager = require('./messages');
 
 const fuseConfig = {
@@ -12,12 +12,12 @@ const fuseConfig = {
   ]
 };
 
-export class Events extends Main.UQManager {
+export class Events extends Main.EventManager {
   events: object;
 
-  constructor(){
-    super('./ical', 'events.ics', 'https://calendar.google.com/calendar/ical/bhuq84ncb4gcuukvehrqt5iftg@group.calendar.google.com/public/basic.ics');
-    this.events = {};
+  constructor(url: string, refreshInterval: number){
+    super(url, refreshInterval);
+    this.initEvents();
   }
 
   public getEvents(): object {
@@ -25,16 +25,8 @@ export class Events extends Main.UQManager {
   }
 
   public async initEvents(): Promise<void> {
-    let events = await this.init();
-    this.events = events;
-    this.searchInit(events, fuseConfig);
-  }
-
-  public setEvents(): void{
-    let eventObject: object = this.events;
-    for (const value of Object.values(eventObject)){
-      console.log ([value.start, value.end, value.summary]);
-    }
+    this.events = await this.init();
+    this.searchInit(this.events, fuseConfig);
   }
 
   public displayEvents(): void {
@@ -89,11 +81,11 @@ export class Events extends Main.UQManager {
 
     // If there is a search term, extract it from the UQ command
     const searchTerm = command.match(/(?<=uq\s).*/mi).toString();
-    
+    console.log(searchTerm);
     // Searches the events based on user input
     if (searchTerm){
       const searchResults: object = this.searchQuery(searchTerm);
-      let searchLimit = 10;
+      let searchLimit = 5;
       let omittedResults = 0;
 
       if (Object.keys(searchResults).length == 0){
@@ -123,10 +115,10 @@ export class Events extends Main.UQManager {
       }
       if (omittedResults > 0) {
         if (omittedResults == 1){
-          sendMsg.addMessage(`There's **${omittedResults}** more event scheduled to happen in the future.`);
+          sendMsg.addMessage(`\nThere's **${omittedResults}** more event related to ${searchTerm} scheduled to happen soon`);
         }
         else{
-          sendMsg.addMessage(`There are **${omittedResults}** more events that are scheduled to run in the future\n`);
+          sendMsg.addMessage(`\nThere are **${omittedResults}** more events related to ${searchTerm} that are scheduled to happen soon`);
         }
       }
       if (!sendMsg.isEmpty()){
@@ -134,7 +126,7 @@ export class Events extends Main.UQManager {
         return (sendMsg.getMessage());
       }
       else {
-        return (`There doesn't seem to be any more upcoming events with \`${searchTerm}\`, but be sure to check for any unscheduled events (or maybe someone will use a trigger)`);
+        return (`There doesn't seem to be any more upcoming events with \`${searchTerm}\` for this period, but be sure to check for any unscheduled events (or maybe someone will use a trigger)`);
       }
     }
     // Blame Casra for all of Xiera's issues (not Xiao)

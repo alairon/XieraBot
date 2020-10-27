@@ -1,4 +1,4 @@
-import Main = require('./UQManager');
+import Main = require('./EventManager');
 import MessageManager = require('./messages');
 
 const fuseConfig = {
@@ -7,11 +7,11 @@ const fuseConfig = {
   ]
 };
 
-export class Events extends Main.UQManager{
+export class Events extends Main.EventManager{
   events: object;
 
-  constructor(){
-    super(null, null, 'https://calendar.google.com/calendar/ical/gkuse6kpb8hees75j47644eqmo@group.calendar.google.com/public/basic.ics');
+  constructor(url: string, refreshInterval: number){
+    super(url, refreshInterval);
     this.events = {};
   }
 
@@ -25,15 +25,9 @@ export class Events extends Main.UQManager{
     this.searchInit(events, fuseConfig);
   }
 
-  public setEvents(): void{
-    let eventObject: object = this.events;
-    for (const value of Object.values(eventObject)){
-      console.log ([value.start, value.end, value.summary]);
-    }
-  }
-
   public async displayEvents(): Promise<string> {
     let sendMsg: MessageManager.Messages = new MessageManager.Messages();
+    let results = 0;
     const eventValues = Object.values(this.events);
     sendMsg.addMessage(`Here's what you can look forward to at the casino!\n\n`);
     for (const idx in eventValues){
@@ -43,12 +37,14 @@ export class Events extends Main.UQManager{
       // If the event is happening now
       if (now >= eventStartTime && now < eventEndTime){
         sendMsg.addMessage(`**${eventValues[idx].summary}**\`\`\`ldif\nHappening now!\nEnds in: ${sendMsg.dateDiff(eventEndTime-now)}\n\`\`\`\n`);
+        results++;
       }
       else if (now < eventStartTime) {
         sendMsg.addMessage(`**${eventValues[idx].summary}**\`\`\`ldif\nStarts in: ${sendMsg.dateDiff(eventStartTime-now)}\n\`\`\`\n`);
+        results++
       }
     }
-  if (!sendMsg.isEmpty()) return(sendMsg.getMessage());
-  return ('Oops! I need to get the data from Diehl.');
+  if (results) return(sendMsg.getMessage());
+  return ('Diehl doesn\'t seem to be running any events right now. Please check back soon!');
     }
 }
