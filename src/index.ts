@@ -43,15 +43,15 @@ client.on('message', async message => {
         message.channel.send(`Hey! You don't need to mention me when we're talking through a DM!`);
         //Attempt to remove the mention
         try {
-          content = message.content.match(/(?<=>\s?).*/mi)[0];
+          content = message.content.match(/(?<=>\s).*/mi)[0];
         }
         catch(err){
         }
       } else if (token.test(message.content)) {
-        message.channel.send(`Hello! Friendly Xiera here letting you know that you won't need to use the flag when we're talking through a DM.`);
+        message.channel.send(`Hello! Just wanted to let you know that you won't need to use the flag when we're talking through a DM.`);
         //Attempt to remove the flag
         try{
-          content = message.content.match(/(?<=x!\s?).*/mi)[0];
+          content = message.content.match(/[^(^x!\s?)].*/mi)[0];
         }
         catch(err){
         }
@@ -69,9 +69,6 @@ client.on('message', async message => {
 
       switch (command[0]) {
         case 'uq':
-        case 'q':
-        case 'quests':
-        case 'events':
           const uqRes = await quests.findEvent(content);
           message.channel.send(uqRes);
           break;
@@ -87,6 +84,7 @@ client.on('message', async message => {
         default: 
           message.channel.send(`Hello ${message.author.username}!\nI can currently tell you what scheduled events are happening on the Oracle Fleet!\nJust let me know if you want info about upcoming urgent quests (\`uq\`), or what boosts are available at the casino (\`casino\`).`);
       }
+      break;
     case 'text':
       // Message on a server's text channel
       if (token.test(message.content) || message.mentions.has(client.user)){
@@ -120,8 +118,6 @@ client.on('message', async message => {
         console.log (`${message.author.username} via ${message.guild.name} [${time}]: ${command}`);
         switch (command[0]) {
           case 'uq':
-          case 'u':
-          case 'events':
             const uqRes = await quests.findEvent(content);
             message.channel.send(uqRes);
             break;
@@ -134,7 +130,7 @@ client.on('message', async message => {
           case 'i':
             break;
           default: 
-          message.channel.send(`Hello ${message.author.username}!\nI can currently tell you what scheduled events are happening on the Oracle Fleet!\nJust let me know if you want info about upcoming urgent quests (\`uq\`), or what boosts are available at the casino (\`casino\`).`);
+          message.channel.send(`Hello ${message.author.username}!\nI can currently tell you what scheduled events are happening on the Oracle Fleet!\n\n__**Usage**__\n\`\`\`x!<command>\`\`\`I know autocorrect on some phones like to add a space after \`!\`, so \`x! <command>\` also works!\n\n__**Available Commands**__\n\`\`\`uq <search term>\`\`\`For this command, I'll look through the data Casra gave me and show you the next couple of upcoming events. How does he even do this? Anyways, you can also enter an optional search term, and I'll do my best to find upcoming events based on what you're looking for!\n\`\`\`casino\`\`\`If there's a casino boost, I'll be sure to show you what's to come!`);
         }
       }
       break;

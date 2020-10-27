@@ -81,7 +81,7 @@ export class Events extends Main.EventManager {
 
     // If there is a search term, extract it from the UQ command
     const searchTerm = command.match(/(?<=uq\s).*/mi).toString();
-    
+    console.log(searchTerm);
     // Searches the events based on user input
     if (searchTerm){
       const searchResults: object = this.searchQuery(searchTerm);
@@ -115,10 +115,10 @@ export class Events extends Main.EventManager {
       }
       if (omittedResults > 0) {
         if (omittedResults == 1){
-          sendMsg.addMessage(`\nThere's **${omittedResults}** more event scheduled to happen soon`);
+          sendMsg.addMessage(`\nThere's **${omittedResults}** more event related to ${searchTerm} scheduled to happen soon`);
         }
         else{
-          sendMsg.addMessage(`\nThere are **${omittedResults}** more events that are scheduled to happen soon`);
+          sendMsg.addMessage(`\nThere are **${omittedResults}** more events related to ${searchTerm} that are scheduled to happen soon`);
         }
       }
       if (!sendMsg.isEmpty()){
@@ -126,7 +126,7 @@ export class Events extends Main.EventManager {
         return (sendMsg.getMessage());
       }
       else {
-        return (`There doesn't seem to be any more upcoming events with \`${searchTerm}\`, but be sure to check for any unscheduled events (or maybe someone will use a trigger)`);
+        return (`There doesn't seem to be any more upcoming events with \`${searchTerm}\` for this period, but be sure to check for any unscheduled events (or maybe someone will use a trigger)`);
       }
     }
     // Blame Casra for all of Xiera's issues (not Xiao)

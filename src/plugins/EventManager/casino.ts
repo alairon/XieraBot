@@ -45,6 +45,6 @@ export class Events extends Main.EventManager{
       }
     }
   if (results) return(sendMsg.getMessage());
-  return ('Diehl doesn\'t seem to be running any events right now. ~~If you\'d like to test your luck right now, I heard Dudu wants to help upslot your equipment~~ Please check back soon!');
+  return ('Diehl doesn\'t seem to be running any events right now. Please check back soon!');
     }
 }
