@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index",
     "postinstall": "tsc",
-    "build": "tsc && npm start",
+    "build": "tsc",
     "test": "mocha"
   },
   "repository": {
