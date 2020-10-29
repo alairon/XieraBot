@@ -1,0 +1,18 @@
+{
+  "xiera": {
+    "token": "^x!\\s?",
+    "flags": "imu"
+  },
+  "calendar": {
+    "quest": {
+      "refreshInterval": 6,
+      "url": "https://calendar.google.com/calendar/ical/khvrd1m5qm7l1q69361aa12o8g@group.calendar.google.com/public/basic.ics",
+      "localICS": "./ical/events.ics"
+    },
+    "casino": {
+      "refreshInterval": 24,
+      "url": "https://calendar.google.com/calendar/ical/gkuse6kpb8hees75j47644eqmo@group.calendar.google.com/public/basic.ics",
+      "localICS": "./ical/casino.ics"
+    }
+  }
+}
