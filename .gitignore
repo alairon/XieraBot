@@ -1,11 +1,19 @@
 # Node Installation Packages
 node_modules/
 
-# TypeScript compiled files
+# Output directories
 dist/
+bin/
 
-# Downloade iCalendar files
+# Development directories
+dev/
+bkup/
+
+# TypeScript files
+tsconfig.json
+
+# Download iCalendar files
 ical/
 
-# Environment Variables
+# Environment variables
 .env
