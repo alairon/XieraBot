@@ -8,5 +8,5 @@ export { TokenManager };
 const TimeStrings = new c_TimeStrings.TimeStrings();
 export { TimeStrings };
 
-const UTCStrings = new c_UTCStrings.UTCDate();
+const UTCStrings = new c_UTCStrings.UTCStrings();
 export { UTCStrings };
