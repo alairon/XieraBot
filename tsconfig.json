@@ -5,10 +5,10 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": false,
     "target": "ES2019",
-    "outDir": "dist"
+    "outDir": "bin"
   },
-  "include": ["src/**/*", "src/index.js", "src/xiera.json"],
+  "include": ["xiera/**/*", "xiera/index.js", "xiera/xiera.json"],
   "exclude": ["node_modules"]
 }
