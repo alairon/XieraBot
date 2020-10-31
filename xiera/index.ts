@@ -14,9 +14,6 @@ const token = new RegExp (config.xiera.token, config.xiera.flags);
 const quests = new Quests.Events(config.calendar.quest.url, config.calendar.quest.refreshInterval);
 const casino = new Casino.Events(config.calendar.casino.url, config.calendar.casino.refreshInterval);
 
-console.log(`Quest calendar update frequency: ${Core.TimeStrings.totalTimeString(config.calendar.quest.refreshInterval*3600000)}`);
-console.log(`Casino calendar update frequency: ${Core.TimeStrings.totalTimeString(config.calendar.casino.refreshInterval*3600000)}`);
-
 // Startup. Run all startup functions once the Discord client is ready
 client.once('ready', () => {
   /* --- All startup scripts loaded and complete ---*/

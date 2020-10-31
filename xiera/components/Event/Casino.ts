@@ -31,9 +31,8 @@ export class Events extends Main.EventManager{
 
     // Refreshes the calendar
     private async refreshCalendar(): Promise<void>{
-      console.log('Updating the Casino calendar');
       this.refresh = setTimeout(this.initEvents.bind(this), (this.refreshInterval * 3600000));
-      console.log(`Casino calendar updated. Next scheduled update: ${Core.TimeStrings.totalTimeString(this.refreshInterval * 3600000)}`);
+      console.log(`Casino calendar updated ${Core.UTCStrings.getTimestamp(new Date())}. Next scheduled update: ${Core.TimeStrings.totalTimeString(this.refreshInterval * 3600000)}`);
     }
   
     public resetCalendarURL(calendarID: string): void{
