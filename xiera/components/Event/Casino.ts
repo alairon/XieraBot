@@ -10,10 +10,13 @@ const fuseConfig = {
 
 export class Events extends Main.EventManager{
   events: object;
+  refreshInterval: number;
+  refresh: NodeJS.Timeout;
 
   constructor(url: string, refreshInterval: number){
-    super(url, refreshInterval);
-    this.events = {};
+    super(url);
+    this.refreshInterval = refreshInterval;
+    this.initEvents();
   }
 
   public getEvents(): object {
@@ -21,14 +24,36 @@ export class Events extends Main.EventManager{
   }
 
   public async initEvents(): Promise<void> {
-    let events = await this.init();
-    this.events = events;
-    this.searchInit(events, fuseConfig);
+    this.events = await this.init();
+    this.searchInit(this.events, fuseConfig);
+    this.refreshCalendar();
   }
+
+    // Refreshes the calendar
+    private async refreshCalendar(): Promise<void>{
+      console.log('Updating the Casino calendar');
+      this.refresh = setTimeout(this.initEvents.bind(this), (this.refreshInterval * 3600000));
+      console.log(`Casino calendar updated. Next scheduled update: ${Core.TimeStrings.totalTimeString(this.refreshInterval * 3600000)}`);
+    }
+  
+    public resetCalendarURL(calendarID: string): void{
+      let url = '';
+      url = url.concat('https://calendar.google.com/calendar/ical/', calendarID, '/public/basic.ics')
+      this.updateCalendar(url);
+    }
+
+    // Update the current iCal URL, then force a refresh
+    private async updateCalendar(url: string): Promise<void>{
+      console.log(`Updating the calendar from\n${this.getUrl()}\n${url}`);
+      this.setURL(url);
+      clearTimeout(this.refresh);
+      this.initEvents();
+    }
 
   public async displayEvents(): Promise<string> {
     let sendMsg: MessageManager.Messages = new MessageManager.Messages();
     let results = 0;
+    const searchLimit: number = 5;
     const eventValues = Object.values(this.events);
     sendMsg.addMessage(`Here's what you can look forward to at the casino!\n\n`);
     for (const idx in eventValues){
@@ -39,10 +64,15 @@ export class Events extends Main.EventManager{
       if (now >= eventStartTime && now < eventEndTime){
         sendMsg.addMessage(`**${eventValues[idx].summary}**\`\`\`ldif\nHappening now!\nEnds in: ${Core.TimeStrings.totalTimeString(eventEndTime-now)}\n\`\`\`\n`);
         results++;
+
       }
       else if (now < eventStartTime) {
         sendMsg.addMessage(`**${eventValues[idx].summary}**\`\`\`ldif\nStarts in: ${Core.TimeStrings.totalTimeString(eventStartTime-now)}\n\`\`\`\n`);
         results++
+      }
+
+      if (results > 5){
+        break;
       }
     }
   if (results) return(sendMsg.getMessage());

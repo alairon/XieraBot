@@ -14,6 +14,9 @@ const token = new RegExp (config.xiera.token, config.xiera.flags);
 const quests = new Quests.Events(config.calendar.quest.url, config.calendar.quest.refreshInterval);
 const casino = new Casino.Events(config.calendar.casino.url, config.calendar.casino.refreshInterval);
 
+console.log(`Quest calendar update frequency: ${Core.TimeStrings.totalTimeString(config.calendar.quest.refreshInterval*3600000)}`);
+console.log(`Casino calendar update frequency: ${Core.TimeStrings.totalTimeString(config.calendar.casino.refreshInterval*3600000)}`);
+
 // Startup. Run all startup functions once the Discord client is ready
 client.once('ready', () => {
   /* --- All startup scripts loaded and complete ---*/
@@ -22,8 +25,6 @@ client.once('ready', () => {
 
 // Upon receiving a message from a channel she's in or a DM
 client.on('message', async message => {
-  let now = new Date();
-
   // Create a timestamp in the format: YYYY/MM/DD HH:MM:SS
   let time: string = Core.UTCStrings.getTimestamp(new Date());
 
@@ -59,14 +60,7 @@ client.on('message', async message => {
       }
 
       //Divide the string into tags
-      let command: Array<string>;
-      
-      if (content){
-        command = content.split(' ');
-      }
-      else{
-        command = [];
-      }
+      let command: Array<string> = Core.TokenManager.createTags(content);
 
       switch (command[0]) {
         case 'uq':
@@ -74,13 +68,26 @@ client.on('message', async message => {
           message.channel.send(uqRes);
           break;
         case 'casino':
-        case 'c':
           const casinoRes = await casino.displayEvents();
           message.channel.send(casinoRes);
           break;
         case 'info':
         case 'i':
           message.channel.send(`This function isn't quite ready yet, so I don't really have anything to share right now.`);
+          break;
+        case 'updateUQ':
+          if (command[1] == process.env.USERKEY && typeof(command[2] === 'string')){
+            const updateUQRes = quests.resetCalendarURL(command[2]);
+            message.channel.send('Updated the calendar');
+          }
+          break;
+        case 'updateCasino':
+          console.log(command[1]);
+          console.log(command[2]);
+          if (command[1] == process.env.USERKEY && typeof(command[2] === 'string')){
+            const updateCasinoRes = casino.resetCalendarURL(command[2]);
+            message.channel.send('Updated the calendar');
+          }
           break;
         default: 
           message.channel.send(`Hello ${message.author.username}!\nI can currently tell you what scheduled events are happening on the Oracle Fleet!\nJust let me know if you want info about upcoming urgent quests (\`uq\`), or what boosts are available at the casino (\`casino\`).`);

@@ -5,18 +5,14 @@ import path = require('path');
 import Search = require('./Search');
 import Core = require('../Core/Core');
 
-export class EventManager  {
+export class EventManager {
   private icalDir: string; // PATH to the iCalendar directory
   private icalFile: string; // NAME of the .ics file
   private url: string; // URL to the .ics file
   private fuse: any; // Fuse search
-  private lastRefreshDate: number;
-  private refreshInterval: number;
 
-  constructor(url: string, refreshInterval: number){
+  constructor(url: string){
     this.url = url;
-    this.refreshInterval = refreshInterval;
-    this.lastRefreshDate = new Date().getTime();
   }
 
   // Returns a string representing the URL to a .ics file
@@ -29,7 +25,7 @@ export class EventManager  {
     return (this.icalFile);
   }
 
-  private setURL(url: string): void {
+  protected setURL(url: string): void {
     this.url = url;
   }
 
@@ -43,7 +39,6 @@ export class EventManager  {
     }
     else{
       if (url) this.setURL(url);
-      console.log(`Attempting to gather data from ${this.url}`);
       let webResults = await this.initWeb();
       return webResults;
     }
@@ -54,7 +49,6 @@ export class EventManager  {
     const results = await this.loadNetworkEventCalendar();
     const calData = await this.parseEvents(results);
     const data = await this.sortByDate(calData);
-    this.resetLastRefreshDate();
     return data;
   }
 
@@ -188,17 +182,6 @@ export class EventManager  {
     });
 
     return (events);
-  }
-
-  // Determines if a calendar refresh is required.
-  protected async needsRefresh(): Promise<boolean>{
-    const now = new Date().getTime();
-    return ((now - this.lastRefreshDate) > (this.refreshInterval * 3600000));
-  }
-
-  private async resetLastRefreshDate(): Promise<void>{
-    this.lastRefreshDate = new Date().getTime();
-    console.log(`Calendar data updated on ${Core.UTCStrings.getTimestamp(new Date(this.lastRefreshDate))}`);
   }
 }
 
