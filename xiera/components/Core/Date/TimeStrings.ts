@@ -1,6 +1,6 @@
 export class TimeStrings{
   // Returns the time in a readable format
-  public totalTimeString(elapsed: number): string{
+  public static totalTimeString(elapsed: number): string{
     const totalSeconds = elapsed/1000;
     const weeks = Math.floor(totalSeconds/604800);
     const days = Math.floor((totalSeconds%604800)/86400);

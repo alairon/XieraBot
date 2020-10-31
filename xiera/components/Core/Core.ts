@@ -1,12 +1,17 @@
+/* As these functions do not mutate, we can call them as if they were static functions */
+
 import c_TokenManager = require('./Token/TokenManager');
 import c_UTCStrings = require('./Date/UTCStrings');
 import c_TimeStrings = require('./Date/TimeStrings');
 
-const TokenManager = new c_TokenManager.TokenManager();
+// Core.TokenManager
+const TokenManager = c_TokenManager.TokenManager;
 export { TokenManager };
 
-const TimeStrings = new c_TimeStrings.TimeStrings();
+// Core.TimeStrings
+const TimeStrings = c_TimeStrings.TimeStrings;
 export { TimeStrings };
 
-const UTCStrings = new c_UTCStrings.UTCStrings();
+// Core.UTCStrings
+const UTCStrings = c_UTCStrings.UTCStrings;
 export { UTCStrings };
