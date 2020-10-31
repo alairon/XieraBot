@@ -1,38 +1,16 @@
-export class Messages {
-  message: string;
-
-  constructor(){
-    this.message = '';
-  }
-
-  public isEmpty(): boolean{
-    if (this.message.length > 0) return false;
-    return true;
-  }
-
-  public getMessage(): string{
-    return (this.message);
-  }
-
-  public addMessage(msg: string){
-    this.message = this.message.concat(msg);
-  }
-
-  public addHeaderMessage(msg: string){
-    this.message = msg.concat('\n', this.message);
-  }
-
-  public dateDiff(date: number): string {
-    const secDate = date/1000;
-    const weeks = Math.floor(secDate/604800);
-    const days = Math.floor((secDate%604800)/86400);
-    const hours = Math.floor(((secDate%604800)%86400)/3600);
-    const minutes = Math.floor((((secDate%604800)%86400)%3600)/60);
-    const seconds = Math.floor((((secDate%604800)%86400)%3600)%60);
+export class TimeStrings{
+  // Returns the time in a readable format
+  public static totalTimeString(elapsed: number): string{
+    const totalSeconds = elapsed/1000;
+    const weeks = Math.floor(totalSeconds/604800);
+    const days = Math.floor((totalSeconds%604800)/86400);
+    const hours = Math.floor(((totalSeconds%604800)%86400)/3600);
+    const minutes = Math.floor((((totalSeconds%604800)%86400)%3600)/60);
+    const seconds = Math.floor((((totalSeconds%604800)%86400)%3600)%60);
 
     let dateString: string = '';
 
-    //LOGIC: Append if the number isn't 0. Adds an 's' if the value is not one.
+    // Append to the string if the value isn't 0. If the value isn't 1, add an 's'
     if (weeks){
       dateString = dateString.concat(`${weeks} week`);
       if (weeks != 1){
