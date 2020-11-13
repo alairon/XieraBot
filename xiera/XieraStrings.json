@@ -1,0 +1,6 @@
+{
+  "load": {
+    "onLoad": "Xiera, up and ready!",
+    "failure": "I wasn't able to finish loading?"
+  }
+}
