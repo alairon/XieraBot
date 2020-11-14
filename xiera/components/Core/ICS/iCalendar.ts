@@ -8,7 +8,7 @@ export class iCalendar{
     try {
       iCalFile = await ical.async.fromURL(url);
     } catch (err) {
-      console.error(`An iCal file couldn't be created from ${url}!\nHere's some additional info:\n${err}`);
+      console.error(`An iCal file couldn't be created from ${url}\nHere's some additional info:\n${err}`);
       iCalFile = null;
     } finally {
       return (iCalFile);
