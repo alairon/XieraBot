@@ -30,6 +30,10 @@ export class Events{
   private casino: Array<object>;
   private questURL: string;
   private casinoURL: string;
+  private questRefreshInterval: number;
+  private casinoRefreshInterval: number;
+  private questRefreshTimeout: NodeJS.Timeout;
+  private casinoRefreshTimeout: NodeJS.Timeout;
 
   // Constructor
   constructor(){
@@ -37,6 +41,8 @@ export class Events{
     this.casino = [];
     this.questURL = '';
     this.casinoURL = '';
+    this.questRefreshInterval = 21600000; // Default: 6 hours
+    this.casinoRefreshInterval = 21600000; // Default: 6 hours
   }
 
   // Gets the URL to the Quests iCalendar
@@ -49,8 +55,12 @@ export class Events{
     return (this.casinoURL);
   }
 
-  public getQuests(): void{
-    console.log(this.quests);
+  public getQuestEvents(): object{
+    return (this.quests);
+  }
+
+  public getCasinoEvents(): object{
+    return (this.casino);
   }
 
   // Sets the URL to the Quests iCalendar
@@ -72,7 +82,7 @@ export class Events{
   }
 
   // Adds an individual urgent quest or concert
-  private addQuest(event: EventObject): boolean{
+  private addQuestEvent(event: EventObject): boolean{
     if (event){
       const uid: string = event.uid;
       const summary: string = event.summary;
@@ -87,9 +97,18 @@ export class Events{
   }
 
   // Adds an individual casino event
-  private addCasino(event: EventObject): boolean{
-    this.casino.push(event);
-    return (true);
+  private addCasinoEvent(event: EventObject): boolean{
+    if (event){
+      const uid: string = event.uid;
+      const summary: string = event.summary;
+      const startTime: string = event.start;
+      const endTime: string = event.end;
+      
+      const parsedEvent = new quests.Quests({uid, summary, startTime, endTime});
+      this.casino.push(parsedEvent);
+      return (true);
+    }
+    return (false);
   }
 
   // Searches for a specific event
@@ -100,7 +119,7 @@ export class Events{
   }
 
   public searchCasino(searchTerm: string): Array<object>{
-    // LOGIC: Search the event calendar directly.
+    // LOGIC: Unlike searchQuests, search the event calendar directly as the casino only offers five different activity types
     return (null);
   }
 
@@ -112,27 +131,61 @@ export class Events{
     return (false);
   }
 
-  // Loads the iCalendar data from a URL.
+  // Loads Urgent Quest/Concert events from the internet into the quests array
   private async loadQuestEvents(): Promise<void>{
     let events = await iCal.iCalendar.getNetworkEvents(this.questURL);
 
+    // Implicit casting to IndexedEventObject
     const indexedEvents = <IndexedEventObject>events;
+    // Pushes events into the Quest object
     if (indexedEvents){
       for (const idx in indexedEvents){
-        this.addQuest(<EventObject>indexedEvents[idx]);
+        this.addQuestEvent(<EventObject>indexedEvents[idx]);
       }
     }
   }
 
-  // Initializes the events
-  public initQuestEvents(url: string): Promise<void>{
-    this.setQuestURL(url);
-    this.loadQuestEvents();
-    return;
+  // Loads Casino events from the internet into the casino array
+  private async loadCasinoEvents(): Promise<void>{
+    let events = await iCal.iCalendar.getNetworkEvents(this.casinoURL);
+
+    // Implicit casting to IndexedEventObject
+    const indexedEvents = <IndexedEventObject>events;
+    // Pushes events into the Casino object
+    if (indexedEvents){
+      for (const idx in indexedEvents){
+        this.addCasinoEvent(<EventObject>indexedEvents[idx]);
+      }
+    }
   }
 
-  // Periodically reinitializes the calendar
-  private refreshCalendar(): void{
+  // Initializes the urgent quest/concert events
+  public async initQuestEvents(url?: string, refreshInterval?: number): Promise<void>{
+    if (url) this.setQuestURL(url);
+    if (refreshInterval) this.questRefreshInterval = refreshInterval;
 
+    this.loadQuestEvents();
+    console.log('Quests and Concert events have successfully loaded onto the system!');
+    // Sets a timer to refresh the calendar
+    //this.refreshQuestEvents();
+    }
+
+  // Initializes the casino events
+  public async initCasinoEvents(url?: string, refreshInterval?: number): Promise<void>{
+    if (url) this.setCasinoURL(url);
+    if (refreshInterval) this.casinoRefreshInterval = refreshInterval;
+    this.loadCasinoEvents();
+    console.log('Casino events have successfully loaded onto the system!');
+    //this.refreshCasinoEvents();
+  }
+
+  // Sets up the system to reinitialize the quest event listings
+  private async refreshQuestEvents(): Promise<void>{
+    this.questRefreshTimeout = setTimeout(this.loadQuestEvents, this.questRefreshInterval);
+  }
+
+  // Sets up the system to reinitialize the casino event listings
+  private async refreshCasinoEvents(): Promise<void>{
+    this.casinoRefreshTimeout = setTimeout(this.initCasinoEvents, this.casinoRefreshInterval);
   }
 }
