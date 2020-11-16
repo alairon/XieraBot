@@ -25,6 +25,9 @@ interface XieraConfig {
 
 interface XieraString {
   client: {
+    login: {
+      error: string
+    },
     on: {
       ready: string,
       rateLimit: string,
@@ -45,6 +48,7 @@ function readConfig(path: string): XieraConfig {
   return (<XieraConfig>JSON.parse(fs.readFileSync(path, 'utf8')));
 }
 
+// Reads Xiera's strings
 function readStrings(path: string): XieraString {
   return (<XieraString>JSON.parse(fs.readFileSync(path, 'utf8')));
 }
@@ -58,7 +62,10 @@ const client = new Discord.Client();
 const token = new TokenManager.TokenManager(config.xiera.token, config.xiera.flags);
 const event = new Events.Events();
 
-// All functions that appear in this block will execute upon startup
+/**
+ * STARTUP FUNCTIONS
+ * Functions placed in this async function will execute in the background
+ */
 ;(async () => {
   await event.initQuestEvents(config.calendar.quest.url, config.calendar.quest.refreshInterval);
   await event.initCasinoEvents(config.calendar.casino.url, config.calendar.casino.refreshInterval);
@@ -68,7 +75,7 @@ const event = new Events.Events();
  * CLIENT FUNCTIONS
  */
 // Log into Discord using the Discord client key
-client.login(process.env.CLIENTKEY).catch((err) => { console.log(`Xiera could not connect to Discord.\n${err}`) });
+client.login(process.env.CLIENTKEY).catch((err) => { console.error(XieraStrings.client.login.error + `\n${err}`) });
 
 // When Xiera is finished loading
 client.once('ready', () => {
@@ -115,7 +122,7 @@ client.on('message', async message => {
     // Direct Message
     case 'dm':
       // Checks for the flag, removes if present
-      if (token.tokenExists(content)){
+      if (token.tokenExists(message.content)){
         content = token.removeToken(message.content);
       }
       console.log(content);
@@ -123,9 +130,10 @@ client.on('message', async message => {
     // Text channel
     case 'text':
       // Checks for the flag, stops if missing
-      if (token.tokenExists(content)){
+      if (token.tokenExists(message.content)){
         content = token.removeToken(content);
       }
+      console.log(content);
       break;
     // Any other channel (News and others)
     case 'news':
