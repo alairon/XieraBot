@@ -1,5 +1,8 @@
 {
   "client": {
+    "login": {
+      "error": "Xiera couldn't connect to Discord"
+    },
     "on": {
       "ready": "Hi-CAST Xiera, up and ready!",
       "rateLimit": "There's a few too many requests right now. Please hold.",
