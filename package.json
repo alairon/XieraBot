@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "run-script-os",
     "prestart:win32": "for %f in (.\\xiera\\xiera.json, .\\xiera\\XieraStrings.json) do xcopy %f .\\bin\\ /q /y",
-    "prestart:darwin:linux": "cp ./xiera/xiera.json ./bin/xiera.json",
+    "prestart:darwin:linux": "cp ./xiera/{xiera.json, XieraStrings.json} ./bin/",
     "start": "node bin/XieraMain",
     "postinstall": "tsc",
     "build": "tsc",
