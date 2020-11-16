@@ -5,7 +5,7 @@
   "main": "src/XieraMain.ts",
   "scripts": {
     "prestart": "run-script-os",
-    "prestart:win32": "echo F|xcopy .\\xiera\\xiera.json .\\bin\\xiera.json /q /y",
+    "prestart:win32": "for %f in (.\\xiera\\xiera.json, .\\xiera\\XieraStrings.json) do xcopy %f .\\bin\\ /q /y",
     "prestart:darwin:linux": "cp ./xiera/xiera.json ./bin/xiera.json",
     "start": "node bin/XieraMain",
     "postinstall": "tsc",

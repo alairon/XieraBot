@@ -1,6 +1,16 @@
 {
-  "load": {
-    "onLoad": "Xiera, up and ready!",
-    "failure": "I wasn't able to finish loading?"
+  "client": {
+    "on": {
+      "ready": "Hi-CAST Xiera, up and ready!",
+      "rateLimit": "There's a few too many requests right now. Please hold.",
+      "warn": "Xiao's warning me about something...",
+      "error": "There's an emergency?",
+      "shardError": "There's an issue with the websocket",
+      "shardReconnecting": "Attempting to reconnect to Discord, please hold.",
+      "unhandledRejection": "There was an unhandled promise rejection."
+    },
+    "message": {
+      "default": "That shouldn't have happened. I thought I covered everything!"
+    }
   }
 }

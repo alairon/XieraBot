@@ -5,7 +5,6 @@ import Discord = require('discord.js');
 
 import TokenManager = require('./components/Core/Token/TokenManager');
 import Events = require('./components/Event/Events');
-import { exit } from 'process';
 
 interface XieraConfig {
   xiera: {
@@ -24,13 +23,35 @@ interface XieraConfig {
   }
 }
 
+interface XieraString {
+  client: {
+    on: {
+      ready: string,
+      rateLimit: string,
+      warn: string,
+      error: string,
+      shardError: string,
+      shardReconnecting: string,
+      unhandledRejection: string
+    },
+    message: {
+      default: string
+    }
+  }
+}
+
 // Reads Xiera's configuration values
 function readConfig(path: string): XieraConfig {
   return (<XieraConfig>JSON.parse(fs.readFileSync(path, 'utf8')));
 }
 
+function readStrings(path: string): XieraString {
+  return (<XieraString>JSON.parse(fs.readFileSync(path, 'utf8')));
+}
+
 // Read and set the configuration file
 let config: XieraConfig = readConfig(path.join(__dirname, 'xiera.json'));
+let XieraStrings: XieraString = readStrings(path.join(__dirname, 'XieraStrings.json'));
 
 // Initialize the Discord Client
 const client = new Discord.Client();
@@ -39,44 +60,48 @@ const event = new Events.Events();
 
 // All functions that appear in this block will execute upon startup
 ;(async () => {
-  await event.initQuestEvents(config.calendar.quest.url);
-  event.getQuests();
+  await event.initQuestEvents(config.calendar.quest.url, config.calendar.quest.refreshInterval);
+  await event.initCasinoEvents(config.calendar.casino.url, config.calendar.casino.refreshInterval);
 })();
 
 /**
  * CLIENT FUNCTIONS
  */
 // Log into Discord using the Discord client key
-client.login(process.env.CLIENTKEY).catch((err) => { console.log(`Xiera could not connect to Discord.\n${err}`); exit(1)});
+client.login(process.env.CLIENTKEY).catch((err) => { console.log(`Xiera could not connect to Discord.\n${err}`) });
 
 // When Xiera is finished loading
 client.once('ready', () => {
-  console.log('Hi-CAST Xiera, up and ready!');
+  console.log(XieraStrings.client.on.ready);
 });
 
 // Being rate limited
 client.on('rateLimit', (rateData) => {
-  console.log(`There's a little too many requests going on right now. Please hold.\n${rateData}`);
+  console.log(XieraStrings.client.on.rateLimit + `\n${rateData}`);
 });
 
 // Upon receiving a warning
 client.on('warn', (msg) => {
-  console.log(`Xiao's warning me about something:\n${msg}`);
+  console.log(XieraStrings.client.on.warn + `\n${msg}`);
 });
 
 // Upon receiving an error
 client.on('error', (err) => {
-  console.error(`I've encountered an error?!\n${err}`);
+  console.error(XieraStrings.client.on.error + `\n${err}`);
 });
 
 // Log any websocket errors
 client.on('shardError', (err) => {
-  console.error(`Websocket error: ${err}`);
+  console.error(XieraStrings.client.on.shardError + `\n${err}`);
 });
+
+client.on('shardReconnecting', () => {
+  console.log(XieraStrings.client.on.shardReconnecting);
+})
 
 // Catch unhandled rejections from async functions
 client.on('unhandledRejection', (err) => {
-  console.error(`There was an unhandled promise rejection.\n${err}`);
+  console.error(XieraStrings.client.on.unhandledRejection + `\n${err}`);
 });
 
 // Xiera's bahaviour upon receiving a message
@@ -85,25 +110,27 @@ client.on('message', async message => {
   if (message.author.bot) return;
 
   //Check origin of the message
+  let content = message.content;
   switch(message.channel.type){
     // Direct Message
     case 'dm':
       // Checks for the flag, removes if present
-      console.log(token.removeToken(message.content));
+      if (token.tokenExists(content)){
+        content = token.removeToken(message.content);
+      }
+      console.log(content);
       break;
     // Text channel
     case 'text':
       // Checks for the flag, stops if missing
-      if (token.tokenExists(message.content)){
-        const content = token.removeToken(message.content);
-        console.log(content);
+      if (token.tokenExists(content)){
+        content = token.removeToken(content);
       }
-      
       break;
     // Any other channel (News and others)
     case 'news':
       break;
     default:
-      console.log('That shouldn\'t have happened. I thought I covered everything.');
+      console.log(XieraStrings.client.message.default);
   }  
 });
