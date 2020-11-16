@@ -13,7 +13,6 @@ export class Quests{
   private endTime: string;
 
   constructor(event: EventObject){
-    console.log(`=====\n${event.uid}\n=====\n`);
     if (this.isValid(event)){
       this.setID(event.uid);
       this.setSummary(event.summary);
