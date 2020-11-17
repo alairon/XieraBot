@@ -7,9 +7,10 @@
       "ready": "Hi-CAST Xiera, up and ready!",
       "rateLimit": "There's a few too many requests right now. Please hold.",
       "warn": "Xiao's warning me about something...",
-      "error": "There's an emergency?",
+      "error": "There's an emergency!",
       "shardError": "There's an issue with the websocket",
-      "shardReconnecting": "Attempting to reconnect to Discord, please hold.",
+      "shardReconnecting": "Attempting to reconnect to Discord...",
+      "shardResume": "Connection with Discord successfully reestablished.",
       "unhandledRejection": "There was an unhandled promise rejection."
     },
     "message": {
