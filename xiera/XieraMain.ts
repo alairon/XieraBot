@@ -35,6 +35,7 @@ interface XieraString {
       error: string,
       shardError: string,
       shardReconnecting: string,
+      shardResume: string,
       unhandledRejection: string
     },
     message: {
@@ -102,9 +103,15 @@ client.on('shardError', (err) => {
   console.error(XieraStrings.client.on.shardError + `\n${err}`);
 });
 
+// Xiera attempting to reconnect to Discord
 client.on('shardReconnecting', () => {
   console.log(XieraStrings.client.on.shardReconnecting);
-})
+});
+
+// When reconnected to Discord
+client.on('shardResume', () => {
+  console.log(XieraStrings.client.on.shardResume);
+});
 
 // Catch unhandled rejections from async functions
 client.on('unhandledRejection', (err) => {
