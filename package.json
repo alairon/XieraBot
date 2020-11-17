@@ -6,11 +6,11 @@
   "scripts": {
     "prestart": "run-script-os",
     "prestart:win32": "for %f in (.\\xiera\\xiera.json, .\\xiera\\XieraStrings.json) do xcopy %f .\\bin\\ /q /y",
-    "prestart:darwin:linux": "cp ./xiera/{xiera.json, XieraStrings.json} ./bin/",
+    "prestart:darwin:linux": "cp ./xiera/xiera.json ./xiera/XieraStrings.json ./bin/",
     "start": "node bin/XieraMain",
     "postinstall": "tsc",
     "build": "tsc",
-    "test": "mocha"
+    "test": "mocha -r ts-node/register 'test/test.js'"
   },
   "repository": {
     "type": "git",
@@ -30,14 +30,20 @@
     "run-script-os": "^1.1.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^8.0.4",
     "@types/node": "^14.14.7",
     "@types/request": "^2.48.5",
     "@types/ws": "^7.4.0",
     "@typescript-eslint/eslint-plugin": "^4.8.0",
     "@typescript-eslint/parser": "^4.8.0",
+    "chai": "^4.2.0",
     "eslint": "^7.13.0",
     "eslint-plugin-import": "^2.22.1",
     "mocha": "^8.2.1",
+    "ts-mocha": "^8.0.0",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
   }
 }
