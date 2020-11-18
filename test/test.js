@@ -2,7 +2,8 @@
 
 const toTest = [
   // [Name of function to be tested, Testing file location]
-  ["TimeStrings", "./components/Core/Date/TimeStrings.test"]
+  ["TimeStrings", "./components/Core/Date/TimeStrings.test"],
+  ["iCalendar", "./components/Core/ICS/iCalendar.test"]
 ];
 
 for (const idx in toTest){
