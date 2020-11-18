@@ -9,6 +9,7 @@
     "prestart:darwin:linux": "cp ./xiera/xiera.json ./xiera/XieraStrings.json ./bin/",
     "start": "node bin/XieraMain",
     "postinstall": "tsc",
+    "prebuild": "npm test",
     "build": "tsc",
     "test": "mocha -r ts-node/register 'test/test.js'"
   },
