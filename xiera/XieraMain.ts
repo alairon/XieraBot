@@ -56,6 +56,7 @@ function readStrings(path: string): XieraString {
 
 // Read and set the configuration file
 let config: XieraConfig = readConfig(path.join(__dirname, 'xiera.json'));
+// Read from the strings file
 let XieraStrings: XieraString = readStrings(path.join(__dirname, 'XieraStrings.json'));
 
 // Initialize the Discord Client
@@ -132,6 +133,7 @@ client.on('message', async message => {
       if (token.tokenExists(message.content)){
         content = token.removeToken(message.content);
       }
+      // Perform the command outside the if bracket
       console.log(content);
       break;
     // Text channel
@@ -139,13 +141,17 @@ client.on('message', async message => {
       // Checks for the flag, stops if missing
       if (token.tokenExists(message.content)){
         content = token.removeToken(content);
+        // Perform the command within the if bracket
       }
+      console.log (event.getQuestEvents());
       console.log(content);
+
       break;
     // Any other channel (News and others)
     case 'news':
+      // Do nothing
       break;
     default:
       console.log(XieraStrings.client.message.default);
-  }  
+  }
 });
