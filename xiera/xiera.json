@@ -11,7 +11,7 @@
     },
     "casino": {
       "refreshInterval": 24,
-      "url": "https://calendar.google.com/calendar/ical/s35fj5qtpp2hgibghgo3oa3fso@group.calendar.google.com/public/basic.ics",
+      "url": "https://calendar.google.com/calendar/ical/93s0fb4g1vatv43crcar3606g8@group.calendar.google.com/public/basic.ics",
       "localICS": "./ical/casino.ics"
     }
   }
