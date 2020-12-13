@@ -14,7 +14,14 @@
       "unhandledRejection": "There was an unhandled promise rejection."
     },
     "message": {
-      "default": "That shouldn't have happened. I thought I covered everything!"
+      "default": "That shouldn't have happened. I thought I covered everything!",
+      "usage": "How to use Xiera",
+      "uq": {
+        "instructions": "How to use the UQ command"
+      },
+      "casino": {
+        "instructions": "How to use the Casino command"
+      }
     }
   }
 }
