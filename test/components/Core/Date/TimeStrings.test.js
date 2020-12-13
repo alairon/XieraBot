@@ -1,5 +1,3 @@
-const { timeStamp } = require('console');
-
 const assert = require('chai').assert;
 const TimeStrings = require('../../../../xiera/components/Core/Date/TimeStrings').TimeStrings;
 
