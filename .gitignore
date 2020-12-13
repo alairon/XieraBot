@@ -8,6 +8,7 @@ bin/
 # Development directories
 dev/
 bkup/
+.vscode/
 
 # TypeScript files
 tsconfig.json
