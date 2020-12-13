@@ -1,8 +1,16 @@
+const TimeLocale = require('./TimeLocale').TimeLocale;
+
 export class UTCStrings{
   // Returns an ISO UTC string
   public static getISOString(date: Date): string{
     const UTCDate: Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds()));
-    return UTCDate.toISOString();
+    return (UTCDate.toISOString());
+  }
+
+  // Returns an ISO UTC string from a ISO string and an IANA time zone
+  public static getISOStringWithLocale(date: string, locale: string): string{
+    const UTCDate: Date = new Date(TimeLocale.getTimeFromISOIANA(date, locale));
+    return (UTCDate.toISOString());
   }
 
   // Creates a time stamp in the ISO (YYYY-MM-DD HH:MM:SS) date format
