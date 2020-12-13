@@ -1,95 +1,120 @@
 import Fuse = require('fuse.js');
 import quests = require('./Quests');
 import casino = require('./Casino');
-import iCal = require('../Core/ICS/iCalendar');
+import WebJSON = require('../Network/WebJSON');
+import UTCStrings = require('../Core/Date/UTCStrings');
 
-// Regular expression for URLs to an iCalendar file
-// Format: http(s):// ... .ics
-const urlRegExp = /https?:\/\/.*.ics/mi;
+// Regular expression for URLs
+// Format: http(s):// ...
+const urlRegExp = /https?:\/\/.*/mi;
+
+interface EventScheduleObject {
+  title: string,
+  events: [
+    startDate: string,
+    endDate: string
+  ],
+  categoryId: number,
+  schedule: {
+    timeZone: string
+  }
+}
+
+interface EventTime {
+  [index: number]: {
+    startDate: string,
+    endDate: string
+  }
+}
 
 interface EventObject {
-  uid: string,
-  summary: string,
-  start?: string,
+  title: string,
+  categoryId: number,
   startTime: string,
-  end?: string,
   endTime: string
 }
 
 interface IndexedEventObject {
-  [index: string]: {
-    uid: string,
-    summary: string,
-    start: string,
-    end: string
-  };
+  [index: number]: {
+    title: string,
+    events: EventTime,
+    categoryId: number,
+    schedule: {
+      timeZone: string
+    }
+  }
+}
+
+interface IndexedQueryEventObject {
+  Quests: {
+    title: string,
+    categoryId: string,
+    startTime: string,
+    endTime: string
+  }
 }
 
 export class Events{
   private quests: Array<object>;
   private casino: Array<object>;
-  private questURL: string;
-  private casinoURL: string;
-  private questRefreshInterval: number;
-  private casinoRefreshInterval: number;
-  private questRefreshTimeout: NodeJS.Timeout;
-  private casinoRefreshTimeout: NodeJS.Timeout;
+  private eventURL: string;
+  private refreshInterval: number;
+  private eventRefreshTimeout: NodeJS.Timeout;
 
   // Constructor
   constructor(){
     this.quests = [];
     this.casino = [];
-    this.questURL = '';
-    this.casinoURL = '';
-    this.questRefreshInterval = 21600000; // Default: 6 hours
-    this.casinoRefreshInterval = 21600000; // Default: 6 hours
+    this.eventURL = '';
+    this.refreshInterval = 21600000; // Default: 6 hours
   }
 
-  // Gets the URL to the Quests iCalendar
-  public getQuestURL(): string{
-    return (this.questURL);
+  // Returns the URL to where the JSON is located
+  public getEventURL(): string{
+    return (this.eventURL);
   }
 
-  // Gets the URL to the Casino iCalendar
-  public getCasinoURL(): string{
-    return (this.casinoURL);
-  }
-
-  public getQuestEvents(): object{
+  // Provides the contents in the Quests array
+  public getEvents(): object{
+    // Debug text
+    for (const idx in this.quests){
+      const mainEvent: EventObject = <EventObject>this.quests[idx];
+      const outputEvent: EventObject = {
+        title: mainEvent.title,
+        categoryId: mainEvent.categoryId,
+        startTime: mainEvent.startTime,
+        endTime: mainEvent.endTime
+      }
+      console.log(outputEvent);
+    }
+    console.log('===========');
+    /* 888888 */
     return (this.quests);
   }
+  
 
   public getCasinoEvents(): object{
     return (this.casino);
   }
 
-  // Sets the URL to the Quests iCalendar
-  public setQuestURL(url: string): boolean{
+  // Sets the URL
+  private setURL(url: string): boolean{
     if (this.validURL(url)){
-      this.questURL = url;
-      return (true);
-    }
-    return (false);
-  }
-
-  // Sets the URL to the Casino iCalendar
-  public setCasinoURL(url: string): boolean{
-    if (this.validURL(url)){
-      this.casinoURL = url;
+      this.eventURL = url;
       return (true);
     }
     return (false);
   }
 
   // Adds an individual urgent quest or concert
-  private addQuestEvent(event: EventObject): boolean{
+  private addEvent(event: EventObject): boolean{
     if (event){
-      const uid: string = event.uid;
-      const summary: string = event.summary;
-      const startTime: string = event.start;
-      const endTime: string = event.end;
+      const title: string = event.title;
+      const categoryId: number = event.categoryId;
+      const startTime: string = event.startTime;
+      const endTime: string = event.endTime;
       
-      const parsedEvent = new quests.Quests({uid, summary, startTime, endTime});
+      const parsedEvent = new quests.Quests({title, categoryId, startTime, endTime});
       this.quests.push(parsedEvent);
       return (true);
     }
@@ -99,13 +124,13 @@ export class Events{
   // Adds an individual casino event
   private addCasinoEvent(event: EventObject): boolean{
     if (event){
-      const uid: string = event.uid;
-      const summary: string = event.summary;
-      const startTime: string = event.start;
-      const endTime: string = event.end;
+      const title: string = event.title;
+      const categoryId: number = event.categoryId;
+      const startTime: string = event.startTime;
+      const endTime: string = event.endTime;
       
-      const parsedEvent = new quests.Quests({uid, summary, startTime, endTime});
-      this.casino.push(parsedEvent);
+      //const parsedEvent = new casino.Casino({title, categoryId, startTime, endTime});
+      //this.casino.push(parsedEvent);
       return (true);
     }
     return (false);
@@ -113,7 +138,7 @@ export class Events{
 
   // Searches for a specific event
   public searchQuests(searchTerm: string): Array<object>{
-    // LOGIC: Search a separate UQ table BEFORE searching for the event
+    // LOGIC: Search a separate UQ table BEFORE searching for the event. This table is an alias table.
     // If found, THEN search the event calendar
     return (null);
   }
@@ -131,61 +156,46 @@ export class Events{
     return (false);
   }
 
-  // Loads Urgent Quest/Concert events from the internet into the quests array
-  private async loadQuestEvents(): Promise<void>{
-    let events = await iCal.iCalendar.getNetworkEvents(this.questURL);
+  // Downloads a JSON from a specific URL
+  private async downloadEvents(): Promise<object>{
+    const events = await WebJSON.WebJSON.getJSON(this.eventURL);
+    return (events);
+  }
 
-    // Implicit casting to IndexedEventObject
-    const indexedEvents = <IndexedEventObject>events;
-    // Pushes events into the Quest object
-    if (indexedEvents){
-      for (const idx in indexedEvents){
-        this.addQuestEvent(<EventObject>indexedEvents[idx]);
+  public async initEvents(url?: string, refreshInterval?: number): Promise<void>{
+    if (!this.setURL(url)){
+      console.log('The URL isn\'t valid');
+      return (null);
+    }
+    // Load the events
+    const ScheduleEvents: IndexedEventObject= <IndexedEventObject>(await this.downloadEvents());
+    if (!ScheduleEvents){
+      return (null);
+    }
+
+    //Insert the events into the appropriate array
+    for (const idx in ScheduleEvents){
+      for (const idy in ScheduleEvents[idx].events){
+        const eventData: EventObject = {
+          title: ScheduleEvents[idx].title,
+          categoryId: ScheduleEvents[idx].categoryId,
+          startTime: UTCStrings.UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].startDate, ScheduleEvents[idx].schedule.timeZone),
+          endTime: UTCStrings.UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].endDate, ScheduleEvents[idx].schedule.timeZone)
+        }
+
+        switch(ScheduleEvents[idx].categoryId){
+          case 9: // Urgent Quests
+          case 10: // Live Concerts
+            this.addEvent(eventData);
+            break;
+          case 11: // Casino Boosts
+            this.addCasinoEvent(eventData);
+            break;
+          default:
+            // All other event types
+            break;
+        }
       }
     }
-  }
-
-  // Loads Casino events from the internet into the casino array
-  private async loadCasinoEvents(): Promise<void>{
-    let events = await iCal.iCalendar.getNetworkEvents(this.casinoURL);
-
-    // Implicit casting to IndexedEventObject
-    const indexedEvents = <IndexedEventObject>events;
-    // Pushes events into the Casino object
-    if (indexedEvents){
-      for (const idx in indexedEvents){
-        this.addCasinoEvent(<EventObject>indexedEvents[idx]);
-      }
-    }
-  }
-
-  // Initializes the urgent quest/concert events
-  public async initQuestEvents(url?: string, refreshInterval?: number): Promise<void>{
-    if (url) this.setQuestURL(url);
-    if (refreshInterval) this.questRefreshInterval = refreshInterval;
-
-    this.loadQuestEvents();
-    console.log('Quests and Concert events have successfully loaded onto the system!');
-    // Sets a timer to refresh the calendar
-    //this.refreshQuestEvents();
-    }
-
-  // Initializes the casino events
-  public async initCasinoEvents(url?: string, refreshInterval?: number): Promise<void>{
-    if (url) this.setCasinoURL(url);
-    if (refreshInterval) this.casinoRefreshInterval = refreshInterval;
-    this.loadCasinoEvents();
-    console.log('Casino events have successfully loaded onto the system!');
-    //this.refreshCasinoEvents();
-  }
-
-  // Sets up the system to reinitialize the quest event listings
-  private async refreshQuestEvents(): Promise<void>{
-    this.questRefreshTimeout = setTimeout(this.loadQuestEvents, this.questRefreshInterval);
-  }
-
-  // Sets up the system to reinitialize the casino event listings
-  private async refreshCasinoEvents(): Promise<void>{
-    this.casinoRefreshTimeout = setTimeout(this.initCasinoEvents, this.casinoRefreshInterval);
   }
 }

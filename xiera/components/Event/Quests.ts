@@ -1,21 +1,30 @@
 interface EventObject {
-  uid: string,
-  summary: string,
+  title: string,
+  categoryId: number,
   startTime: string,
   endTime: string,
   tags?: Array<string>
 }
 
+interface QueryObject {
+  Quests: {
+    title: string,
+    categoryId: number,
+    startTime: string,
+    endTime: string
+  }
+}
+
 export class Quests{
-  private uid: string;
-  private summary: string;
+  private title: string;
+  private categoryId: number;
   private startTime: string;
   private endTime: string;
 
   constructor(event: EventObject){
     if (this.isValid(event)){
-      this.setID(event.uid);
-      this.setSummary(event.summary);
+      this.setTitle(event.title);
+      this.setCategoryId(event.categoryId);
       this.setStartTime(event.startTime);
       this.setEndTime(event.endTime);
     }
@@ -24,14 +33,13 @@ export class Quests{
     }
   }
 
-  // Returns the name of the event
-  public getID(): string{
-    return (this.uid);
+  // Returns the title for the event
+  public getTitle(): string{
+    return (this.title);
   }
 
-  // Returns the summary for the event
-  public getSummary(): string{
-    return (this.summary);
+  public getCategoryId(): number{
+    return (this.categoryId);
   }
 
   // Returns the start time for the event
@@ -47,12 +55,11 @@ export class Quests{
   // Returns the entire event as an object
   public getEvent(): EventObject{
     const event: EventObject = {
-      uid: this.uid,
-      summary: this.summary,
+      title: this.title,
+      categoryId: this.categoryId,
       startTime: this.startTime,
       endTime: this.endTime
     }
-
     return (event);
   }
 
@@ -61,14 +68,14 @@ export class Quests{
 
   }
 
-  // Sets the name for the event after checking if the value entred is the right type
-  private setID(uid: string): void{
-    if (typeof(uid) == 'string') this.uid= uid;
+  // Sets the "title" for the event
+  private setTitle(title: string): void{
+    if (typeof(title) == 'string') this.title = title;
   }
 
-  // Sets the "summary" for the event after checking if the value entered is the right type
-  private setSummary(summary: string): void{
-    if (typeof(summary) == 'string') this.summary = summary;
+  // Sets the "type" for the event
+  private setCategoryId(categoryId: number): void{
+    if (typeof(categoryId) == 'number') this.categoryId = categoryId;
   }
 
   // Sets the starting time of the event after checking if it's in a valid date format
@@ -85,19 +92,20 @@ export class Quests{
   // Returns if any values are the wrong type
   public isValid(event: EventObject): boolean{
     // Expected type: string
-    if (typeof(event.uid) !== 'string' || event.uid === ''){
+    if (typeof(event.title) !== 'string' || event.title === ''){
       return (false);
     }
     // Expected type: string
-    if (typeof(event.summary) !== 'string' || event.summary === ''){
+    if (typeof(event.categoryId) !== 'number' || isNaN(event.categoryId)){
       return (false);
     }
     // Expected type: object (Date)
-    if (typeof(event.startTime) !== 'object' || isNaN(Date.parse(event.startTime))){
+    if (typeof(event.startTime) !== 'string' || isNaN(Date.parse(event.startTime))){
+      console.log(event.startTime);
       return (false);
     }
     // Expected type: object (Date)
-    if (typeof(event.endTime) !== 'object' || isNaN(Date.parse(event.endTime))){
+    if (typeof(event.endTime) !== 'string' || isNaN(Date.parse(event.endTime))){
       return (false);
     }
     return (true);
