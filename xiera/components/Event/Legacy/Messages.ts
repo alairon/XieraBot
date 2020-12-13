@@ -1,4 +1,4 @@
-import Core = require('../Core/Core');
+import Core = require('../../Core/Core');
 
 export class Messages {
   message: string;

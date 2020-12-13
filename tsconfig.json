@@ -17,6 +17,8 @@
   "exclude": [
     "node_modules",
     "bin",
-    "tests"
+    "tests",
+    "xiera/components/Event/ICS/*",
+    "xiera/components/Event/Legacy/*"
   ]
 }

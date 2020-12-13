@@ -1,5 +1,5 @@
 import Main = require('./EventManager');
-import Core = require('../Core/Core');
+import Core = require('../../Core/Core');
 import MessageManager = require('./Messages');
 
 const fuseConfig = {
