@@ -3,16 +3,8 @@
     "token": "x!",
     "flags": "imu"
   },
-  "calendar": {
-    "quest": {
-      "refreshInterval": 6,
-      "url": "https://calendar.google.com/calendar/ical/slnn5mp57n2un2290hrprbb1dg@group.calendar.google.com/public/basic.ics",
-      "localICS": "./ical/events.ics"
-    },
-    "casino": {
-      "refreshInterval": 24,
-      "url": "https://calendar.google.com/calendar/ical/s35fj5qtpp2hgibghgo3oa3fso@group.calendar.google.com/public/basic.ics",
-      "localICS": "./ical/casino.ics"
-    }
+  "data": {
+      "url": "https://pso2.com/news/LoadScheduleCampaigns",
+      "refreshInterval": 24
   }
 }
