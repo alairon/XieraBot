@@ -5,38 +5,7 @@ import Discord = require('discord.js');
 
 import TokenManager = require('./components/Core/Token/TokenManager');
 import Events = require('./components/Event/Events');
-
-interface XieraConfig {
-  xiera: {
-    token: string,
-    flags: string 
-  },
-  data: {
-    url: string,
-    refreshInterval: number
-  }
-}
-
-interface XieraString {
-  client: {
-    login: {
-      error: string
-    },
-    on: {
-      ready: string,
-      rateLimit: string,
-      warn: string,
-      error: string,
-      shardError: string,
-      shardReconnecting: string,
-      shardResume: string,
-      unhandledRejection: string
-    },
-    message: {
-      default: string
-    }
-  }
-}
+import { XieraConfig, XieraString } from '../@types/xiera/XieraMain';
 
 // Reads Xiera's configuration values
 function readConfig(path: string): XieraConfig {
@@ -126,8 +95,16 @@ Client.on('message', async (message) => {
       if (Token.tokenExists(message.content)){
         content = Token.removeToken(message.content);
       }
+
+      const desiredAction = Token.getUserAction(content);
       // Perform the command outside the if bracket
-      console.log(content);
+      if (desiredAction){
+        console.log(`User action: '${desiredAction[0]}'`);
+        console.log(`User parameters: '${desiredAction[1]}'`);
+      }
+      else {
+        console.log(XieraStrings.client.message.usage);
+      }
       break;
     // Text channel
     case 'text':
