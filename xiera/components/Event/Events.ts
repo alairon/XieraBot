@@ -203,7 +203,7 @@ export class Events{
         const eventEndTime = new Date(searchResults[idx].item.endTime).getTime();
 
         if (results < maxResults){
-          if ((eventStartTime >= now) && (eventEndTime<= now)){
+          if ((now >= eventStartTime) && (now <= eventEndTime)){
             MessageResponse.addMessageln(`**${searchResults[idx].item.title}**\`\`\`ldif\nHappening now!\nEnds in: ${TimeStrings.totalTimeString(eventEndTime-now)}\`\`\``);
             results++;
           }
