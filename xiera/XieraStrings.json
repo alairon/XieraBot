@@ -15,12 +15,13 @@
     },
     "message": {
       "default": "That shouldn't have happened. I thought I covered everything!",
-      "usage": "How to use Xiera",
-      "uq": {
-        "instructions": "How to use the UQ command"
-      },
-      "casino": {
-        "instructions": "How to use the Casino command"
+      "usage": {
+        "greetingA": "Hello! ",
+        "greetingB": " I can currently tell you what scheduled events are happening on the Oracle Fleet!\n\n",
+        "instructions": "__**Usage**__\n```x!<command>``` I know autocorrect on some phones like to add a space after `!`, so `x! <command>` also works too!\n\n__**Available Commands**__\n",
+        "instructionsDM": "__**Usage**__\n```<command>``` While talking to me through direct messages, you don't need to use the flag like you would on a normal Discord server! Isn't that neat?\n\n__**Available Commands**__\n",
+        "instructionsUQ": "```uq <search term>```For this command, I'll look through the data Casra gave me and show you the next couple of upcoming events. How does he even do this? Anyways, you can also enter an optional search term, and I'll do my best to find upcoming events based on what you're looking for!\n",
+        "instructionsCasino": "```casino```If there's a casino boost, I'll be sure to show you what's to come!"
       }
     }
   }

@@ -5,7 +5,8 @@ import Discord = require('discord.js');
 
 import TokenManager = require('./components/Core/Token/TokenManager');
 import Events = require('./components/Event/Events');
-import { XieraConfig, XieraString } from '../@types/xiera/XieraMain';
+import { XieraConfig, XieraString } from './@types/XieraMain';
+import { UTCStrings } from './components/Core/Date/UTCStrings';
 
 // Reads Xiera's configuration values
 function readConfig(path: string): XieraConfig {
@@ -17,6 +18,20 @@ function readStrings(path: string): XieraString {
   return (<XieraString>JSON.parse(fs.readFileSync(path, 'utf8')));
 }
 
+function generateHelpMessage(name: string){
+  const HelpMessages = XieraStrings.client.message.usage;
+  return(
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino
+  );
+}
+
+function generateHelpMessageDM(name: string){
+  const HelpMessages = XieraStrings.client.message.usage;
+  return(
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino
+  );
+}
+
 // Read and set the configuration file
 let config: XieraConfig = readConfig(path.join(__dirname, 'xiera.json'));
 // Read from the strings file
@@ -26,6 +41,7 @@ let XieraStrings: XieraString = readStrings(path.join(__dirname, 'XieraStrings.j
 const Client = new Discord.Client();
 const Token = new TokenManager.TokenManager(config.xiera.token, config.xiera.flags);
 const Event = new Events.Events();
+const HelpMessage = XieraStrings.client.message.usage
 
 /**
  * STARTUP FUNCTIONS
@@ -86,25 +102,32 @@ Client.on('message', async (message) => {
   // Stop Xiera from responding to herself (or any other bots)
   if (message.author.bot) return;
 
+  // Gerneate a timestampe
+  const time: string = UTCStrings.getTimestamp(new Date());
+
   //Check origin of the message
   let content = message.content;
   switch(message.channel.type){
     // Direct Message
     case 'dm':
-      // Checks for the flag, removes if present
+      // The flag is optional in a DM, but remove it if it's present.
       if (Token.tokenExists(message.content)){
         content = Token.removeToken(message.content);
       }
 
+      // Determine what the user wants to do
       const desiredAction = Token.getUserAction(content);
-      // Perform the command outside the if bracket
-      if (desiredAction){
-        console.log(`User action: '${desiredAction[0]}'`);
-        console.log(`User parameters: '${desiredAction[1]}'`);
+      // Log when and where the message originated from
+      console.log(`${message.author.username} via DM ${time}`);
+      
+      const res = await switchboard(message.author.username, desiredAction);
+      if (!res){
+        message.channel.send(generateHelpMessageDM(message.author.username));
       }
-      else {
-        console.log(XieraStrings.client.message.usage);
+      else{
+        message.channel.send(res);
       }
+
       break;
     // Text channel
     case 'text':
@@ -113,13 +136,15 @@ Client.on('message', async (message) => {
         content = Token.removeToken(content);
         // Determine what info the user wants Xiera to provide them
         const desiredAction = Token.getUserAction(content);
+        // Log when and where the message originated from
+        console.log(`${message.author.username} via ${message.guild.name} ${time}`);
 
-        if (desiredAction){
-          console.log(`User action: '${desiredAction[0]}'`);
-          console.log(`User parameters: '${desiredAction[1]}'`);
+        const res = await switchboard(message.author.username, desiredAction);
+        if (!res){
+          message.channel.send(generateHelpMessage(message.author.username));
         }
-        else {
-          console.log('INSTRUCTIONS');
+        else{
+          message.channel.send(res);
         }
       }
 
@@ -132,3 +157,28 @@ Client.on('message', async (message) => {
       console.log(XieraStrings.client.message.default);
   }
 });
+
+async function switchboard(username: string, desiredAction: Array<string>): Promise<string>{
+  if (desiredAction){
+    console.log(`> Action: '${desiredAction[0]}' | '${desiredAction[1]}'`);
+    if (/^\s?uq/.test(desiredAction[0])){
+      if (desiredAction[1]){
+        const results = await Event.searchEvents(desiredAction[1]);
+        return(results);
+      }
+      else {
+        const results = await Event.searchUpcomingEvents();
+        return(results);
+      }
+    }
+    else if (/^\s?casino/.test(desiredAction[0])){
+      const results = await Event.searchUpcomingCasinoEvents();
+      return(results);
+    }
+    else {
+      return(null);
+    }
+  }
+  console.log(`> Action: none`);
+  return(null);
+}

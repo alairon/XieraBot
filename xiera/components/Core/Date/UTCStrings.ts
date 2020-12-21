@@ -16,7 +16,7 @@ export class UTCStrings{
   // Creates a time stamp in the ISO (YYYY-MM-DD HH:MM:SS) date format
   // Values are padded with a 0 if it does not result in a double digit number
   public static getTimestamp(date: Date): string{
-    if (typeof(date) !== typeof(Date())){
+    if (typeof(date) !== typeof(new Date())){
       return (null);
     }
 

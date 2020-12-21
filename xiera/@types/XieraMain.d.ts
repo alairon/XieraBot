@@ -27,12 +27,13 @@ export interface XieraString {
     },
     message: {
       default: string,
-      usage: string,
-      uq: {
-        instructions: string
-      },
-      casino: {
-        instructions: string
+      usage: {
+        greetingA: string,
+        greetingB: string,
+        instructions: string,
+        instructionsDM: string,
+        instructionsUQ: string,
+        instructionsCasino: string
       }
     }
   }
