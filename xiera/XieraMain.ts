@@ -41,7 +41,7 @@ let XieraStrings: XieraString = readStrings(path.join(__dirname, 'XieraStrings.j
 const Client = new Discord.Client();
 const Token = new TokenManager.TokenManager(config.xiera.token, config.xiera.flags);
 const Event = new Events.Events();
-const HelpMessage = XieraStrings.client.message.usage
+const HelpMessage = XieraStrings.client.message.usage;
 
 /**
  * STARTUP FUNCTIONS
