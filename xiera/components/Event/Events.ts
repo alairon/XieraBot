@@ -252,7 +252,7 @@ export class Events{
       const eventStartTime = new Date(data[idx].startTime).getTime();
       const eventEndTime = new Date(data[idx].endTime).getTime();
       if (results < maxResults){
-        if ((eventStartTime >= now) && (eventEndTime<= now)){
+        if ((now >= eventStartTime) && (now <= eventEndTime)){
           MessageResponse.addMessageln(`**${data[idx].title}**\`\`\`ldif\nHappening now!\nEnds in: ${TimeStrings.totalTimeString(eventEndTime-now)}\`\`\``);
           results++;
         }
@@ -296,7 +296,7 @@ export class Events{
       const eventStartTime = new Date(data[idx].startTime).getTime();
       const eventEndTime = new Date(data[idx].endTime).getTime();
       if (results < maxResults){
-        if ((eventStartTime >= now) && (eventEndTime<= now)){
+        if ((now >= eventStartTime) && (now <= eventEndTime)){
           MessageResponse.addMessageln(`**${data[idx].title}**\`\`\`ldif\nHappening now!\nEnds in: ${TimeStrings.totalTimeString(eventEndTime-now)}\`\`\``);
           results++;
         }
