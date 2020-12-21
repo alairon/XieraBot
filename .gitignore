@@ -8,11 +8,12 @@ bin/
 # Development directories
 dev/
 bkup/
+.vscode/
 
 # TypeScript files
 tsconfig.json
 
-# Download iCalendar files
+# Legacy iCalendar system folders
 ical/
 
 # Environment variables

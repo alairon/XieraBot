@@ -1,18 +1,10 @@
 {
   "xiera": {
-    "token": "^x!\\s?",
+    "token": "x!",
     "flags": "imu"
   },
-  "calendar": {
-    "quest": {
-      "refreshInterval": 6,
-      "url": "https://calendar.google.com/calendar/ical/rc1af7l1sv3mt995hvjqpi4qb0@group.calendar.google.com/public/basic.ics",
-      "localICS": "./ical/events.ics"
-    },
-    "casino": {
-      "refreshInterval": 24,
-      "url": "https://calendar.google.com/calendar/ical/93s0fb4g1vatv43crcar3606g8@group.calendar.google.com/public/basic.ics",
-      "localICS": "./ical/casino.ics"
-    }
+  "data": {
+      "url": "https://pso2.com/news/LoadScheduleCampaigns",
+      "refreshInterval": 24
   }
 }

@@ -3,7 +3,7 @@ import fs = require('fs');
 import ical = require('node-ical');
 import path = require('path');
 import Search = require('./Search');
-import Core = require('../Core/Core');
+import Core = require('../../Core/Core');
 
 export class EventManager {
   private icalDir: string; // PATH to the iCalendar directory

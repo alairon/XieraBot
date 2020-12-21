@@ -1,80 +1,98 @@
-import Main = require('./EventManager');
-import Core = require('../Core/Core');
-import MessageManager = require('./Messages');
+import { EventObject } from './@types/Casino';
 
-const fuseConfig = {
-  keys: [
-    "summary"
-  ]
-};
+export class Casino{
+  private title: string;
+  private categoryId: number;
+  private startTime: string;
+  private endTime: string;
 
-export class Events extends Main.EventManager{
-  events: object;
-  refreshInterval: number;
-  refresh: NodeJS.Timeout;
-
-  constructor(url: string, refreshInterval: number){
-    super(url);
-    this.refreshInterval = refreshInterval;
-    this.initEvents();
+  constructor(event: EventObject){
+    if (this.isValid(event)){
+      this.setTitle(event.title);
+      this.setCategoryId(event.categoryId);
+      this.setStartTime(event.startTime);
+      this.setEndTime(event.endTime);
+    }
+    else{
+      console.log('There was an invalid value and the event was not created.');
+    }
   }
 
-  public getEvents(): object {
-    return (this.events);
+  // Returns the title for the event
+  public getTitle(): string{
+    return (this.title);
   }
 
-  public async initEvents(): Promise<void> {
-    this.events = await this.init();
-    this.searchInit(this.events, fuseConfig);
-    this.refreshCalendar();
+  public getCategoryId(): number{
+    return (this.categoryId);
   }
 
-    // Refreshes the calendar
-    private async refreshCalendar(): Promise<void>{
-      this.refresh = setTimeout(this.initEvents.bind(this), (this.refreshInterval * 3600000));
-      console.log(`Casino calendar updated ${Core.UTCStrings.getTimestamp(new Date())}. Next scheduled update: ${Core.TimeStrings.totalTimeString(this.refreshInterval * 3600000)}`);
-    }
-  
-    public resetCalendarURL(calendarID: string): void{
-      let url = '';
-      url = url.concat('https://calendar.google.com/calendar/ical/', calendarID, '/public/basic.ics')
-      this.updateCalendar(url);
-    }
+  // Returns the start time for the event
+  public getStartTime(): string{
+    return (this.startTime);
+  }
 
-    // Update the current iCal URL, then force a refresh
-    private async updateCalendar(url: string): Promise<void>{
-      console.log(`Updating the calendar from\n${this.getUrl()}\n${url}`);
-      this.setURL(url);
-      clearTimeout(this.refresh);
-      this.initEvents();
-    }
+  // Returns the end tie for the event
+  public getEndTime(): string{
+    return (this.endTime);
+  }
 
-  public async displayEvents(): Promise<string> {
-    let sendMsg: MessageManager.Messages = new MessageManager.Messages();
-    let results = 0;
-    const searchLimit: number = 5;
-    const eventValues = Object.values(this.events);
-    sendMsg.addMessage(`Here's what you can look forward to at the casino!\n\n`);
-    for (const idx in eventValues){
-      const now = new Date().getTime();
-      const eventStartTime = new Date(eventValues[idx].startTime).getTime();
-      const eventEndTime = new Date(eventValues[idx].endTime).getTime();
-      // If the event is happening now
-      if (now >= eventStartTime && now < eventEndTime){
-        sendMsg.addMessage(`**${eventValues[idx].summary}**\`\`\`ldif\nHappening now!\nEnds in: ${Core.TimeStrings.totalTimeString(eventEndTime-now)}\n\`\`\`\n`);
-        results++;
-
-      }
-      else if (now < eventStartTime) {
-        sendMsg.addMessage(`**${eventValues[idx].summary}**\`\`\`ldif\nStarts in: ${Core.TimeStrings.totalTimeString(eventStartTime-now)}\n\`\`\`\n`);
-        results++
-      }
-
-      if (results > 5){
-        break;
-      }
+  // Returns the entire event as an object
+  public getEvent(): EventObject{
+    const event: EventObject = {
+      title: this.title,
+      categoryId: this.categoryId,
+      startTime: this.startTime,
+      endTime: this.endTime
     }
-  if (results) return(sendMsg.getMessage());
-  return ('Diehl doesn\'t seem to be running any events right now. Please check back soon!');
+    return (event);
+  }
+
+  // Sets the event object
+  public setEvent(): void{
+
+  }
+
+  // Sets the "title" for the event
+  private setTitle(title: string): void{
+    if (typeof(title) == 'string') this.title = title;
+  }
+
+  // Sets the "type" for the event
+  private setCategoryId(categoryId: number): void{
+    if (typeof(categoryId) == 'number') this.categoryId = categoryId;
+  }
+
+  // Sets the starting time of the event after checking if it's in a valid date format
+  private setStartTime(startTime: string): void{
+    if (!isNaN(Date.parse(startTime))) this.startTime = startTime;
+  }
+
+  // Sets the end time of the event after checkign if it's in a valid date format
+  private setEndTime(endTime: string): void{
+    if (!isNaN(Date.parse(endTime))) this.endTime = endTime;
+  }
+
+  // Checks if the values in the object are valid
+  // Returns if any values are the wrong type
+  public isValid(event: EventObject): boolean{
+    // Expected type: string
+    if (typeof(event.title) !== 'string' || event.title === ''){
+      return (false);
     }
+    // Expected type: string
+    if (typeof(event.categoryId) !== 'number' || isNaN(event.categoryId)){
+      return (false);
+    }
+    // Expected type: object (Date)
+    if (typeof(event.startTime) !== 'string' || isNaN(Date.parse(event.startTime))){
+      console.log(event.startTime);
+      return (false);
+    }
+    // Expected type: object (Date)
+    if (typeof(event.endTime) !== 'string' || isNaN(Date.parse(event.endTime))){
+      return (false);
+    }
+    return (true);
+  }
 }

@@ -1,17 +1,30 @@
-import { EventObject } from './@types/Quests';
+interface EventObject {
+  uid: string,
+  summary: string,
+  startTime: string,
+  endTime: string,
+  tags?: Array<string>
+}
+
+interface QueryObject {
+  Quests: {
+    uid: string,
+    summary: string,
+    startTime: string,
+    endTime: string
+  }
+}
 
 export class Quests{
-  private title: string;
-  private tags: string;
-  private alt: string;
-  private categoryId: number;
+  private uid: string;
+  private summary: string;
   private startTime: string;
   private endTime: string;
 
   constructor(event: EventObject){
     if (this.isValid(event)){
-      this.setTitle(event.title);
-      this.setCategoryId(event.categoryId);
+      this.setID(event.uid);
+      this.setSummary(event.summary);
       this.setStartTime(event.startTime);
       this.setEndTime(event.endTime);
     }
@@ -20,21 +33,14 @@ export class Quests{
     }
   }
 
-  // Returns the title for the event
-  public getTitle(): string{
-    return (this.title);
+  // Returns the name of the event
+  public getID(): string{
+    return (this.uid);
   }
 
-  public getTags(): string{
-    return (this.tags);
-  }
-
-  public getAlt(): string{
-    return (this.alt);
-  }
-
-  public getCategoryId(): number{
-    return (this.categoryId);
+  // Returns the summary for the event
+  public getSummary(): string{
+    return (this.summary);
   }
 
   // Returns the start time for the event
@@ -50,24 +56,28 @@ export class Quests{
   // Returns the entire event as an object
   public getEvent(): EventObject{
     const event: EventObject = {
-      title: this.title,
-      tags: this.tags,
-      alt: this.alt,
-      categoryId: this.categoryId,
+      uid: this.uid,
+      summary: this.summary,
       startTime: this.startTime,
       endTime: this.endTime
     }
+
     return (event);
   }
 
-  // Sets the "title" for the event
-  private setTitle(title: string): void{
-    if (typeof(title) == 'string') this.title = title;
+  // Sets the event object
+  public setEvent(): void{
+
   }
 
-  // Sets the "type" for the event
-  private setCategoryId(categoryId: number): void{
-    if (typeof(categoryId) == 'number') this.categoryId = categoryId;
+  // Sets the name for the event after checking if the value entred is the right type
+  private setID(uid: string): void{
+    if (typeof(uid) == 'string') this.uid= uid;
+  }
+
+  // Sets the "summary" for the event after checking if the value entered is the right type
+  private setSummary(summary: string): void{
+    if (typeof(summary) == 'string') this.summary = summary;
   }
 
   // Sets the starting time of the event after checking if it's in a valid date format
@@ -80,30 +90,23 @@ export class Quests{
     if (!isNaN(Date.parse(endTime))) this.endTime = endTime;
   }
 
-  // Adds indexing data to the quest object
-  public addIndexData(tags: string, alt: string){
-    this.tags = tags;
-    this.alt = alt;
-  }
-
   // Checks if the values in the object are valid
   // Returns if any values are the wrong type
   public isValid(event: EventObject): boolean{
     // Expected type: string
-    if (typeof(event.title) !== 'string' || event.title === ''){
+    if (typeof(event.uid) !== 'string' || event.uid === ''){
       return (false);
     }
     // Expected type: string
-    if (typeof(event.categoryId) !== 'number' || isNaN(event.categoryId)){
+    if (typeof(event.summary) !== 'string' || event.summary === ''){
       return (false);
     }
     // Expected type: object (Date)
-    if (typeof(event.startTime) !== 'string' || isNaN(Date.parse(event.startTime))){
-      console.log(event.startTime);
+    if (typeof(event.startTime) !== 'object' || isNaN(Date.parse(event.startTime))){
       return (false);
     }
     // Expected type: object (Date)
-    if (typeof(event.endTime) !== 'string' || isNaN(Date.parse(event.endTime))){
+    if (typeof(event.endTime) !== 'object' || isNaN(Date.parse(event.endTime))){
       return (false);
     }
     return (true);

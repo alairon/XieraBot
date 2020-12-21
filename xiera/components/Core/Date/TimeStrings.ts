@@ -1,6 +1,19 @@
 export class TimeStrings{
   // Returns the time in a readable format
   public static totalTimeString(elapsed: number): string{
+    // If the value isn't a number, return null
+    if (typeof(elapsed) !== 'number'){
+      return (null)
+    }
+    // If 'Not a Number" is passed in, return '0 seconds'
+    else if (isNaN(elapsed)){
+      return ('0 seconds');
+    }
+    // If the value is negative, return null
+    else if (elapsed < 0){
+      return (null);
+    }
+
     const totalSeconds = elapsed/1000;
     const weeks = Math.floor(totalSeconds/604800);
     const days = Math.floor((totalSeconds%604800)/86400);

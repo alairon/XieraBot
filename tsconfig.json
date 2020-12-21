@@ -9,6 +9,16 @@
     "target": "ES2019",
     "outDir": "bin"
   },
-  "include": ["xiera/**/*", "xiera/index.js", "xiera/xiera.json"],
-  "exclude": ["node_modules"]
+  "include": [
+    "xiera/**/*",
+    "xiera/index.js",
+    "xiera/xiera.json"
+, "@types"  ],
+  "exclude": [
+    "node_modules",
+    "bin",
+    "tests",
+    "xiera/components/Event/ICS/*",
+    "xiera/components/Event/Legacy/*"
+  ]
 }
