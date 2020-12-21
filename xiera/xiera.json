@@ -1,6 +1,6 @@
 {
   "xiera": {
-    "token": "x!\\s?",
+    "token": "x!",
     "flags": "imu"
   },
   "data": {
