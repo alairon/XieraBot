@@ -5,6 +5,6 @@
   },
   "data": {
       "url": "https://pso2.com/news/LoadScheduleCampaigns",
-      "refreshInterval": 24
+      "refreshInterval": 8
   }
 }

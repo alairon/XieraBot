@@ -125,9 +125,9 @@ export class Events{
         return (null);
       }
     }
-    if (refreshInterval > 1000){
-      this.refreshInterval = refreshInterval;
-      console.log(`[SYSTEM] Updated the refresh interval: Next refresh expected in: ${TimeStrings.totalTimeString(refreshInterval)}`);
+    if (refreshInterval * 3600000 > 1000){
+      this.refreshInterval = refreshInterval * 3600000; // in hours
+      console.log(`[SYSTEM] Updated the refresh interval: Next update expected in: ${TimeStrings.totalTimeString(refreshInterval * 3600000)}`);
     }
       
 
@@ -252,7 +252,7 @@ export class Events{
       const eventStartTime = new Date(data[idx].startTime).getTime();
       const eventEndTime = new Date(data[idx].endTime).getTime();
       if (results < maxResults){
-        if ((eventStartTime >= now) && (eventEndTime<= now)){
+        if ((now >= eventStartTime) && (now <= eventEndTime)){
           MessageResponse.addMessageln(`**${data[idx].title}**\`\`\`ldif\nHappening now!\nEnds in: ${TimeStrings.totalTimeString(eventEndTime-now)}\`\`\``);
           results++;
         }
@@ -296,7 +296,7 @@ export class Events{
       const eventStartTime = new Date(data[idx].startTime).getTime();
       const eventEndTime = new Date(data[idx].endTime).getTime();
       if (results < maxResults){
-        if ((eventStartTime >= now) && (eventEndTime<= now)){
+        if ((now >= eventStartTime) && (now <= eventEndTime)){
           MessageResponse.addMessageln(`**${data[idx].title}**\`\`\`ldif\nHappening now!\nEnds in: ${TimeStrings.totalTimeString(eventEndTime-now)}\`\`\``);
           results++;
         }

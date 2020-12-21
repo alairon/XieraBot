@@ -44,7 +44,10 @@ export class TokenManager{
   private userAction(userInput: string): string{
     let tag: string;
     try{
-      tag = userInput.split(' ', 1)[0];
+      tag = userInput.split(' ', 2)[0];
+      if (tag == ''){
+        tag = userInput.split(' ', 2)[1];
+      }
     } catch(err) {
       console.error(`The tag could not be obtained\n${err}`);
       tag = '';
@@ -55,7 +58,7 @@ export class TokenManager{
 
   // Returns a string of arguments
   private getUserArguments(action: string, userInput: string): string{
-    const actionRegex = new RegExp(`(?<=${action}\\s).*`, 'mi');
+    const actionRegex = new RegExp(`(?<=\\s?${action}\\s).*`, 'mi');
     const result = actionRegex.exec(userInput);
 
     if (result){

@@ -120,7 +120,7 @@ Client.on('message', async (message) => {
       // Log when and where the message originated from
       console.log(`${message.author.username} via DM ${time}`);
       
-      const res = await switchboard(message.author.username, desiredAction);
+      const res = await switchboard(desiredAction);
       if (!res){
         message.channel.send(generateHelpMessageDM(message.author.username));
       }
@@ -139,7 +139,7 @@ Client.on('message', async (message) => {
         // Log when and where the message originated from
         console.log(`${message.author.username} via ${message.guild.name} ${time}`);
 
-        const res = await switchboard(message.author.username, desiredAction);
+        const res = await switchboard(desiredAction);
         if (!res){
           message.channel.send(generateHelpMessage(message.author.username));
         }
@@ -158,7 +158,7 @@ Client.on('message', async (message) => {
   }
 });
 
-async function switchboard(username: string, desiredAction: Array<string>): Promise<string>{
+async function switchboard(desiredAction: Array<string>): Promise<string>{
   if (desiredAction){
     console.log(`> Action: '${desiredAction[0]}' | '${desiredAction[1]}'`);
     if (/^\s?uq/.test(desiredAction[0])){
