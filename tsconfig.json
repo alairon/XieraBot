@@ -13,7 +13,7 @@
     "xiera/**/*",
     "xiera/index.js",
     "xiera/xiera.json"
-  ],
+, "@types"  ],
   "exclude": [
     "node_modules",
     "bin",
