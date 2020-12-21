@@ -1,22 +1,9 @@
-interface EventObject {
-  title: string,
-  categoryId: number,
-  startTime: string,
-  endTime: string,
-  tags?: Array<string>
-}
-
-interface QueryObject {
-  Quests: {
-    title: string,
-    categoryId: number,
-    startTime: string,
-    endTime: string
-  }
-}
+import { EventObject } from './@types/Quests';
 
 export class Quests{
   private title: string;
+  private tags: string;
+  private alt: string;
   private categoryId: number;
   private startTime: string;
   private endTime: string;
@@ -38,6 +25,14 @@ export class Quests{
     return (this.title);
   }
 
+  public getTags(): string{
+    return (this.tags);
+  }
+
+  public getAlt(): string{
+    return (this.alt);
+  }
+
   public getCategoryId(): number{
     return (this.categoryId);
   }
@@ -56,16 +51,13 @@ export class Quests{
   public getEvent(): EventObject{
     const event: EventObject = {
       title: this.title,
+      tags: this.tags,
+      alt: this.alt,
       categoryId: this.categoryId,
       startTime: this.startTime,
       endTime: this.endTime
     }
     return (event);
-  }
-
-  // Sets the event object
-  public setEvent(): void{
-
   }
 
   // Sets the "title" for the event
@@ -86,6 +78,12 @@ export class Quests{
   // Sets the end time of the event after checkign if it's in a valid date format
   private setEndTime(endTime: string): void{
     if (!isNaN(Date.parse(endTime))) this.endTime = endTime;
+  }
+
+  // Adds indexing data to the quest object
+  public addIndexData(tags: string, alt: string){
+    this.tags = tags;
+    this.alt = alt;
   }
 
   // Checks if the values in the object are valid

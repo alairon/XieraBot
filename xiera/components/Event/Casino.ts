@@ -1,95 +1,95 @@
-interface EventObject {
-  name: string,
-  summary: string,
-  startTime: string,
-  endTime: string,
-  tags?: Array<string>
-}
+import { EventObject } from './@types/Casino';
 
 export class Casino{
-  private name: string;
-  private summary: string;
+  private title: string;
+  private categoryId: number;
   private startTime: string;
   private endTime: string;
-  private tags: Array<string>;
 
   constructor(event: EventObject){
-    this.setName(event.name);
-    this.setSummary(event.summary);
-    this.setStartTime(event.startTime);
-    this.setEndTime(event.endTime);
-    this.tags = event.tags;
+    if (this.isValid(event)){
+      this.setTitle(event.title);
+      this.setCategoryId(event.categoryId);
+      this.setStartTime(event.startTime);
+      this.setEndTime(event.endTime);
+    }
+    else{
+      console.log('There was an invalid value and the event was not created.');
+    }
   }
 
-  public getName(): string{
-    return (this.name);
+  // Returns the title for the event
+  public getTitle(): string{
+    return (this.title);
   }
 
-  public getSummary(): string{
-    return (this.summary);
+  public getCategoryId(): number{
+    return (this.categoryId);
   }
 
+  // Returns the start time for the event
   public getStartTime(): string{
     return (this.startTime);
   }
 
+  // Returns the end tie for the event
   public getEndTime(): string{
     return (this.endTime);
   }
 
-  public getTags(): Array<string>{
-    return (this.tags);
-  }
-
+  // Returns the entire event as an object
   public getEvent(): EventObject{
     const event: EventObject = {
-      name: this.name,
-      summary: this.summary,
+      title: this.title,
+      categoryId: this.categoryId,
       startTime: this.startTime,
-      endTime: this.endTime,
-      tags: this.tags
+      endTime: this.endTime
     }
-
     return (event);
   }
 
-  public setEvent(event: EventObject): void{
-    if (this.isValid(event)){
-      this.name = event.name,
-      this.summary = event.summary,
-      this.startTime = event.startTime,
-      this.endTime = event.endTime,
-      this.tags = event.tags
-    }
+  // Sets the event object
+  public setEvent(): void{
+
   }
 
-  private setName(name: string): void{
-    if (typeof(name) == 'string') this.name = name;
+  // Sets the "title" for the event
+  private setTitle(title: string): void{
+    if (typeof(title) == 'string') this.title = title;
   }
 
-  private setSummary(summary: string): void{
-    if (typeof(summary) == 'string') this.summary = summary;
+  // Sets the "type" for the event
+  private setCategoryId(categoryId: number): void{
+    if (typeof(categoryId) == 'number') this.categoryId = categoryId;
   }
 
+  // Sets the starting time of the event after checking if it's in a valid date format
   private setStartTime(startTime: string): void{
     if (!isNaN(Date.parse(startTime))) this.startTime = startTime;
   }
 
+  // Sets the end time of the event after checkign if it's in a valid date format
   private setEndTime(endTime: string): void{
     if (!isNaN(Date.parse(endTime))) this.endTime = endTime;
   }
 
   // Checks if the values in the object are valid
+  // Returns if any values are the wrong type
   public isValid(event: EventObject): boolean{
-    if (typeof(event.name) !== 'string'){
+    // Expected type: string
+    if (typeof(event.title) !== 'string' || event.title === ''){
       return (false);
     }
-    if (typeof(event.summary) !== 'string'){
+    // Expected type: string
+    if (typeof(event.categoryId) !== 'number' || isNaN(event.categoryId)){
       return (false);
     }
+    // Expected type: object (Date)
     if (typeof(event.startTime) !== 'string' || isNaN(Date.parse(event.startTime))){
+      console.log(event.startTime);
       return (false);
     }
+    // Expected type: object (Date)
     if (typeof(event.endTime) !== 'string' || isNaN(Date.parse(event.endTime))){
       return (false);
     }

@@ -1,0 +1,183 @@
+[
+  {
+    "title": "Cradle of Darkness",
+    "tags": "Falspawn UQ"
+  },
+  {
+    "title": "Giant Automata: The Awakening",
+    "tags": "Lilipa Underground UQ, Giant Varder"
+  },
+  {
+    "title": "Chaos, Render of Tranquility",
+    "tags": "City UQ"
+  },
+  {
+    "title": "The Grudge of Rampaging Dragons",
+    "tags": "Floating Continent UQ, Amduskia, Chrome Dragon"
+  },
+  {
+    "title": "The Dead Sea Where Dragons Gather",
+    "tags": "Coast UQ, Wopal, Chrome Dragon"
+  },
+  {
+    "title": "The Raging Obsidian Arm",
+    "tags": "Arms, Dark Falz Elder",
+    "alt": "Elder of the Unfathomable Abyss"
+  },
+  {
+    "title": "The Cunning Black Winged Vanguard",
+    "tags": "Dark Falz Luther, Loser",
+    "alt": "The False Champion: Luther the Fallen"
+  },
+  {
+    "title": "Mining Base Defense Operations: Incursion",
+    "tags": "Mining Base 1, MB1, Incursion"
+  },
+  {
+    "title": "Mining Base Defense Operations: Despair",
+    "tags": "Mining Base 3, MB3, Despair"
+  },
+  {
+    "title": "Mining Base Defense Operations: Ending",
+    "tags": "Mining Base 4, MB4, Ending, Demise"
+  },
+  {
+    "title": "Drawn to Darkness",
+    "tags": "Corrupted Mothership, Dark Falz Angel"
+  },
+  {
+    "title": "The Manifested Planetbreaker",
+    "tags": "Magatsu",
+    "alt": "Chant to Cleanse the Calamity"
+  },
+  {
+    "title": "A Blackened Kingdom",
+    "tags": "Harukotan UQ"
+  },
+  {
+    "title": "Menace of the Sea, Render of Serenity",
+    "tags": "Floating Facility UQ"
+  },
+  {
+    "title": "Barren Blossom, Corruptor of All",
+    "tags": "Dark Falz Gemini, Double, Profound Darkness, PD",
+    "alt": "Destroyer of All, Butcher of Light"
+  },
+  {
+    "title": "The Lunar Phantasm Matriarch",
+    "tags": "ESCA Falz Mother, Rideroid"
+  },
+  {
+    "title": "Imposing Iron Assault",
+    "tags": "Yamato, YMT",
+    "alt": "Dignity of Steel Unleashed, Iron Juggernaut of the High Seas"
+  },
+  {
+    "title": "Deus Esca, Maker of New Epochs",
+    "tags": "Deus Esca",
+    "alt": "Deus Esca, Singer of Genesis"
+  },
+  {
+    "title": "Crimson Fellwyrm Over the Castle",
+    "tags": "Red Dragon",
+    "alt": "Black Fellwyrm Rises from Ruin"
+  },
+  {
+    "title": "Castrum Demonica: Hostility",
+    "tags": "Buster Quest, BQ, Omega Elder"
+  },
+  {
+    "title": "Wisdom Incarnate",
+    "tags": "Omega Luther, Omega Loser",
+    "alt": "Longing for Omniscience"
+  },
+  {
+    "title": "Queen's Nightmare: Earth Depths",
+    "tags": "Omega Apprentice",
+    "alt": "Queen's Nightmare: Sand City" 
+  },
+  {
+    "title": "Castrum Demonica: Madness",
+    "tags": "Buster Quest, BQ, Omega Gemini, Omega Double"
+  },
+  {
+    "title": "The Malevolent Void",
+    "tags": "Omega Persona",
+    "alt": "The Call of the Void"
+  },
+  {
+    "title": "The Armada of Annihilation: Interception",
+    "tags": "Armada, AIS Vega"
+  },
+
+  {
+    "title": "Christmas on Ice",
+    "tags": "Xmas, Xmas Event, Christmas Event"
+  },
+  {
+    "title": "Virtual Planet Battle Training",
+    "tags": "EP4 Vegas Event"
+  },
+  {
+    "title": "Trick or Treat",
+    "tags": "Halloween Event"
+  },
+  {
+    "title": "Beach Wars",
+    "tags": "Summer Event"
+  },
+  {
+    "title": "Festive Song for Winged Ones",
+    "tags": "Thanksgiving Event"
+  },
+  {
+    "title": "Gone with the Wind and Rain",
+    "tags": "Spring Event, Wedding Event"
+  },
+
+  {
+    "title": "Defeat the Enemy",
+    "tags": "Draconian, Nightfaller, Oceanid, Falspawn, Supernatural",
+    "alt": "ARKS League"
+  },
+
+  {
+    "title": "ARKS Festival",
+    "tags": "Concert, We're ARKS, Rare Drop Koi-Koi",
+    "alt": "ARKS Dance Festival"
+  },
+  {
+    "title": "Living Universe, feat. Hatsune Miku & Megurine Luka",
+    "tags": "Hatsune Miku Concert, Megurine Luka",
+    "alt": "Living Universe, featuring Hatsune Miku & Megurine Luka"
+  },
+  {
+    "title": "Mass Destruction",
+    "tags": "P3 Concert, P3F Concert, Persona 3",
+    "alt": "P3 Dancing Live: Mass Destruction (\"P3\" + \"P3F\" ver)"
+  },
+  {
+    "title": "Rivers in the Desert",
+    "tags": "P5 Concert, Persona 5 Concert, mito remix",
+    "alt": "P5 Dancing Live: Rivers in the Desert (mito Remix)"
+  },
+  {
+    "title": "Cosmic Twinkle Star",
+    "tags": "Quna Special Live, Concert, Cosmic Twinkle Star",
+    "alt": "Quna Special Live: Cosmic Twinkle Star"
+  },
+  {
+    "title": "Endless Story/Our Fighting ver.MIYABI",
+    "tags": "Quna Special Live, Concert, Endless Story, Our Fighting, MIYABI"
+  },
+  {
+    "title": "Eternal Encore",
+    "tags": "Quna Special Live, Concert, Eternal Encore, Haddred",
+    "alt": "Quna Special Live, Eternal Encore Holiday Ver., Quna Christmas Live, Xmas Live, Xmas ver,"
+  },
+  {
+    "title": "Our Fighting/Eternal Encore",
+    "tags": "Quna Special Live, Concert, Our Fighting, Eternal Encore, Haddred",
+    "alt": "Quna Special Live: Our Fighting/Eternal Encore"
+  }
+]
