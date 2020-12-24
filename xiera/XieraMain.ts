@@ -6,6 +6,7 @@ import Discord = require('discord.js');
 import TokenManager = require('./components/Core/Token/TokenManager');
 import Events = require('./components/Event/Events');
 import { XieraConfig, XieraString } from './@types/XieraMain';
+import { Reset } from './components/Reset/Reset';
 import { UTCStrings } from './components/Core/Date/UTCStrings';
 
 // Reads Xiera's configuration values
@@ -28,7 +29,7 @@ function generateHelpMessage(name: string){
 function generateHelpMessageDM(name: string){
   const HelpMessages = XieraStrings.client.message.usage;
   return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset
   );
 }
 
@@ -173,6 +174,10 @@ async function switchboard(desiredAction: Array<string>): Promise<string>{
     }
     else if (/^\s?casino/.test(desiredAction[0])){
       const results = await Event.searchUpcomingCasinoEvents();
+      return(results);
+    }
+    else if (/^\s?reset/.test(desiredAction[0])){
+      const results = Reset.getResetTable();
       return(results);
     }
     else {
