@@ -22,7 +22,7 @@ function readStrings(path: string): XieraString {
 function generateHelpMessage(name: string){
   const HelpMessages = XieraStrings.client.message.usage;
   return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset
   );
 }
 
