@@ -121,13 +121,13 @@ export class Events{
   public async initEvents(url?: string, refreshInterval?: number): Promise<void>{
     if (url) {
       if (!this.setURL(url)){
-        console.log('[SYSTEM] The URL isn\'t valid');
+        console.log('[EVENTS] The URL isn\'t valid');
         return (null);
       }
     }
     if (refreshInterval * 3600000 > 1000){
       this.refreshInterval = refreshInterval * 3600000; // in hours
-      console.log(`[SYSTEM] Updated the refresh interval: Next update expected in: ${TimeStrings.totalTimeString(refreshInterval * 3600000)}`);
+      console.log(`[EVENTS] Updated the refresh interval. Next update expected in: ${TimeStrings.totalTimeString(refreshInterval * 3600000)}`);
     }
       
 
@@ -138,6 +138,12 @@ export class Events{
     if (!ScheduleEvents){
       return (null);
     }
+
+    let uqCounter = 0; // Event ID 9
+    let concertCounter = 0; // Event ID 10
+    let casinoCounter = 0; // Event ID 11
+    let leagueCounter = 0; // Event ID 12
+    let otherCounter = 0; // Other IDs
 
     //Insert the events into the appropriate array
     for (const idx in ScheduleEvents){
@@ -154,20 +160,38 @@ export class Events{
 
         switch(ScheduleEvents[idx].categoryId){
           case 9: // Urgent Quests
+            this.addEvent(eventData, searchIndex);
+            uqCounter++;
+            break;
           case 10: // Live Concerts
             this.addEvent(eventData, searchIndex);
+            concertCounter++;
             break;
           case 11: // Casino Boosts
             this.addCasinoEvent(eventData);
+            casinoCounter++;
+            break;
+          case 12: // ARKS League
+            this.addEvent(eventData, searchIndex);
+            leagueCounter++;
             break;
           default:
             // All other event types
-            console.log(`===== UNDEFINED EVENT =====\n${eventData}\n===========================`);
+            console.log(`===== UNDEFINED EVENT =====\nEvent: ${eventData.title}\nID: ${eventData.categoryId}\n===========================`);
             this.addEvent(eventData, searchIndex);
+            otherCounter++;
             break;
         }
       }
+
     }
+
+    console.log(`===== Event Summary =====
+    Urgent Quests: ${uqCounter}
+    Concerts: ${concertCounter}
+    Casino Boosts: ${casinoCounter}
+    ARKS League: ${leagueCounter}
+    Other Events: ${otherCounter}\n=========================\n`);
 
     // Sort the data
     this.quests = await this.sortEvents(this.quests);
@@ -180,7 +204,7 @@ export class Events{
     // Starts the timeout for this process to be repeated, clears the existing one if present
     if (this.eventRefreshTimeout) clearTimeout(this.eventRefreshTimeout);
     this.eventRefreshTimeout = setTimeout( async () => {this.clearEvents(); this.initEvents();}, this.refreshInterval);
-    console.log(`[SYSTEM] Events have been updated. The next scheduled update is in: ${TimeStrings.totalTimeString(this.refreshInterval)}`)
+    console.log(`[EVENTS] Events have been updated. The next scheduled update is in: ${TimeStrings.totalTimeString(this.refreshInterval)}`)
   }
 
   // Searches for the events
@@ -192,7 +216,7 @@ export class Events{
 
   private generateSearchResultsMessage(searchResults: SearchIndexEntity, searchTerm: string): string{
     const MessageResponse = new Messages();
-    let now = new Date().getTime();
+    let now = Date.now();
     const maxResults = 5;
     let results = 0;
     let omittedResults = 0;
@@ -245,7 +269,7 @@ export class Events{
     const MessageResponse = new Messages();
     const maxResults = 5;
     let results = 0;
-    const now = new Date().getTime();
+    const now = Date.now();
     const data = <IndexedQueryEventObject>this.quests;
 
     for (const idx in data){
@@ -289,7 +313,7 @@ export class Events{
     const MessageResponse = new Messages();
     const maxResults = 5;
     let results = 0;
-    const now = new Date().getTime();
+    const now = Date.now();
     const data = <IndexedQueryEventObject>this.casino;
 
     for (const idx in data){
@@ -325,7 +349,6 @@ export class Events{
     else{
       MessageResponse.addMessage(`There doesn't seem to be any special boosts going on at the casino right now. Please check back later!`)
     }
-
 
     return (MessageResponse.getMessage());
   }
