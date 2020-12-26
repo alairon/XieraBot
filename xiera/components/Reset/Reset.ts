@@ -59,7 +59,7 @@ export class Reset {
 
     // Daily Mission
     const DailyMission = this.buildDailyResetDate(now, this.DailyMissionResetHour);
-    Message.addMessageln(`**Daily Missions**\`\`\`ldif\nAlso includes: Arkuma Slots\nResets: Daily at 08:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyMission - now.getTime())}\`\`\``);
+    Message.addMessageln(`**Daily Missions**\nIncludes: Arkuma Slots\n\`\`\`ldif\nResets: Daily at 08:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyMission - now.getTime())}\`\`\``);
 
     // Fresh Finds
     const FreshFinds = this.buildDailyResetDate(now, this.FreshFindsResetHour);
@@ -71,7 +71,7 @@ export class Reset {
 
     // Weekly Mission
     const WeeklyMission = this.buildWeeklyResetDate(now, this.WeeklyMissionResetHour, this.WeeklyMissionResetWeekday);
-    Message.addMessageln(`**Weekly Missions**\`\`\`ldif\nAlso includes: Tier Missions, Alliance Orders, Limited Buster Medals, Prize Medals, Battle Coin, Casino Coin Exchanges, and certain Extreme Quests\nResets: Wednesdays at 08:00 UTC\nNext reset: ${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\`\`\``);
+    Message.addMessageln(`**Weekly Missions**\nIncludes: Tier Missions, Alliance Orders, certain Extreme Quests, and all Limited Buster Medals, Prize Medals, Battle Coin, and Casino Coin Exchanges\n\`\`\`ldif\nResets: Wednesdays at 08:00 UTC\nNext reset: ${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\`\`\``);
 
     return (Message.getMessage());
   }
