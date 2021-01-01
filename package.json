@@ -5,8 +5,8 @@
   "main": "src/XieraMain.ts",
   "scripts": {
     "prestart": "run-script-os",
-    "prestart:win32": "for %f in (.\\xiera\\xiera.json, .\\xiera\\XieraStrings.json, .\\xiera\\EventSearchIndex.json) do xcopy %f .\\bin\\ /q /y",
-    "prestart:darwin:linux": "cp ./xiera/xiera.json ./xiera/XieraStrings.json ./xiera/EventSearchIndex.json ./bin/",
+    "prestart:win32": "for %f in (.\\xiera\\xiera.json, .\\xiera\\XieraStrings.json, .\\xiera\\data\\Events\\EventSearchIndex.json .\\xiera\\data\\DailyCrafting\\DailyCrafting.json) do xcopy %f .\\bin\\ /q /y",
+    "prestart:darwin:linux": "cp ./xiera/xiera.json ./xiera/XieraStrings.json ./xiera/data/Events/EventSearchIndex.json ./xiera/data/DailyCrafting/DailyCrafting.json ./bin/",
     "start": "node bin/XieraMain",
     "postinstall": "tsc",
     "build": "tsc",
@@ -25,20 +25,21 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "fuse.js": "^6.4.3",
+    "fuse.js": "^6.4.4",
     "luxon": "^1.25.0",
-    "node-ical": "^0.12.4",
-    "run-script-os": "^1.1.3"
+    "node-ical": "^0.12.7",
+    "run-script-os": "^1.1.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/expect": "^24.3.0",
+    "@types/luxon": "^1.25.0",
     "@types/mocha": "^8.2.0",
-    "@types/node": "^14.14.16",
+    "@types/node": "^14.14.17",
     "@types/request": "^2.48.5",
     "@types/ws": "^7.4.0",
-    "@typescript-eslint/eslint-plugin": "^4.11.0",
-    "@typescript-eslint/parser": "^4.11.0",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
     "chai": "^4.2.0",
     "eslint": "^7.16.0",
     "eslint-plugin-import": "^2.22.1",

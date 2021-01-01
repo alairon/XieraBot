@@ -1,0 +1,623 @@
+{
+  "DailyResetUTC": 4,
+  "Schedule": [
+    {
+      "day": 1,
+      "schedule": "CraftMatsA"
+    },
+    {
+      "day": 2,
+      "schedule": "PAFragments"
+    },
+    {
+      "day": 3,
+      "schedule": "CraftMatsB"
+    },
+    {
+      "day": 4,
+      "schedule": "TimedAbilities"
+    },
+    {
+      "day": 5,
+      "schedule": "CraftMatsA"
+    },
+    {
+      "day": 6,
+      "schedule": "ArmExtensionEX"
+    },
+    {
+      "day": 7,
+      "schedule": "PAFragments"
+    },
+    {
+      "day": 8,
+      "schedule": "CraftMatsB"
+    },
+    {
+      "day": 9,
+      "schedule": "TimedAbilities"
+    },
+    {
+      "day": 10,
+      "schedule": "TECFragmentsEX"
+    },
+    {
+      "day": 11,
+      "schedule": "CraftMatsA"
+    },
+    {
+      "day": 12,
+      "schedule": "PAFragments"
+    },
+    {
+      "day": 13,
+      "schedule": "CraftMatsB"
+    },
+    {
+      "day": 14,
+      "schedule": "Beginners"
+    },
+    {
+      "day": 15,
+      "schedule": "AdvancedA"
+    },
+    {
+      "day": 16,
+      "schedule": "TimedAbilities"
+    },
+    {
+      "day": 17,
+      "schedule": "CraftMatsA"
+    },
+    {
+      "day": 18,
+      "schedule": "PAFragments"
+    },
+    {
+      "day": 19,
+      "schedule": "TimedAbilitiesEX"
+    },
+    {
+      "day": 20,
+      "schedule": "CraftMatsB"
+    },
+    {
+      "day": 21,
+      "schedule": "TimedAbilities"
+    },
+    {
+      "day": 22,
+      "schedule": "CraftMatsA"
+    },
+    {
+      "day": 23,
+      "schedule": "PAFragments"
+    },
+    {
+      "day": 24,
+      "schedule": "CraftMatsB"
+    },
+    {
+      "day": 25,
+      "schedule": "Beginners"
+    },
+    {
+      "day": 26,
+      "schedule": "TimedAbilities"
+    },
+    {
+      "day": 27,
+      "schedule": "CraftMatsA"
+    },
+    {
+      "day": 28,
+      "schedule": "PAFragments"
+    },
+    {
+      "day": 29,
+      "schedule": "CraftMatsB"
+    },
+    {
+      "day": 30,
+      "schedule": "PAFragmentsEX"
+    },
+    {
+      "day": 31,
+      "schedule": "AdvancedB"
+    }
+  ],
+  "Rewards": {
+    "CraftMatsA": [
+      {
+        "index": 1,
+        "item": "Ironia",
+        "quantity": 10
+      },
+      {
+        "index": 2,
+        "item": "Irodest",
+        "quantity": 10
+      },
+      {
+        "index": 3,
+        "item": "Irogrimo",
+        "quantity": 10
+      },
+      {
+        "index": 4,
+        "item": "Iroback",
+        "quantity": 10
+      },
+      {
+        "index": 5,
+        "item": "Iroarms",
+        "quantity": 10
+      },
+      {
+        "index": 6,
+        "item": "Irolegs",
+        "quantity": 10
+      },
+      {
+        "index": 7,
+        "item": "Lilliparium (XS)",
+        "quantity": 2
+      },
+      {
+        "index": 8,
+        "item": "Lilliparium (S)",
+        "quantity": 1
+      }
+    ],
+    "CraftMatsB": [
+      {
+        "index": 1,
+        "item": "Neogit",
+        "quantity": 3
+      },
+      {
+        "index": 2,
+        "item": "Rubard",
+        "quantity": 3
+      },
+      {
+        "index": 4,
+        "item": "Neogit",
+        "quantity": 3
+      },
+      {
+        "index": 5,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 6,
+        "item": "Lilliparium (S)",
+        "quantity": 1
+      },
+      {
+        "index": 7,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 8,
+        "item":"Lilliparium (S)",
+        "quantity": 1
+      }
+    ],
+    "PAFragments": [
+      {
+        "index": 1,
+        "item": "PA Fragment (MEL)",
+        "quantity": 10
+      },
+      {
+        "index": 2,
+        "item": "PA Fragment (RNG)",
+        "quantity": 10
+      },
+      {
+        "index": 3,
+        "item": "PA Fragment (TEC)",
+        "quantity": 10
+      },
+      {
+        "index": 4,
+        "item": "Photon Drop",
+        "quantity": 5
+      },
+      {
+        "index": 5,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 6,
+        "item": "Lilliparium (S)",
+        "quantity": 1
+      },
+      {
+        "index": 7,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 8,
+        "item": "Lilliparium (S)",
+        "quantity": 1
+      }
+    ],
+    "TimedAbilities": [
+      {
+        "index": 1,
+        "item": "Naverius Crystal",
+        "quantity": 1
+      },
+      {
+        "index": 2,
+        "item": "Amduskia Crystal",
+        "quantity": 1
+      },
+      {
+        "index": 3,
+        "item": "Lillipa Crystal",
+        "quantity": 1
+      },
+      {
+        "index": 4,
+        "item": "Wopal Crystal",
+        "quantity": 1
+      },
+      {
+        "index": 5,
+        "item": "Harukotan Crystal",
+        "quantity": 1
+      },
+      {
+        "index": 6,
+        "item": "Photon Drop",
+        "quantity": 1
+      },
+      {
+        "index": 7,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 8,
+        "item": "Lilliparium (S)",
+        "quantity": 1
+      }
+    ],
+    "ArmExtensionEX": [
+      {
+        "index": 1,
+        "item": "Ironia",
+        "quantity": 20
+      },
+      {
+        "index": 2,
+        "item": "Irodest",
+        "quantity": 20
+      },
+      {
+        "index": 3,
+        "item": "Irogrimo",
+        "quantity": 20
+      },
+      {
+        "index": 4,
+        "item": "Iroback",
+        "quantity": 20
+      },
+      {
+        "index": 5,
+        "item": "Iroarms",
+        "quantity": 20
+      },
+      {
+        "index": 6,
+        "item": "Irolegs",
+        "quantity": 20
+      },
+      {
+        "index": 7,
+        "item": "Neogit",
+        "quantity": 5
+      },
+      {
+        "index": 8,
+        "item": "Rubard",
+        "quantity": 5
+      },
+      {
+        "index": 9,
+        "item": "Gear Requirement Assist +10%",
+        "quantity": 3
+      }
+    ],
+    "TimedAbilitiesEX": [
+      {
+        "index": 1,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 2,
+        "item": "Lilliparium (S)",
+        "quantity": 5
+      },
+      {
+        "index": 3,
+        "item": "Naverius Crystal",
+        "quantity": 2
+      },
+      {
+        "index": 4,
+        "item": "Amduskia Crystal",
+        "quantity": 2
+      },
+      {
+        "index": 5,
+        "item": "Lillipa Crystal",
+        "quantity": 2
+      },
+      {
+        "index": 6,
+        "item": "Wopal Crystal",
+        "quantity": 2
+      },
+      {
+        "index": 7,
+        "item": "Harukotan Crystal",
+        "quantity": 2
+      },
+      {
+        "index": 8,
+        "item": "Main Effect (Fixed)",
+        "quantity": 1
+      },
+      {
+        "index": 9,
+        "item": "Effect Extension +7 days",
+        "quantity": 1
+      }
+    ],
+    "PAFragmentsEX": [
+      {
+        "index": 1,
+        "item": "PA Fragment (MEL)",
+        "quantity": 20
+      },
+      {
+        "index": 2,
+        "item": "PA Fragment (RNG)",
+        "quantity": 20
+      },
+      {
+        "index": 3,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 4,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 5,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 6,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 7,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 8,
+        "item": "Custom Type 1 +10%",
+        "quantity": 3
+      },
+      {
+        "index": 9,
+        "item": "Custom Type 2 +10%",
+        "quantity": 3
+      }
+    ],
+    "TECFragmentsEX": [
+      {
+        "index": 1,
+        "item": "PA Fragment (TEC)",
+        "quantity": 20
+      },
+      {
+        "index": 2,
+        "item": "PA Fragment (TEC)",
+        "quantity": 20
+      },
+      {
+        "index": 3,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 4,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 5,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 6,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 7,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 8,
+        "item": "Merit Value +10%",
+        "quantity": 3
+      },
+      {
+        "index": 9,
+        "item": "Demerit Value -10%",
+        "quantity": 3
+      }
+    ],
+    "Beginners": [
+      {
+        "index": 1,
+        "item": "PA Fragment (MEL)",
+        "quantity": 20
+      },
+      {
+        "index": 2,
+        "item": "PA Fragment (RNG)",
+        "quantity": 20
+      },
+      {
+        "index": 3,
+        "item": "PA Fragment (TEC)",
+        "quantity": 20
+      },
+      {
+        "index": 4,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 5,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 6,
+        "item": "Lilliparium (XS)",
+        "quantity": 3
+      },
+      {
+        "index": 7,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 8,
+        "item": "Lilliparium (S)",
+        "quantity": 3
+      },
+      {
+        "index": 9,
+        "item": "Lilliparium Full Charge",
+        "quantity": 1
+      }
+    ],
+    "AdvancedA": [
+      {
+        "index": 1,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 2,
+        "item": "Merit Value +20%",
+        "quantity": 1
+      },
+      {
+        "index": 3,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 4,
+        "item": "Lilliparium (S)",
+        "quantity": 2
+      },
+      {
+        "index": 5,
+        "item": "Gear Requirement Assist +20%",
+        "quantity": 1
+      },
+      {
+        "index": 6,
+        "item": "Lilliparium (S)",
+        "quantity": 2
+      },
+      {
+        "index": 7,
+        "item": "Custom Type 1 +20%",
+        "quantity": 1
+      },
+      {
+        "index": 8,
+        "item": "Main Effect (Fixed)",
+        "quantity": 1
+      },
+      {
+        "index": 9,
+        "item": "Lilliparium Full Charge",
+        "quantity": 1
+      }
+    ],
+    "AdvancedB": [
+      {
+        "index": 1,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 2,
+        "item": "Merit Value +30%",
+        "quantity": 1
+      },
+      {
+        "index": 3,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 4,
+        "item": "Lilliparium (S)",
+        "quantity": 2
+      },
+      {
+        "index": 5,
+        "item": "Gear Requirement Assist +30%",
+        "quantity": 1
+      },
+      {
+        "index": 6,
+        "item": "Lilliparium (S)",
+        "quantity": 2
+      },
+      {
+        "index": 7,
+        "item": "Custom Type 1 +30%",
+        "quantity": 1
+      },
+      {
+        "index": 8,
+        "item": "Effect Extension +7 days",
+        "quantity": 3
+      },
+      {
+        "index": 9,
+        "item": "Lilliparium Full Charge",
+        "quantity": 1
+      }
+    ]
+  }
+}

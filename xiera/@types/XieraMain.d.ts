@@ -34,7 +34,8 @@ export interface XieraString {
         instructionsDM: string,
         instructionsUQ: string,
         instructionsCasino: string,
-        instructionsReset: string
+        instructionsReset: string,
+        instructionsDC: string
       }
     }
   }

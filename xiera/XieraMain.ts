@@ -7,6 +7,7 @@ import TokenManager = require('./components/Core/Token/TokenManager');
 import Events = require('./components/Event/Events');
 import { XieraConfig, XieraString } from './@types/XieraMain';
 import { Reset } from './components/Reset/Reset';
+import { DailyCrafting } from './components/DailyCrafting/DailyCrafting';
 import { UTCStrings } from './components/Core/Date/UTCStrings';
 
 // Reads Xiera's configuration values
@@ -22,14 +23,14 @@ function readStrings(path: string): XieraString {
 function generateHelpMessage(name: string){
   const HelpMessages = XieraStrings.client.message.usage;
   return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset + HelpMessages.instructionsDC
   );
 }
 
 function generateHelpMessageDM(name: string){
   const HelpMessages = XieraStrings.client.message.usage;
   return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset + HelpMessages.instructionsDC
   );
 }
 
@@ -42,6 +43,7 @@ let XieraStrings: XieraString = readStrings(path.join(__dirname, 'XieraStrings.j
 const Client = new Discord.Client();
 const Token = new TokenManager.TokenManager(config.xiera.token, config.xiera.flags);
 const Event = new Events.Events();
+const DailyCraft = new DailyCrafting();
 const HelpMessage = XieraStrings.client.message.usage;
 
 /**
@@ -178,6 +180,10 @@ async function switchboard(desiredAction: Array<string>): Promise<string>{
     }
     else if (/^\s?reset/.test(desiredAction[0])){
       const results = Reset.getResetTable();
+      return(results);
+    }
+    else if (/^\s?dc/.test(desiredAction[0])){
+      const results = DailyCraft.getDailyCrafting();
       return(results);
     }
     else {
