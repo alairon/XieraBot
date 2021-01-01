@@ -23,14 +23,14 @@ function readStrings(path: string): XieraString {
 function generateHelpMessage(name: string){
   const HelpMessages = XieraStrings.client.message.usage;
   return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset + HelpMessages.instructionsDC
   );
 }
 
 function generateHelpMessageDM(name: string){
   const HelpMessages = XieraStrings.client.message.usage;
   return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset
+    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset + HelpMessages.instructionsDC
   );
 }
 

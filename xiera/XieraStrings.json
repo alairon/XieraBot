@@ -22,7 +22,8 @@
         "instructionsDM": "__**Usage**__\n```<command>```  While talking to me through direct messages, you don't need to use the flag like you would on a normal Discord server! Isn't that neat?\n\n__**Available Commands**__\n",
         "instructionsUQ": "```uq <search term>```  For this command, I'll look through the data Casra gave me and show you the next couple of upcoming events. You can also enter an optional search term, and I'll do my best to find upcoming events based on what you're looking for!\n",
         "instructionsCasino": "```casino```  If there's a casino boost, I'll be sure to show you what's to come!\n",
-        "instructionsReset": "```reset```  This one's easy, I'll let you know how much time you have to complete your missions!\n"
+        "instructionsReset": "```reset```  This one's easy, I'll let you know how much time you have to complete your missions!\n",
+        "instructionsDC": "```dc```  This command shows what you could get out of today's daily crafting! It's in testing though, so not everything will be 100% accurate for now\n"
       }
     }
   }
