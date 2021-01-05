@@ -16,6 +16,7 @@ export class Events{
   private quests: Array<object>;
   private casino: Array<object>;
   private eventURL: string;
+  private eventHTTPConfig: object;
   private questsSearch: Search.Search;
   private refreshInterval: number;
   private eventRefreshTimeout: NodeJS.Timeout;
@@ -24,13 +25,19 @@ export class Events{
   constructor(){
     this.quests = [];
     this.casino = [];
-    this.eventURL = '';
-    this.refreshInterval = 21600000; // Default: 6 hours
+    this.eventURL = null;
+    this.eventHTTPConfig = null;
+    this.refreshInterval = 10800000; // Default: 3 hours
   }
 
   // Returns the URL to where the JSON is located
   public getEventURL(): string{
     return (this.eventURL);
+  }
+
+  // Returns the HTTP configuration for where the JSON is located
+  public getEventHTTPConfig(): object{
+    return (this.eventHTTPConfig);
   }
 
   // Provides the contents in the Quests array
@@ -51,6 +58,11 @@ export class Events{
       return (true);
     }
     return (false);
+  }
+
+  // Sets the HTTP configuration
+  private setHTTPConfig(config: object): void{
+    this.eventHTTPConfig = config;
   }
 
   // Clears the stored quest and casino arrays.
@@ -114,22 +126,31 @@ export class Events{
 
   // Downloads a JSON from a specific URL
   private async downloadEvents(): Promise<object>{
-    const events = await WebJSON.WebJSON.getJSON(this.eventURL);
+    if (this.eventURL) {
+      const events = await WebJSON.WebJSON.getJSON(this.eventURL);
+      return (events);
+    }
+    const events = await WebJSON.WebJSON.getJSON(this.eventHTTPConfig);
     return (events);
   }
 
-  public async initEvents(url?: string, refreshInterval?: number): Promise<void>{
-    if (url) {
-      if (!this.setURL(url)){
-        console.log('[EVENTS] The URL isn\'t valid');
-        return (null);
+  public async initEvents(options?: string | object, refreshInterval?: number): Promise<void>{
+    if (options){
+      if (typeof(options) == 'string') {
+        const url = <string>options;
+        if (!this.setURL(url)){
+          console.log('[EVENTS] The URL isn\'t valid');
+          return (null);
+        }
+      }
+      else {
+        this.setHTTPConfig(options);
       }
     }
     if (refreshInterval * 3600000 > 1000){
       this.refreshInterval = refreshInterval * 3600000; // in hours
       console.log(`[EVENTS] Updated the refresh interval. Next update expected in: ${TimeStrings.totalTimeString(refreshInterval * 3600000)}`);
     }
-      
 
     // Load the events
     const ScheduleEvents: IndexedEventObject = <IndexedEventObject>(await this.downloadEvents());

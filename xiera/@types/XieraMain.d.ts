@@ -6,6 +6,7 @@ export interface XieraConfig {
   },
   data: {
     url: string,
+    options: object,
     refreshInterval: number
   }
 }

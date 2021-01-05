@@ -51,7 +51,7 @@ const HelpMessage = XieraStrings.client.message.usage;
  * Functions placed in this async function will execute in the background prior to starting the bot
  */
 ;(async () => {
-  await Event.initEvents(config.data.url, config.data.refreshInterval);
+  await Event.initEvents(config.data.options, config.data.refreshInterval);
 })();
 
 /**
