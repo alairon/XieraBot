@@ -4,7 +4,14 @@
     "flags": "imu"
   },
   "data": {
-      "url": "https://pso2.com/news/LoadScheduleCampaigns",
-      "refreshInterval": 8
+      "refreshInterval": 8,
+      "options": {
+        "family": 4,
+        "headers": {
+          "Cookie": "pso2-AgeGate=true;HttpOnly"
+        },
+        "host": "pso2.com",
+        "path": "/news/LoadScheduleCampaigns"
+      }
   }
 }
