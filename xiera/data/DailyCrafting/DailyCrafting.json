@@ -160,11 +160,6 @@
       },
       {
         "index": 7,
-        "item": "Lilliparium (XS)",
-        "quantity": 2
-      },
-      {
-        "index": 8,
         "item": "Lilliparium (S)",
         "quantity": 1
       }
@@ -187,21 +182,16 @@
       },
       {
         "index": 5,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 6,
         "item": "Lilliparium (S)",
         "quantity": 1
       },
       {
-        "index": 7,
+        "index": 6,
         "item": "Lilliparium (XS)",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 7,
         "item":"Lilliparium (S)",
         "quantity": 1
       }
@@ -229,21 +219,16 @@
       },
       {
         "index": 5,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 6,
         "item": "Lilliparium (S)",
         "quantity": 1
       },
       {
-        "index": 7,
+        "index": 6,
         "item": "Lilliparium (XS)",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 7,
         "item": "Lilliparium (S)",
         "quantity": 1
       }
@@ -277,17 +262,7 @@
       {
         "index": 6,
         "item": "Photon Drop",
-        "quantity": 1
-      },
-      {
-        "index": 7,
-        "item": "Lilliparium (XS)",
-        "quantity": 3
-      },
-      {
-        "index": 8,
-        "item": "Lilliparium (S)",
-        "quantity": 1
+        "quantity": 5
       }
     ],
     "ArmExtensionEX": [
@@ -496,7 +471,7 @@
       },
       {
         "index": 4,
-        "item": "Lilliparium (XS)",
+        "item": "Lilliparium (S)",
         "quantity": 3
       },
       {
@@ -506,21 +481,6 @@
       },
       {
         "index": 6,
-        "item": "Lilliparium (XS)",
-        "quantity": 3
-      },
-      {
-        "index": 7,
-        "item": "Lilliparium (S)",
-        "quantity": 3
-      },
-      {
-        "index": 8,
-        "item": "Lilliparium (S)",
-        "quantity": 3
-      },
-      {
-        "index": 9,
         "item": "Lilliparium Full Charge",
         "quantity": 1
       }
@@ -538,36 +498,21 @@
       },
       {
         "index": 3,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 4,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 5,
         "item": "Gear Requirement Assist +20%",
         "quantity": 1
       },
       {
-        "index": 6,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 7,
+        "index": 4,
         "item": "Custom Type 1 +20%",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 5,
         "item": "Main Effect (Fixed)",
         "quantity": 1
       },
       {
-        "index": 9,
+        "index": 6,
         "item": "Lilliparium Full Charge",
         "quantity": 1
       }
@@ -585,36 +530,21 @@
       },
       {
         "index": 3,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 4,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 5,
         "item": "Gear Requirement Assist +30%",
         "quantity": 1
       },
       {
-        "index": 6,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 7,
+        "index": 4,
         "item": "Custom Type 1 +30%",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 5,
         "item": "Effect Extension +7 days",
         "quantity": 3
       },
       {
-        "index": 9,
+        "index": 6,
         "item": "Lilliparium Full Charge",
         "quantity": 1
       }
