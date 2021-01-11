@@ -8,6 +8,9 @@ export interface ResetTable {
   dailyMissions: {
     hour: number
   },
+  dailyLogin: {
+    hour: number
+  },
   weeklyRankings: {
     hour: number,
     weekday: number

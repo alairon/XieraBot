@@ -165,7 +165,7 @@ client.on('message', async (message) => {
 async function switchboard(desiredAction: Array<string>): Promise<string>{
   if (desiredAction){
     console.log(`> Action: '${desiredAction[0]}' | '${desiredAction[1]}'`);
-    if (/^\s?uq/.test(desiredAction[0])){
+    if (/^\s?uq/mi.test(desiredAction[0])){
       if (desiredAction[1]){
         const results = await Event.searchEvents(desiredAction[1]);
         return(results);
@@ -175,15 +175,15 @@ async function switchboard(desiredAction: Array<string>): Promise<string>{
         return(results);
       }
     }
-    else if (/^\s?casino/.test(desiredAction[0])){
+    else if (/^\s?casino/mi.test(desiredAction[0])){
       const results = await Event.searchUpcomingCasinoEvents();
       return(results);
     }
-    else if (/^\s?reset/.test(desiredAction[0])){
+    else if (/^\s?reset/mi.test(desiredAction[0])){
       const results = Reset.getResetTable();
       return(results);
     }
-    else if (/^\s?dc/.test(desiredAction[0])){
+    else if (/^\s?dc/mi.test(desiredAction[0])){
       const results = DailyCraft.getDailyCrafting();
       return(results);
     }
