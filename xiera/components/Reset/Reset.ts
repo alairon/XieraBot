@@ -13,6 +13,9 @@ const resetTable: ResetTable = {
   dailyCrafting: {
     hour: 4
   },
+  dailyLogin: {
+    hour: 15
+  },
   weeklyRankings: {
     hour: 15,
     weekday: 1 //Monday
@@ -27,6 +30,7 @@ export class Reset {
   private static DailyMissionResetHour: number = resetTable.dailyMissions.hour;
   private static FreshFindsResetHour: number = resetTable.freshFinds.hour;
   private static DailyCraftingResetHour: number = resetTable.dailyCrafting.hour;
+  private static DailyLoginResetHour: number = resetTable.dailyLogin.hour;
   private static WeeklyRankingResetHour: number = resetTable.weeklyRankings.hour;
   private static WeeklyRankingResetWeekday: number = resetTable.weeklyRankings.weekday;
   private static WeeklyMissionResetHour: number = resetTable.weeklyMissions.hour;
@@ -73,11 +77,15 @@ export class Reset {
     const now = new Date();
 
     // Header
-    Message.addHeaderMessageln(`As of ${UTCStrings.getTimestamp(now)} UTC, here's when things will reset:`);
+    Message.addHeaderMessageln(`As of ${UTCStrings.getShortTimestamp(now)} UTC, here's when things will reset:`);
 
     // Daily Mission
     const DailyMission = this.buildDailyResetDate(now, this.DailyMissionResetHour);
     Message.addMessageln(`**Daily Missions**\nIncludes: Arkuma Slots\n\`\`\`ldif\nResets: Daily at 08:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyMission - now.getTime())}\`\`\``);
+
+    // Daily Login
+    const DailyLogin = this.buildDailyResetDate(now, this.DailyLoginResetHour);
+    Message.addMessageln(`**Daily Login**\nIncludes: FUN points\n\`\`\`ldif\nResets: Daily at 15:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyLogin - now.getTime())}\`\`\``);
 
     // Fresh Finds
     const FreshFinds = this.buildDailyResetDate(now, this.FreshFindsResetHour);
