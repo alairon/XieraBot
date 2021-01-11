@@ -13,6 +13,10 @@ const resetTable: ResetTable = {
   dailyCrafting: {
     hour: 4
   },
+  weeklyRankings: {
+    hour: 15,
+    weekday: 1 //Monday
+  },
   weeklyMissions: {
     hour: 8,
     weekday: 3 //Wednesday
@@ -23,6 +27,8 @@ export class Reset {
   private static DailyMissionResetHour: number = resetTable.dailyMissions.hour;
   private static FreshFindsResetHour: number = resetTable.freshFinds.hour;
   private static DailyCraftingResetHour: number = resetTable.dailyCrafting.hour;
+  private static WeeklyRankingResetHour: number = resetTable.weeklyRankings.hour;
+  private static WeeklyRankingResetWeekday: number = resetTable.weeklyRankings.weekday;
   private static WeeklyMissionResetHour: number = resetTable.weeklyMissions.hour;
   private static WeeklyMissionResetWeekday: number = resetTable.weeklyMissions.weekday;
   
@@ -41,13 +47,25 @@ export class Reset {
   private static buildWeeklyResetDate(LocalDate: Date, resetHour: number, resetWeekday: number): number{
     const year = LocalDate.getUTCFullYear();
     const month = LocalDate.getUTCMonth();
-    const hour = LocalDate.getUTCHours();
     let date = LocalDate.getUTCDate();
     const weekday = LocalDate.getUTCDay();
     
     // Days until the desired weekday
-    const adjustedDate = date + 7 - ((weekday + ((7 - resetWeekday) % 7)) %7);
+    let adjustedDate = date + 7 - ((weekday + ((7 - resetWeekday) % 7)) %7);
+    if ((weekday == resetWeekday) && LocalDate.getUTCHours() < resetHour) adjustedDate -= 7;
     return (Date.UTC(year, month, adjustedDate, resetHour));
+  }
+
+  private static buildMonthlyResetDate(LocalDate: Date, resetHour: number, resetDay: number): number{
+    const year = LocalDate.getUTCFullYear();
+    let month = LocalDate.getUTCMonth();
+    const date = LocalDate.getUTCDate();
+
+    if (date > resetDay){
+      month++;
+    }
+
+    return (0);
   }
   
   public static getResetTable(){
@@ -68,6 +86,10 @@ export class Reset {
     // Daily Crafting
     const DailyCrafting = this.buildDailyResetDate(now, this.DailyCraftingResetHour);
     Message.addMessageln(`**Daily Crafting**\`\`\`ldif\nResets: Daily at 04:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\`\``);
+
+    // Weekly Rankings
+    const WeeklyRanking = this.buildWeeklyResetDate(now, this.WeeklyRankingResetHour, this.WeeklyRankingResetWeekday);
+    Message.addMessageln(`**Weekly Rankings**\nIncludes: Rare Containers Opened, Personal Quarters Visits, and Time Attack Map & Times\`\`\`ldif\nResets: Mondays at 15:00 UTC\nNext Reset: ${TimeStrings.totalTimeString(WeeklyRanking - now.getTime())}\`\`\``);
 
     // Weekly Mission
     const WeeklyMission = this.buildWeeklyResetDate(now, this.WeeklyMissionResetHour, this.WeeklyMissionResetWeekday);
