@@ -269,13 +269,13 @@ export class Events{
         MessageResponse.addHeaderMessageln(`Here's the next couple of events that I could find based on \`${searchTerm}\``);
         if (omittedResults > 0){
           if (omittedResults == 1){
-            MessageResponse.addMessageln(`There's **${omittedResults}** more event related to ${searchTerm} scheduled to happen soon`);
+            MessageResponse.addMessageln(`There's **${omittedResults}** more event related to \`${searchTerm}\` scheduled to happen soon`);
           }
           else{
-            MessageResponse.addMessageln(`There's **${omittedResults}** more events related to ${searchTerm} scheduled to happen soon`);
+            MessageResponse.addMessageln(`There's **${omittedResults}** more events related to \`${searchTerm}\` scheduled to happen soon`);
           }
         }
-        MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))}`);
+        MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))} UTC`);
       }
     }
     else {
@@ -321,7 +321,7 @@ export class Events{
       if (results < maxResults){
         MessageResponse.addMessageln(`That's all I could find for this week! Hopefully Casra will give me the intel - in a neat, organized package for once!`);
       }
-      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))}`);
+      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))} UTC`);
     }
     else{
       MessageResponse.addMessage(`There doesn't seem to be any upcoming events. I can feel Casra dumping a large unorganized pile of events on me any moment now...`)
@@ -365,7 +365,7 @@ export class Events{
       if (results < maxResults){
         MessageResponse.addMessageln(`That's all I could find. Hopefully Diehl will provide an update soon!`);
       }
-      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))}`);
+      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))} UTC`);
     }
     else{
       MessageResponse.addMessage(`There doesn't seem to be any special boosts going on at the casino right now. Please check back later!`)
