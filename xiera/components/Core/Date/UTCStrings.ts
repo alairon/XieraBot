@@ -57,4 +57,43 @@ export class UTCStrings{
 
     return (timestamp);
   }
+
+  // Creates a time stamp in the ISO (YYYY-MM-DD HH:MM) date format
+  // Values are padded with a 0 if it does not result in a double digit number
+  public static getShortTimestamp(date: Date): string{
+    if (typeof(date) !== typeof(new Date())){
+      return (null);
+    }
+
+    let timestamp: string = '';
+
+    // Append year
+    timestamp = timestamp.concat(date.getUTCFullYear().toString(), '-');
+
+    // Append month. Values start from 0
+    if (date.getUTCMonth() < 9){
+      timestamp = timestamp.concat('0');
+    }
+    timestamp = timestamp.concat((date.getUTCMonth() +1).toString(), '-');
+
+    // Append date
+    if (date.getUTCDate() < 10){
+      timestamp = timestamp.concat('0');
+    }
+    timestamp = timestamp.concat(date.getUTCDate().toString(), ' ');
+
+    // Append hour
+    if (date.getUTCHours() < 10){
+      timestamp = timestamp.concat('0');
+    }
+    timestamp = timestamp.concat(date.getUTCHours().toString(), ':');
+
+    // Append minutes
+    if (date.getUTCMinutes() < 10){
+      timestamp = timestamp.concat('0');
+    }
+    timestamp = timestamp.concat(date.getUTCMinutes().toString());
+    
+    return (timestamp);
+  }
 }
