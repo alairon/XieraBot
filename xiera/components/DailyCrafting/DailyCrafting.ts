@@ -62,6 +62,11 @@ export class DailyCrafting {
     return (Date.UTC(year, month, date, 4));
   }
 
+  public getDailyName(): string{
+    const dayIndex = this.getDayIndex();
+    return (this.schedule[dayIndex].name);
+  }
+
   public getDailyCrafting(): string{
     const Message = new Messages();
     const now: Date = new Date();
@@ -73,6 +78,7 @@ export class DailyCrafting {
     Message.addHeaderMessage("Here's what you might be able to get out of today's daily crafting!");
     Message.addMessageln(`Time left to complete today's orders: **${duration}**`);
     Message.addMessage('```');
+
     for (const idx in dailyReward){
       Message.addMessageln(`${dailyReward[idx].index}: ${dailyReward[idx].item} (x${dailyReward[idx].quantity})`);
     }

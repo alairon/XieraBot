@@ -1,6 +1,8 @@
 const TimeStrings = require('../Core/Date/TimeStrings').TimeStrings;
 const UTCStrings = require('../Core/Date/UTCStrings').UTCStrings;
 const Messages = require('../Core/Messages/Messages').Messages;
+const DailyCrafting = require('../DailyCrafting/DailyCrafting').DailyCrafting;
+import { MessageEmbed } from 'discord.js';
 import { ResetTable } from './@types/Reset';
 
 const resetTable: ResetTable = {
@@ -36,18 +38,22 @@ export class Reset {
   private static WeeklyMissionResetHour: number = resetTable.weeklyMissions.hour;
   private static WeeklyMissionResetWeekday: number = resetTable.weeklyMissions.weekday;
   
+  // Returns the current date or a future UTC date depending if the current hour has passed the set hour
   private static buildDailyResetDate(LocalDate: Date, resetHour: number): number{
     const year = LocalDate.getUTCFullYear();
     const month = LocalDate.getUTCMonth();
     const date = LocalDate.getUTCDate();
     const hour = LocalDate.getUTCHours();
     
+    // Return the next day if the current hour has passed the set hour
     if (hour >= resetHour){
       return (Date.UTC(year, month, date+1, resetHour));
     }
+    // Keep the current day if the current hour hasn't passed the set hour
     return (Date.UTC(year, month, date, resetHour));
   }
 
+  // Returns an upcoming date depending on the set weekday and hour
   private static buildWeeklyResetDate(LocalDate: Date, resetHour: number, resetWeekday: number): number{
     const year = LocalDate.getUTCFullYear();
     const month = LocalDate.getUTCMonth();
@@ -55,21 +61,26 @@ export class Reset {
     const weekday = LocalDate.getUTCDay();
     
     // Days until the desired weekday
-    let adjustedDate = date + 7 - ((weekday + ((7 - resetWeekday) % 7)) %7);
+    let adjustedDate = date + 7 - (weekday + (7 - resetWeekday) %7) %7;
+
+    // Keep the current day if the current hour isn't past the reset hour
     if ((weekday == resetWeekday) && LocalDate.getUTCHours() < resetHour) adjustedDate -= 7;
     return (Date.UTC(year, month, adjustedDate, resetHour));
   }
 
-  private static buildMonthlyResetDate(LocalDate: Date, resetHour: number, resetDay: number): number{
-    const year = LocalDate.getUTCFullYear();
-    let month = LocalDate.getUTCMonth();
-    const date = LocalDate.getUTCDate();
+  // Returns a number representing the time left until the 28 day reset period
+  private static buildClassEXResetDate(LocalDate: Date): number{
+    // A date of reference
+    const baseDate = new Date('2020-12-23T08:00:00Z').getTime();
+    // 2419200000 = 28 days in ms
+    const time = (LocalDate.getTime()- baseDate) % 2419200000;
 
-    if (date > resetDay){
-      month++;
-    }
+    return (2419200000 - time);
+  }
 
-    return (0);
+  private static getDCScheduleType(): string{
+    const dc = new DailyCrafting();
+    return (dc.getDailyName());
   }
   
   public static getResetTable(){
@@ -79,30 +90,84 @@ export class Reset {
     // Header
     Message.addHeaderMessageln(`As of ${UTCStrings.getShortTimestamp(now)} UTC, here's when things will reset:`);
 
+    // Daily Crafting
+    const DailyCrafting: number = this.buildDailyResetDate(now, this.DailyCraftingResetHour);
+    Message.addMessageln(`**Daily Crafting**\`\`\`ldif\nResets: Daily at 04:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\`\``);
+
+    // Fresh Finds
+    const FreshFinds: number = this.buildDailyResetDate(now, this.FreshFindsResetHour);
+    Message.addMessageln(`**Fresh Finds**\`\`\`ldif\nRefreshes: Daily at 06:00 UTC\nNext refresh: ${TimeStrings.totalTimeString(FreshFinds - now.getTime())}\`\`\``);
+
     // Daily Mission
-    const DailyMission = this.buildDailyResetDate(now, this.DailyMissionResetHour);
+    const DailyMission: number = this.buildDailyResetDate(now, this.DailyMissionResetHour);
     Message.addMessageln(`**Daily Missions**\nIncludes: Arkuma Slots\n\`\`\`ldif\nResets: Daily at 08:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyMission - now.getTime())}\`\`\``);
 
     // Daily Login
-    const DailyLogin = this.buildDailyResetDate(now, this.DailyLoginResetHour);
-    Message.addMessageln(`**Daily Login**\nIncludes: FUN points\n\`\`\`ldif\nResets: Daily at 15:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyLogin - now.getTime())}\`\`\``);
-
-    // Fresh Finds
-    const FreshFinds = this.buildDailyResetDate(now, this.FreshFindsResetHour);
-    Message.addMessageln(`**Fresh Finds**\`\`\`ldif\nRefreshes: Daily at 06:00 UTC\nNext refresh: ${TimeStrings.totalTimeString(FreshFinds - now.getTime())}\`\`\``);
-
-    // Daily Crafting
-    const DailyCrafting = this.buildDailyResetDate(now, this.DailyCraftingResetHour);
-    Message.addMessageln(`**Daily Crafting**\`\`\`ldif\nResets: Daily at 04:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\`\``);
+    const DailyLogin: number = this.buildDailyResetDate(now, this.DailyLoginResetHour);
+    Message.addMessageln(`**Daily Login**\nIncludes: FUN points, Omega Masquerader Surpressions\n\`\`\`ldif\nResets: Daily at 15:00 UTC\nNext reset: ${TimeStrings.totalTimeString(DailyLogin - now.getTime())}\`\`\``);
 
     // Weekly Rankings
-    const WeeklyRanking = this.buildWeeklyResetDate(now, this.WeeklyRankingResetHour, this.WeeklyRankingResetWeekday);
+    const WeeklyRanking: number = this.buildWeeklyResetDate(now, this.WeeklyRankingResetHour, this.WeeklyRankingResetWeekday);
     Message.addMessageln(`**Weekly Rankings**\nIncludes: Rare Containers Opened, Personal Quarters Visits, and Time Attack Map & Times\`\`\`ldif\nResets: Mondays at 15:00 UTC\nNext Reset: ${TimeStrings.totalTimeString(WeeklyRanking - now.getTime())}\`\`\``);
 
     // Weekly Mission
-    const WeeklyMission = this.buildWeeklyResetDate(now, this.WeeklyMissionResetHour, this.WeeklyMissionResetWeekday);
+    const WeeklyMission: number = this.buildWeeklyResetDate(now, this.WeeklyMissionResetHour, this.WeeklyMissionResetWeekday);
     Message.addMessageln(`**Weekly Missions**\nIncludes: Tier Missions, Alliance Orders, certain Extreme Quests, and all Limited Buster Medals, Prize Medals, Battle Coin, and Casino Coin Exchanges\n\`\`\`ldif\nResets: Wednesdays at 08:00 UTC\nNext reset: ${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\`\`\``);
 
+    // Limited Class EX cube
+    const MonthlyClassEXCubes: number = this.buildClassEXResetDate(now);
+    Message.addMessageln(`**Limited Class EX Cube Shop**\nIncludes: EXP 500,000 ticket, Augment Transfer Passes\`\`\`ldif\nResets: Every 4 weeks (28 days) at 08:00 UTC\nNext Reset: ${TimeStrings.totalTimeString(MonthlyClassEXCubes)}\`\`\``);
+
     return (Message.getMessage());
+  }
+
+  public static getResetTableEmbed(): MessageEmbed {
+    const now = new Date();
+    const DailyCrafting: number = this.buildDailyResetDate(now, this.DailyCraftingResetHour);
+    const FreshFinds: number = this.buildDailyResetDate(now, this.FreshFindsResetHour);
+    const DailyMission: number = this.buildDailyResetDate(now, this.DailyMissionResetHour);
+    const DailyLogin: number = this.buildDailyResetDate(now, this.DailyLoginResetHour);
+    const WeeklyRanking: number = this.buildWeeklyResetDate(now, this.WeeklyRankingResetHour, this.WeeklyRankingResetWeekday);
+    const WeeklyMission: number = this.buildWeeklyResetDate(now, this.WeeklyMissionResetHour, this.WeeklyMissionResetWeekday);
+    const MonthlyClassEXCubes: number = this.buildClassEXResetDate(now);
+    const dcScheduleType: string = this.getDCScheduleType();
+
+    const embed = new MessageEmbed()
+    .setColor('#da79b1')
+    .setTitle('PSO2 Reset Schedule')
+    .setDescription('There\'s a lot of different times when things reset around here, but not to worry! Here\'s a handy list of when things will reset.')
+    .addFields(
+      {name: '__Daily Crafting__', value: `Today's Schedule: ${dcScheduleType}`},
+      {name: 'Resets', value: 'Daily at 04:00 UTC', inline: true},
+      {name: `Next Reset`, value: `${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}`, inline: true},
+
+      {name: '__Fresh Finds__', value: '-'},
+      {name: 'Refreshes', value: 'Daily at 06:00 UTC', inline: true},
+      {name: 'Next Refresh', value: `${TimeStrings.totalTimeString(FreshFinds - now.getTime())}`, inline: true},
+
+      {name: '__Daily Missions__', value: 'Includes: Arkuma Slots'},
+      {name: 'Resets', value:'Daily at 08:00 UTC', inline: true},
+      {name: 'Next Reset', value: `${TimeStrings.totalTimeString(DailyMission - now.getTime())}`, inline: true},
+      
+      {name: '__Daily Login__', value: 'Includes: FUN Points, Omega Masquerader Surpressions'},
+      {name: 'Resets', value:'Daily at 15:00 UTC', inline: true},
+      {name: 'Next Reset', value: `${TimeStrings.totalTimeString(DailyLogin - now.getTime())}`, inline: true},
+
+      {name: '__Weekly Rankings__', value: 'Includes: Rare Containers Opened, Personal Quarters Visits, and Time Attack Map & Times'},
+      {name: 'Resets', value: 'Mondays at 15:00 UTC', inline: true},
+      {name: 'Next Reset', value: `${TimeStrings.totalTimeString(WeeklyRanking - now.getTime())}`, inline: true},
+
+      {name: '__Weekly Missions__', value: 'Includes: Tier Missions, Alliance Orders, certain Extreme Quests, and all Limited Buster Medals, Prize Medals, Battle Coin, and Casino Coin Exchanges'},
+      {name: 'Resets', value: 'Wednesdays at 08:00 UTC', inline: true},
+      {name: 'Next Reset', value: `${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}`, inline: true},
+
+      {name: '__Limited Class EX Cube Shop__', value: 'Includes: EXP 500,000 ticket, Augment Transfer Passes'},
+      {name: 'Resets', value: 'Every 4 weeks (28 days) at 08:00 UTC', inline: true},
+      {name: 'Next Reset', value: `${TimeStrings.totalTimeString(MonthlyClassEXCubes)}`, inline: true}
+    )
+    .setTimestamp()
+    .setFooter('Hopefully things will be more consistent');
+
+    return (embed);
   }
 }

@@ -3,126 +3,157 @@
   "Schedule": [
     {
       "day": 1,
+      "name": "Crafting Materials A",
       "schedule": "CraftMatsA"
     },
     {
       "day": 2,
+      "name": "PA Fragments",
       "schedule": "PAFragments"
     },
     {
       "day": 3,
+      "name": "Crafting Materials B",
       "schedule": "CraftMatsB"
     },
     {
       "day": 4,
+      "name": "Timed Abilities",
       "schedule": "TimedAbilities"
     },
     {
       "day": 5,
+      "name":"Crafting Materials A",
       "schedule": "CraftMatsA"
     },
     {
       "day": 6,
+      "name": "Arm Extensions",
       "schedule": "ArmExtensionEX"
     },
     {
       "day": 7,
+      "name": "PA Fragments",
       "schedule": "PAFragments"
     },
     {
       "day": 8,
+      "name": "Crafting Materials B",
       "schedule": "CraftMatsB"
     },
     {
       "day": 9,
+      "name": "Timed Abilities",
       "schedule": "TimedAbilities"
     },
     {
       "day": 10,
+      "name": "Technique Fragments",
       "schedule": "TECFragmentsEX"
     },
     {
       "day": 11,
+      "name": "Crafting Materials A",
       "schedule": "CraftMatsA"
     },
     {
       "day": 12,
+      "name": "PA Fragments",
       "schedule": "PAFragments"
     },
     {
       "day": 13,
+      "name": "Crafting Materials B",
       "schedule": "CraftMatsB"
     },
     {
       "day": 14,
+      "name": "Beginners",
       "schedule": "Beginners"
     },
     {
       "day": 15,
+      "name": "Kifas - Advanced A",
       "schedule": "AdvancedA"
     },
     {
       "day": 16,
+      "name": "Timed Abilities",
       "schedule": "TimedAbilities"
     },
     {
       "day": 17,
+      "name": "Crafting Materials A",
       "schedule": "CraftMatsA"
     },
     {
       "day": 18,
+      "name": "PA Fragments",
       "schedule": "PAFragments"
     },
     {
       "day": 19,
+      "name": "Kifas - Timed Abilities",
       "schedule": "TimedAbilitiesEX"
     },
     {
       "day": 20,
+      "name": "Crafting Materials B",
       "schedule": "CraftMatsB"
     },
     {
       "day": 21,
+      "name": "Timed Abilities",
       "schedule": "TimedAbilities"
     },
     {
       "day": 22,
+      "name": "Crafting Materials A",
       "schedule": "CraftMatsA"
     },
     {
       "day": 23,
+      "name": "PA Fragments",
       "schedule": "PAFragments"
     },
     {
       "day": 24,
+      "name": "Crafting Materials B",
       "schedule": "CraftMatsB"
     },
     {
       "day": 25,
+      "name": "Beginners",
       "schedule": "Beginners"
     },
     {
       "day": 26,
+      "name": "Timed Abilities",
       "schedule": "TimedAbilities"
     },
     {
       "day": 27,
+      "name": "Crafting Materials A",
       "schedule": "CraftMatsA"
     },
     {
       "day": 28,
+      "name": "PA Fragments",
       "schedule": "PAFragments"
     },
     {
       "day": 29,
+      "name": "Crafting Materials B",
       "schedule": "CraftMatsB"
     },
     {
       "day": 30,
+      "name": "Kifas - PA Fragments",
       "schedule": "PAFragmentsEX"
     },
     {
       "day": 31,
+      "name": "Kifas - Advanced B",
       "schedule": "AdvancedB"
     }
   ],
@@ -160,11 +191,6 @@
       },
       {
         "index": 7,
-        "item": "Lilliparium (XS)",
-        "quantity": 2
-      },
-      {
-        "index": 8,
         "item": "Lilliparium (S)",
         "quantity": 1
       }
@@ -187,21 +213,16 @@
       },
       {
         "index": 5,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 6,
         "item": "Lilliparium (S)",
         "quantity": 1
       },
       {
-        "index": 7,
+        "index": 6,
         "item": "Lilliparium (XS)",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 7,
         "item":"Lilliparium (S)",
         "quantity": 1
       }
@@ -229,21 +250,16 @@
       },
       {
         "index": 5,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 6,
         "item": "Lilliparium (S)",
         "quantity": 1
       },
       {
-        "index": 7,
+        "index": 6,
         "item": "Lilliparium (XS)",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 7,
         "item": "Lilliparium (S)",
         "quantity": 1
       }
@@ -277,17 +293,7 @@
       {
         "index": 6,
         "item": "Photon Drop",
-        "quantity": 1
-      },
-      {
-        "index": 7,
-        "item": "Lilliparium (XS)",
-        "quantity": 3
-      },
-      {
-        "index": 8,
-        "item": "Lilliparium (S)",
-        "quantity": 1
+        "quantity": 5
       }
     ],
     "ArmExtensionEX": [
@@ -496,7 +502,7 @@
       },
       {
         "index": 4,
-        "item": "Lilliparium (XS)",
+        "item": "Lilliparium (S)",
         "quantity": 3
       },
       {
@@ -506,21 +512,6 @@
       },
       {
         "index": 6,
-        "item": "Lilliparium (XS)",
-        "quantity": 3
-      },
-      {
-        "index": 7,
-        "item": "Lilliparium (S)",
-        "quantity": 3
-      },
-      {
-        "index": 8,
-        "item": "Lilliparium (S)",
-        "quantity": 3
-      },
-      {
-        "index": 9,
         "item": "Lilliparium Full Charge",
         "quantity": 1
       }
@@ -538,36 +529,21 @@
       },
       {
         "index": 3,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 4,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 5,
         "item": "Gear Requirement Assist +20%",
         "quantity": 1
       },
       {
-        "index": 6,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 7,
+        "index": 4,
         "item": "Custom Type 1 +20%",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 5,
         "item": "Main Effect (Fixed)",
         "quantity": 1
       },
       {
-        "index": 9,
+        "index": 6,
         "item": "Lilliparium Full Charge",
         "quantity": 1
       }
@@ -585,36 +561,21 @@
       },
       {
         "index": 3,
-        "item": "Lilliparium (XS)",
-        "quantity": 1
-      },
-      {
-        "index": 4,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 5,
         "item": "Gear Requirement Assist +30%",
         "quantity": 1
       },
       {
-        "index": 6,
-        "item": "Lilliparium (S)",
-        "quantity": 2
-      },
-      {
-        "index": 7,
+        "index": 4,
         "item": "Custom Type 1 +30%",
         "quantity": 1
       },
       {
-        "index": 8,
+        "index": 5,
         "item": "Effect Extension +7 days",
         "quantity": 3
       },
       {
-        "index": 9,
+        "index": 6,
         "item": "Lilliparium Full Charge",
         "quantity": 1
       }
