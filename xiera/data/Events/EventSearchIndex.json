@@ -109,6 +109,10 @@
     "title": "The Armada of Annihilation: Interception",
     "tags": "Armada, AIS Vega"
   },
+  {
+    "title": "Primordial Glare from the Void",
+    "tags": "Primordial Darkness Sodam"
+  },
 
   {
     "title": "Christmas on Ice",
@@ -134,12 +138,18 @@
     "title": "Gone with the Wind and Rain",
     "tags": "Spring Event, Wedding Event"
   },
+  {
+    "title": "Cosmic Calamity",
+    "tags": "Space Magatsu, New Year Event"
+  },
+
 
   {
     "title": "Defeat the Enemy",
     "tags": "Draconian, Nightfaller, Oceanid, Falspawn, Supernatural",
     "alt": "ARKS League"
   },
+  
 
   {
     "title": "ARKS Festival",
