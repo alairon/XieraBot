@@ -162,7 +162,7 @@ client.on('message', async (message) => {
   }
 });
 
-async function switchboard(desiredAction: Array<string>): Promise<string>{
+async function switchboard(desiredAction: Array<string>): Promise<string|Discord.MessageEmbed>{
   if (desiredAction){
     console.log(`> Action: '${desiredAction[0]}' | '${desiredAction[1]}'`);
     if (/^\s?uq/mi.test(desiredAction[0])){
@@ -178,6 +178,10 @@ async function switchboard(desiredAction: Array<string>): Promise<string>{
     else if (/^\s?casino/mi.test(desiredAction[0])){
       const results = await Event.searchUpcomingCasinoEvents();
       return(results);
+    }
+    else if (/^\s?reset2/mi.test(desiredAction[0])){
+      const results = Reset.getResetTableEmbed();
+      return (results);
     }
     else if (/^\s?reset/mi.test(desiredAction[0])){
       const results = Reset.getResetTable();
