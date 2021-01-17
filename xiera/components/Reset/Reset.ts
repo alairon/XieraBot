@@ -61,7 +61,7 @@ export class Reset {
     const weekday = LocalDate.getUTCDay();
     
     // Days until the desired weekday
-    let adjustedDate = date + 7 - (weekday + (7 - resetWeekday) %7) %7;
+    let adjustedDate = date + 7 - (weekday + (7 - resetWeekday)) %7;
 
     // Keep the current day if the current hour isn't past the reset hour
     if ((weekday == resetWeekday) && LocalDate.getUTCHours() < resetHour) adjustedDate -= 7;
@@ -138,8 +138,7 @@ export class Reset {
     embed.setDescription('There\'s a lot of different times when things reset around here. So here\'s a handy list of when things will reset.');
     embed.addFields(
       {name: '__Daily Crafting__', value: `Rewards Schedule: ${dcScheduleType}`},
-      {name: 'Resets', value: '`Daily at 04:00 UTC`', inline: true},
-      {name: `Next Reset`, value: `\`${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\``, inline: true},
+      {name: 'Daily at 04:00 UTC', value: `Resets: \`${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\n`},
 
       {name: '__Fresh Finds__', value: `Does not include featured items`},
       {name: 'Refreshes', value: '`Daily at 06:00 UTC`', inline: true},
