@@ -350,7 +350,7 @@ export class Events{
         embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\``);
         if (omittedResults > 0){
           if (omittedResults == 1){
-            embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\`. There's also **${omittedResults}** more result for \`${searchTerm}\` that are scheduled to happen soon`);
+            embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\`. There's also **${omittedResults}** more result for \`${searchTerm}\` that is scheduled to happen soon`);
           }
           else{
             embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\`. There's also **${omittedResults}** more results for \`${searchTerm}\` that are scheduled to happen soon`);
