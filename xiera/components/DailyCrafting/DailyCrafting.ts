@@ -2,7 +2,6 @@ import { readFileSync } from 'fs';
 import { CraftingData, CraftingRewardsIndex, CraftingScheduleIndex } from './@types/DailyCrafting';
 const DateTime = require('luxon').DateTime;
 const TimeStrings = require('../Core/Date/TimeStrings').TimeStrings;
-const UTCStrings = require('../Core/Date/UTCStrings').UTCStrings;
 const Messages = require('../Core/Messages/Messages').Messages;
 const path = require('path');
 

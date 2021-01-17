@@ -60,6 +60,7 @@ export interface SearchIndexEntity {
 export interface IndexedQueryEventObject{
   [index: number]: {
     title: string,
+    categoryId: number,
     startTime: string,
     endTime: string
   }
