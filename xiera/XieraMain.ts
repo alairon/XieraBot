@@ -165,7 +165,15 @@ client.on('message', async (message) => {
 async function switchboard(desiredAction: Array<string>): Promise<string|Discord.MessageEmbed>{
   if (desiredAction){
     console.log(`> Action: '${desiredAction[0]}' | '${desiredAction[1]}'`);
-    if (/^\s?uq/mi.test(desiredAction[0])){
+    if (/^s?uq2/mi.test(desiredAction[0])){
+      if (desiredAction[1]){
+        const results = await Event.searchEvents(desiredAction[1]);
+        return (results);
+      }
+      const results = await Event.searchUpcomingEventsEmbed();
+      return (results);
+    }
+    else if (/^\s?uq/mi.test(desiredAction[0])){
       if (desiredAction[1]){
         const results = await Event.searchEvents(desiredAction[1]);
         return(results);
@@ -174,6 +182,10 @@ async function switchboard(desiredAction: Array<string>): Promise<string|Discord
         const results = await Event.searchUpcomingEvents();
         return(results);
       }
+    }
+    else if (/^\s?casino2/mi.test(desiredAction[0])){
+      const results = await Event.searchUpcomingCasinoEventsEmbed();
+      return (results);
     }
     else if (/^\s?casino/mi.test(desiredAction[0])){
       const results = await Event.searchUpcomingCasinoEvents();
