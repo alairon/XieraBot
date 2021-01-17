@@ -18,7 +18,7 @@
     },
     {
       "day": 4,
-      "name": "Timed Abilities",
+      "name": "Timed Ability Materials",
       "schedule": "TimedAbilities"
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "day": 9,
-      "name": "Timed Abilities",
+      "name": "Timed Ability Materials",
       "schedule": "TimedAbilities"
     },
     {
@@ -78,7 +78,7 @@
     },
     {
       "day": 16,
-      "name": "Timed Abilities",
+      "name": "Timed Ability Materials",
       "schedule": "TimedAbilities"
     },
     {
@@ -93,7 +93,7 @@
     },
     {
       "day": 19,
-      "name": "Kifas - Timed Abilities",
+      "name": "Kifas - Timed Ability Materials",
       "schedule": "TimedAbilitiesEX"
     },
     {
@@ -103,7 +103,7 @@
     },
     {
       "day": 21,
-      "name": "Timed Abilities",
+      "name": "Timed Ability Materials",
       "schedule": "TimedAbilities"
     },
     {
@@ -128,7 +128,7 @@
     },
     {
       "day": 26,
-      "name": "Timed Abilities",
+      "name": "Timed Ability Materials",
       "schedule": "TimedAbilities"
     },
     {
@@ -223,6 +223,33 @@
       },
       {
         "index": 7,
+        "item":"Lilliparium (S)",
+        "quantity": 1
+      }
+    ],
+    "CraftMatsB29": [
+      {
+        "index": 1,
+        "item": "Neogit",
+        "quantity": 3
+      },
+      {
+        "index": 2,
+        "item": "Rubard",
+        "quantity": 3
+      },
+      {
+        "index": 4,
+        "item": "Neogit",
+        "quantity": 3
+      },
+      {
+        "index": 5,
+        "item": "Lilliparium (XS)",
+        "quantity": 1
+      },
+      {
+        "index": 6,
         "item":"Lilliparium (S)",
         "quantity": 1
       }
