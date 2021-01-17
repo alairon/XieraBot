@@ -167,7 +167,7 @@ async function switchboard(desiredAction: Array<string>): Promise<string|Discord
     console.log(`> Action: '${desiredAction[0]}' | '${desiredAction[1]}'`);
     if (/^s?uq2/mi.test(desiredAction[0])){
       if (desiredAction[1]){
-        const results = await Event.searchEvents(desiredAction[1]);
+        const results = await Event.searchEvents(desiredAction[1], true);
         return (results);
       }
       const results = await Event.searchUpcomingEventsEmbed();

@@ -249,9 +249,12 @@ export class Events{
   }
 
   // Searches for the events
-  public async searchEvents(searchTerm: string): Promise<string>{
+  public async searchEvents(searchTerm: string, embedFlag?: boolean): Promise<string|MessageEmbed>{
     const results = await this.questsSearch.searchEvents(searchTerm);
 
+    if (embedFlag){
+      return (this.generateSearchResultsMessageEmbed(<SearchIndexEntity>results, searchTerm));
+    }
     return (this.generateSearchResultsMessage(<SearchIndexEntity>results, searchTerm));
   }
 
@@ -304,6 +307,63 @@ export class Events{
 
     // Return the message
     return (MessageResponse.getMessage());
+  }
+
+  private generateSearchResultsMessageEmbed(searchResults: SearchIndexEntity, searchTerm: string): MessageEmbed{
+    const embed = new MessageEmbed();
+    let now = Date.now();
+    const maxResults = 5;
+    let results = 0;
+    let omittedResults = 0;
+
+    embed.setTitle('Event Search Results');
+    embed.setColor('#da79b1');
+    embed.setTimestamp();
+
+    if (searchResults){
+      for (const idx in searchResults){
+        const eventStartTime = new Date(searchResults[idx].item.startTime).getTime();
+        const eventEndTime = new Date(searchResults[idx].item.endTime).getTime();
+
+        if (results < maxResults){
+          if ((now >= eventStartTime) && (now <= eventEndTime)){
+            embed.addField(`__${searchResults[idx].item.title}__`, `**This event is currently active!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+            results++;
+          }
+          else if (((eventStartTime-now) < 900000) && (now < eventEndTime)){
+            embed.addField(`__${searchResults[idx].item.title}__`, `**This event will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+          }
+          else if (now < eventStartTime){
+            embed.addField(`__${searchResults[idx].item.title}__`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+            results++;
+          }
+        }
+        else{
+          omittedResults++;
+        }
+      }
+
+      if (results == 0){
+        embed.setDescription(`There doesn't seem to be any upcoming events related to \`${searchTerm}\` for this time period.`);
+      }
+      else{
+        embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\``);
+        if (omittedResults > 0){
+          if (omittedResults == 1){
+            embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\`. There's also **${omittedResults}** more result for \`${searchTerm}\` that are scheduled to happen soon`);
+          }
+          else{
+            embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\`. There's also **${omittedResults}** more results for \`${searchTerm}\` that are scheduled to happen soon`);
+          }
+        }
+      }
+    }
+    else {
+      embed.setDescription(`There doesn't seem to be any results for \`${searchTerm}\`.`);
+    }
+
+    // Return the message
+    return (embed);
   }
 
   public async searchUpcomingEvents(): Promise<string>{
@@ -399,11 +459,11 @@ export class Events{
           results++;
         }
         // An upcoming event within 15 minutes of it starting
-        else if (((eventStartTime-now) < 8*900000) && (now < eventEndTime)){
+        else if (((eventStartTime-now) < 900000) && (now < eventEndTime)){
           switch(data[idx].categoryId){
             case 9:
               embed.setColor('#da0000');
-              embed.setFooter('Don\'t forget your buffs!');
+              embed.setFooter('Be sure to check your classes/loadouts and don\'t forget your buffs!');
               embed.addField(`__${data[idx].title}__`, `**This urgent quest will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
               activeUQ = true;
               break;
