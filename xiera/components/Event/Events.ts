@@ -6,7 +6,6 @@ import UTCStrings = require('../Core/Date/UTCStrings');
 import { Messages } from '../Core/Messages/Messages';
 import { TimeStrings } from '../Core/Date/TimeStrings';
 import { EventObject, IndexedEventObject, IndexedQueryEventObject, SearchEntity, SearchIndexEntity } from './@types/Events';
-import { start } from 'repl';
 
 // Regular expression for URLs
 // Format: http(s):// ...
