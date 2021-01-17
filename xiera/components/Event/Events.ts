@@ -6,6 +6,7 @@ import UTCStrings = require('../Core/Date/UTCStrings');
 import { Messages } from '../Core/Messages/Messages';
 import { TimeStrings } from '../Core/Date/TimeStrings';
 import { EventObject, IndexedEventObject, IndexedQueryEventObject, SearchEntity, SearchIndexEntity } from './@types/Events';
+import { MessageEmbed } from 'discord.js';
 
 // Regular expression for URLs
 // Format: http(s):// ...
@@ -18,6 +19,7 @@ export class Events{
   private eventHTTPConfig: object;
   private questsSearch: Search.Search;
   private refreshInterval: number;
+  private overrideRefreshInterval: number;
   private eventRefreshTimeout: NodeJS.Timeout;
 
   // Constructor
@@ -27,6 +29,7 @@ export class Events{
     this.eventURL = null;
     this.eventHTTPConfig = null;
     this.refreshInterval = 10800000; // Default: 3 hours
+    this.overrideRefreshInterval = 3600000; // 1 hour
   }
 
   // Returns the URL to where the JSON is located
@@ -148,7 +151,7 @@ export class Events{
     }
     if (refreshInterval * 3600000 > 1000){
       this.refreshInterval = refreshInterval * 3600000; // in hours
-      console.log(`[EVENTS] Updated the refresh interval. Next update expected in: ${TimeStrings.totalTimeString(refreshInterval * 3600000)}`);
+      console.log(`[EVENTS] Updated the refresh interval to: ${TimeStrings.totalTimeString(refreshInterval * 3600000)}`);
     }
 
     // Load the events
@@ -164,6 +167,8 @@ export class Events{
     let casinoCounter = 0; // Event ID 11
     let leagueCounter = 0; // Event ID 12
     let otherCounter = 0; // Other IDs
+    let skippedCounter = 0; // Skipped Events
+    const now = Date.now();
 
     //Insert the events into the appropriate array
     for (const idx in ScheduleEvents){
@@ -176,6 +181,12 @@ export class Events{
           categoryId: ScheduleEvents[idx].categoryId,
           startTime: UTCStrings.UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].startDate, ScheduleEvents[idx].schedule.timeZone),
           endTime: UTCStrings.UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].endDate, ScheduleEvents[idx].schedule.timeZone)
+        }
+
+        // Skip the current event if it has already passed
+        if (now > new Date(eventData.endTime).getTime()) {
+          skippedCounter++;
+          continue;
         }
 
         switch(ScheduleEvents[idx].categoryId){
@@ -211,7 +222,8 @@ export class Events{
     Concerts: ${concertCounter}
     Casino Boosts: ${casinoCounter}
     ARKS League: ${leagueCounter}
-    Other Events: ${otherCounter}\n=========================\n`);
+    Other Events: ${otherCounter}
+    Events Skipped: ${skippedCounter}\n=========================`);
 
     // Sort the data
     this.quests = await this.sortEvents(this.quests);
@@ -223,8 +235,17 @@ export class Events{
 
     // Starts the timeout for this process to be repeated, clears the existing one if present
     if (this.eventRefreshTimeout) clearTimeout(this.eventRefreshTimeout);
-    this.eventRefreshTimeout = setTimeout( async () => {this.clearEvents(); this.initEvents();}, this.refreshInterval);
-    console.log(`[EVENTS] Events have been updated. The next scheduled update is in: ${TimeStrings.totalTimeString(this.refreshInterval)}`)
+
+    // Sets up when the bot should fetch the next update
+    if ((uqCounter + concertCounter + leagueCounter + otherCounter) < 10){
+      this.eventRefreshTimeout = setTimeout(async () => {this.clearEvents(); this.initEvents();}, this.overrideRefreshInterval);
+      console.log(`[EVENTS] There is a shortage of events, presumably due to the current schedule ending soon.`);
+      console.log(`[EVENTS] Temporarily overriding the configured refresh interval to force an update in: ${TimeStrings.totalTimeString(this.overrideRefreshInterval)}`);
+    }
+    else {
+      this.eventRefreshTimeout = setTimeout(async () => {this.clearEvents(); this.initEvents();}, this.refreshInterval);
+      console.log(`[EVENTS] Events have been updated. The next scheduled update is in: ${TimeStrings.totalTimeString(this.refreshInterval)}`);
+    }
   }
 
   // Searches for the events
@@ -329,6 +350,107 @@ export class Events{
     return (MessageResponse.getMessage());
   }
 
+  public async searchUpcomingEventsEmbed(): Promise<MessageEmbed>{
+    const embed = new MessageEmbed();
+    const maxResults = 5;
+    let results = 0;
+    let activeUQ = false;
+    const now = Date.now();
+    const data = <IndexedQueryEventObject>this.quests;
+
+    embed.setColor('#da79b1');
+    embed.setTitle('Upcoming Events');
+    embed.setTimestamp();
+
+    for (const idx in data){
+      const eventStartTime = new Date(data[idx].startTime).getTime();
+      const eventEndTime = new Date(data[idx].endTime).getTime();
+      if (results < maxResults){
+        // An active event
+        if ((now >= eventStartTime) && (now <= eventEndTime)){
+          switch(data[idx].categoryId){
+            case 9:
+              embed.setColor('#da0000');
+              embed.addField(`__${data[idx].title}__`, `**This is an active Urgent Quest!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\n`);
+              embed.setFooter('Good luck out there, ARKS!');
+              activeUQ = true;
+              break;
+            case 10:
+              if (!activeUQ) {
+                embed.setColor('#007900');
+                embed.setTitle('Live Concert!');
+                embed.setFooter('KOI☆恋！');
+              }
+              embed.addField(`__${data[idx].title}__`, `**There is a live concert happening now!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+              break;
+            case 12:
+              if (!activeUQ){
+                embed.setTitle('Active ARKS League');
+                embed.setFooter('Good luck, operatives!');
+              }
+              embed.addField(`__${data[idx].title}__`, `**The ARKS League is currently active!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+              break;
+            default:
+              if (!activeUQ){
+                embed.setTitle('Active Event');
+              }
+              embed.addField(`__${data[idx].title}__`, `> **This event is in progress!**\n> Ends in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+          }
+          results++;
+        }
+        // An upcoming event within 15 minutes of it starting
+        else if (((eventStartTime-now) < 8*900000) && (now < eventEndTime)){
+          switch(data[idx].categoryId){
+            case 9:
+              embed.setColor('#da0000');
+              embed.setFooter('Don\'t forget your buffs!');
+              embed.addField(`__${data[idx].title}__`, `**This urgent quest will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+              activeUQ = true;
+              break;
+            case 10:
+              if (!activeUQ) {
+                embed.setColor('#007900');
+                embed.setFooter('Be prepared for an urgent quest right after!');
+              }
+              embed.addField(`__${data[idx].title}__`, `**This concert will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+              break;
+            case 12:
+              embed.addField(`__${data[idx].title}__`, `**The league will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+            default:
+              embed.addField(`__${data[idx].title}__`, `**This event will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+              break;
+          }
+          results++;
+        }
+        // An upcoming event
+        else if (now < eventStartTime){
+          embed.addField(`__${data[idx].title}__`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+          results++;
+        }
+      }
+      else{
+        break;
+      }
+    }
+
+    if (results > 0){
+      if (results == 1){
+        embed.setDescription(`Here's the last scheduled event`);
+      }
+      else if (results < maxResults){
+        embed.setDescription(`Here's all the events I could find! Hopefully Casra will give me the intel in a neat, organized package for once!`);
+      }
+      else {
+        embed.setDescription(`Here's the next few scheduled events`);
+      }
+    }
+    else{
+      embed.setDescription(`There doesn't seem to be any upcoming events. I can feel Casra dumping a large unorganized pile of events on me any moment now...`)
+    }
+
+    return (embed);
+  }
+
   public async searchUpcomingCasinoEvents(): Promise<string>{
     const MessageResponse = new Messages();
     const maxResults = 5;
@@ -367,9 +489,58 @@ export class Events{
       MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))} UTC`);
     }
     else{
-      MessageResponse.addMessage(`There doesn't seem to be any special boosts going on at the casino right now. Please check back later!`)
+      MessageResponse.addMessage(`There doesn't seem to be any boosts at the casino for now. Hopefully Diehl will provide an update soon!`);
     }
 
     return (MessageResponse.getMessage());
+  }
+
+  // Generates an embed containing information about casino boosts
+  public async searchUpcomingCasinoEventsEmbed(): Promise<MessageEmbed>{
+    const embed = new MessageEmbed();
+    const maxResults = 5;
+    let results = 0;
+    const now = Date.now();
+    const data = <IndexedQueryEventObject>this.casino;
+
+    for (const idx in data){
+      const eventStartTime = new Date(data[idx].startTime).getTime();
+      const eventEndTime = new Date(data[idx].endTime).getTime();
+
+      if (results < maxResults){
+        if ((now >= eventStartTime) && (now <= eventEndTime)){
+          embed.addField(`__${data[idx].title}__`, `**Currently in progress!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+          results++;
+        }
+        else if (now < eventStartTime){
+          embed.addField(`__${data[idx].title}__`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+          results++;
+        }
+      }
+      else{
+        break;
+      }
+    }
+
+    if (results > 0){
+      if (results == 1){
+        embed.setDescription(`Here's the last scheduled casino event. Hopefully Diehl wil provide an update soon!`);
+      }
+      else if (results < maxResults){
+        embed.setDescription(`These are the last few scheduled casino events. Hopefully Diehl will provide an update soon!`);
+      }
+      else {
+        embed.setDescription(`Here's the next few scheduled boosts:`);
+      }
+    }
+    else{
+      embed.setDescription(`There doesn't seem to be any boosts going on at the casino right now. Hopefully Diehl will provide an update soon!`);
+    }
+
+    embed.setColor('#da79b1');
+    embed.setTitle('Casino Boosts');
+    embed.setTimestamp();
+
+    return (embed);
   }
 }
