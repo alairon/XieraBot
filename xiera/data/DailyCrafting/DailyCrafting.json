@@ -144,7 +144,7 @@
     {
       "day": 29,
       "name": "Crafting Materials B",
-      "schedule": "CraftMatsB"
+      "schedule": "CraftMatsB29"
     },
     {
       "day": 30,
@@ -607,5 +607,10 @@
         "quantity": 1
       }
     ]
+  },
+  "Requirements": {
+    "CraftMatsA": {
+      
+    }
   }
 }
