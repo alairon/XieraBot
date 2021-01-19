@@ -20,18 +20,86 @@ function readStrings(path: string): XieraString {
   return (<XieraString>JSON.parse(fs.readFileSync(path, 'utf8')));
 }
 
-function generateHelpMessage(name: string){
+function generateHelpMessage(name: string): Discord.MessageEmbed{
+  const embed = new Discord.MessageEmbed;
   const HelpMessages = XieraStrings.client.message.usage;
-  return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructions + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset + HelpMessages.instructionsDC
+
+  embed.setTitle('Xiera\'s Helpful Help Message');
+  embed.setColor('#da79b1');
+  embed.setDescription(HelpMessages.greetingA + name + HelpMessages.greetingB);
+  embed.addFields(
+    {
+      name: 'Usage',
+      value: HelpMessages.instructions
+    },
+    {
+      name: '\u200B',
+      value: '__**Available Commands**__'
+    },
+    {
+      name: 'Urgent Quests',
+      value: HelpMessages.instructionsUQ
+    },
+    {
+      name: 'Urgent Quests (with a search term)',
+      value: HelpMessages.instructionsUQSearch
+    },
+    {
+      name: 'Casino',
+      value: HelpMessages.instructionsCasino
+    },
+    {
+      name: 'Reset',
+      value: HelpMessages.instructionsReset
+    },
+    {
+      name: 'Daily Crafting',
+      value: HelpMessages.instructionsDC
+    }
   );
+
+  return(embed);
 }
 
 function generateHelpMessageDM(name: string){
+  const embed = new Discord.MessageEmbed;
   const HelpMessages = XieraStrings.client.message.usage;
-  return(
-    HelpMessages.greetingA + name + HelpMessages.greetingB + HelpMessages.instructionsDM + HelpMessages.instructionsUQ + HelpMessages.instructionsCasino + HelpMessages.instructionsReset + HelpMessages.instructionsDC
+
+  embed.setTitle('Xiera\'s Helpful Help Message');
+  embed.setColor('#da79b1');
+  embed.setDescription(HelpMessages.greetingA + name + HelpMessages.greetingB);
+  embed.addFields(
+    {
+      name: 'Usage',
+      value: HelpMessages.instructionsDM
+    },
+    {
+      name: '\u200B',
+      value: '__**Available Commands**__'
+    },
+    {
+      name: 'Urgent Quests',
+      value: HelpMessages.instructionsUQ
+    },
+    {
+      name: 'Urgent Quests (with a search term)',
+      value: HelpMessages.instructionsUQSearch
+    },
+    {
+      name: 'Casino',
+      value: HelpMessages.instructionsCasino
+    },
+    {
+      name: 'Reset',
+      value: HelpMessages.instructionsReset
+    },
+    {
+      name: 'Daily Crafting',
+      value: HelpMessages.instructionsDC
+    }
   );
+
+  return(embed);
 }
 
 // Read and set the configuration file
