@@ -135,34 +135,21 @@ export class Reset {
     const embed = new MessageEmbed();
     embed.setColor('#da79b1');
     embed.setTitle('PSO2 Reset Schedule');
-    embed.setDescription('There\'s a lot of different times when things reset around here. So here\'s a handy list of when things will reset.');
+    embed.setDescription('There\'s a lot of different times when things reset around here, so here\'s a handy list of when things will reset.');
     embed.addFields(
-      {name: '__Daily Crafting__', value: `Rewards Schedule: ${dcScheduleType}`},
-      {name: 'Daily at 04:00 UTC', value: `Resets: \`${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\n`},
+      {name: '__Daily Crafting__', value: `Today's Rewards: ${dcScheduleType}\nResets: \`Daily at 04:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\n\u200B`},
 
-      {name: '__Fresh Finds__', value: `Does not include featured items`},
-      {name: 'Refreshes', value: '`Daily at 06:00 UTC`', inline: true},
-      {name: 'Next Refresh', value: `\`${TimeStrings.totalTimeString(FreshFinds - now.getTime())}\``, inline: true},
+      {name: '__Fresh Finds__', value: `Does not include featured items\nRefreshes: \`Daily at 06:00 UTC\`\nRefreshes in \`${TimeStrings.totalTimeString(FreshFinds - now.getTime())}\`\n\u200B`},
 
-      {name: '__Daily Missions__', value: 'Includes: Arkuma Slots'},
-      {name: 'Resets', value:'`Daily at 08:00 UTC`', inline: true},
-      {name: 'Next Reset', value: `\`${TimeStrings.totalTimeString(DailyMission - now.getTime())}\``, inline: true},
+      {name: '__Daily Missions__', value: `Includes: Arkuma Slots\nResets: \`Daily at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(DailyMission - now.getTime())}\`\n\u200B`},
       
-      {name: '__Daily Login__', value: 'Includes: FUN Points, Omega Masquerader Surpressions'},
-      {name: 'Resets', value:'`Daily at 15:00 UTC`', inline: true},
-      {name: 'Next Reset', value: `\`${TimeStrings.totalTimeString(DailyLogin - now.getTime())}\``, inline: true},
+      {name: '__Daily Login__', value: `Includes: FUN Points, Omega Masquerader Surpressions\nResets: \`Daily at 15:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(DailyLogin - now.getTime())}\`\n\u200B`},
 
-      {name: '__Weekly Rankings__', value: 'Includes: Rare Containers Opened, Personal Quarters Visits, and Time Attack Map & Times'},
-      {name: 'Resets', value: '`Mondays at 15:00 UTC`', inline: true},
-      {name: 'Next Reset', value: `\`${TimeStrings.totalTimeString(WeeklyRanking - now.getTime())}\``, inline: true},
+      {name: '__Weekly Rankings__', value: `Includes: Rare Containers Opened, Personal Quarters Visits, and Time Attack Map & Times\nResets: \`Mondays at 15:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(WeeklyRanking - now.getTime())}\`\n\u200B`},
 
-      {name: '__Weekly Missions__', value: 'Includes: Tier Missions, Alliance Orders, certain Extreme Quests, and all Limited Buster Medals, Prize Medals, Battle Coin, and Casino Coin Exchanges'},
-      {name: 'Resets', value: '`Wednesdays at 08:00 UTC`', inline: true},
-      {name: 'Next Reset', value: `\`${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\``, inline: true},
+      {name: '__Weekly Missions__', value: `Includes: Tier Missions, Alliance Orders, certain Extreme Quests, and all Limited Buster Medals, Prize Medals, Battle Coin, and Casino Coin Exchanges\nResets: \`Wednesdays at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\`\n\u200B`},
 
-      {name: '__Limited Class EX Cube Shop__', value: 'Includes: EXP 500,000 ticket, Augment Transfer Passes'},
-      {name: 'Resets', value: '`Every 28 days at 08:00 UTC`', inline: true},
-      {name: 'Next Reset', value: `\`${TimeStrings.totalTimeString(MonthlyClassEXCubes)}\``, inline: true}
+      {name: '__Limited Class EX Cube Shop__', value: `Includes: EXP 500,000 ticket, Augment Transfer Passes\nResets: \`Every 28 days at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(MonthlyClassEXCubes)}\`\n\u200B`}
     );
     embed.setTimestamp();
     embed.setFooter('Hopefully things will be more consistent');
