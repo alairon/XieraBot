@@ -75,6 +75,7 @@ export class DailyCrafting {
     const duration: string = TimeStrings.totalTimeString(this.dailyCraftResetDate(now) - now.getTime());
 
     Message.addHeaderMessage("Here's what you might be able to get out of today's daily crafting!");
+    Message.addMessageln(`Today's crafting schedule is: **${this.getDailyName()}**`);
     Message.addMessageln(`Time left to complete today's orders: **${duration}**`);
     Message.addMessage('```');
 
@@ -82,7 +83,6 @@ export class DailyCrafting {
       Message.addMessageln(`${dailyReward[idx].index}: ${dailyReward[idx].item} (x${dailyReward[idx].quantity})`);
     }
     Message.addMessageln('```');
-    Message.addMessage(`Disclaimer: The data I got from Kifas seems to be kinda off... There may be more rewards shown here than what's actually possible, although looks to be mostly extra XS Lillipariums, so it should be okay.`);
 
     return(Message.getMessage());
   }

@@ -327,14 +327,14 @@ export class Events{
 
         if (results < maxResults){
           if ((now >= eventStartTime) && (now <= eventEndTime)){
-            embed.addField(`__${searchResults[idx].item.title}__`, `**This event is currently active!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+            embed.addField(`${searchResults[idx].item.title}`, `**This event is currently active!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
             results++;
           }
           else if (((eventStartTime-now) < 900000) && (now < eventEndTime)){
-            embed.addField(`__${searchResults[idx].item.title}__`, `**This event will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+            embed.addField(`${searchResults[idx].item.title}`, `**This event will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
           }
           else if (now < eventStartTime){
-            embed.addField(`__${searchResults[idx].item.title}__`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+            embed.addField(`${searchResults[idx].item.title}`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
             results++;
           }
         }
@@ -431,7 +431,7 @@ export class Events{
           switch(data[idx].categoryId){
             case 9:
               embed.setColor('#da0000');
-              embed.addField(`__${data[idx].title}__`, `**This is an active Urgent Quest!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\n`);
+              embed.addField(`__${data[idx].title}__`, `**This is an active Urgent Quest!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
               embed.setFooter('Good luck out there, ARKS!');
               activeUQ = true;
               break;
