@@ -70,7 +70,7 @@ export class Reset {
 
   // Returns a number representing the time left until the 28 day reset period
   private static buildClassEXResetDate(LocalDate: Date): number{
-    // A date of reference
+    // A date of reference (December 23, 2020 at 8AM UTC)
     const baseDate = new Date('2020-12-23T08:00:00Z').getTime();
     // 2419200000 = 28 days in ms
     const time = (LocalDate.getTime()- baseDate) % 2419200000;
@@ -135,7 +135,7 @@ export class Reset {
     const embed = new MessageEmbed();
     embed.setColor('#da79b1');
     embed.setTitle('PSO2 Reset Schedule');
-    embed.setDescription('There\'s a lot of different times when things reset around here, so here\'s a handy list of when things will reset.');
+    embed.setDescription('There\'s a lot of different times when things reset around here, so here\'s a handy list showing when they\'ll happen.');
     embed.addFields(
       {name: '__Daily Crafting__', value: `Today's Rewards: ${dcScheduleType}\nResets: \`Daily at 04:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\n\u200B`},
 
