@@ -18,6 +18,7 @@
     "node_modules",
     "bin",
     "tests",
+    "xiera/components/Core/ICS/*",
     "xiera/components/Event/ICS/*",
     "xiera/components/Event/Legacy/*"
   ]
