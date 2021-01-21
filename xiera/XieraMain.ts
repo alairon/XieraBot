@@ -260,11 +260,11 @@ async function switchboard(desiredAction: Array<string>): Promise<string|Discord
       return(results);
     }
     else if (/^\s?reset2/mi.test(desiredAction[0])){
-      const results = Reset.getResetTableEmbed();
+      const results = Reset.getResetTable();
       return (results);
     }
     else if (/^\s?reset/mi.test(desiredAction[0])){
-      const results = Reset.getResetTable();
+      const results = Reset.getResetTableEmbed();
       return(results);
     }
     else if (/^\s?dc/mi.test(desiredAction[0])){

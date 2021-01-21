@@ -18,13 +18,13 @@
       "usage": {
         "greetingA": "Hello ",
         "greetingB": "! I can currently tell you what's happening on the Oracle Fleet!",
-        "instructions": "```x!<command>```  Some devices seem to add a space after `!`, so `x! <command>` works too!",
-        "instructionsDM": "```<command>```  While talking to me through direct messages, you don't need to use the flag like you would on a normal Discord server! Isn't that neat? I understand muscle memory exists, so I'll still respond to the flag if you include it.",
-        "instructionsUQ": "```uq``` This command looks through the list of available events Casra gave me, and I'll give you up to the next five upcoming events.",
-        "instructionsUQSearch": "```uq <search term>```  `<search term>` is an optional extension to the normal `uq` command where I'll do my best to filter the list of events with what you entered. The official names for these events might not be the most intuitive for some of you, so you can also search with their more commonly known names (e.g. `pd`, `profound darkness`, `persona`, `mother`, `MB3`,  etc.)!",
-        "instructionsCasino": "```casino```  If there's a casino boost, I'll be sure to show you what's to come!",
-        "instructionsReset": "```reset```  This command shows when things reset around the Fleet and the amount of time left until that happens!",
-        "instructionsDC": "```dc```  This command shows what you could get out of today's daily crafting!"
+        "instructions": "```\nx!<command>``` Some devices seem to add a space after `!`, so `x! <command>` works too!",
+        "instructionsDM": "```\n<command>```While talking to me through direct messages, you don't need to use the flag like you would on a normal Discord server! Isn't that neat?",
+        "instructionsUQ": "```\nuq``` This command looks through the list of available events that Casra gave me, and I'll give you up to the next five upcoming events.",
+        "instructionsUQSearch": "```\nuq <search term>``` `<search term>` is an optional extension to the `uq` command where I'll do my best to filter the list of events based on what you entered. I can also search for events based on their commonly known names (e.g. `pd`, `profound darkness`, `persona`, `mother`, `MB3`,  etc.).",
+        "instructionsCasino": "```\ncasino``` If there's a casino boost, I'll be sure to show you what's to come!",
+        "instructionsReset": "```\nreset``` This command shows when things reset and the amount of time left until that happens.",
+        "instructionsDC": "```\ndc``` This command shows what you could get out of today's daily crafting."
       }
     }
   }

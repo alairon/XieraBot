@@ -27,7 +27,6 @@
     "dotenv": "^8.2.0",
     "fuse.js": "^6.4.6",
     "luxon": "^1.25.0",
-    "node-ical": "^0.12.7",
     "run-script-os": "^1.1.5"
   },
   "devDependencies": {
@@ -35,11 +34,11 @@
     "@types/expect": "^24.3.0",
     "@types/luxon": "^1.25.1",
     "@types/mocha": "^8.2.0",
-    "@types/node": "^14.14.21",
+    "@types/node": "^14.14.22",
     "@types/request": "^2.48.5",
     "@types/ws": "^7.4.0",
-    "@typescript-eslint/eslint-plugin": "^4.13.0",
-    "@typescript-eslint/parser": "^4.13.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
     "chai": "^4.2.0",
     "eslint": "^7.18.0",
     "eslint-plugin-import": "^2.22.1",
