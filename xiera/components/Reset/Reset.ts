@@ -145,11 +145,13 @@ export class Reset {
       
       {name: '__Daily Login__', value: `Includes: FUN Points, Omega Masquerader Surpressions\nResets: \`Daily at 15:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(DailyLogin - now.getTime())}\`\n\u200B`},
 
-      {name: '__Weekly Rankings__', value: `Includes: Rare Containers Opened, Personal Quarters Visits, and Time Attack Map & Times\nResets: \`Mondays at 15:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(WeeklyRanking - now.getTime())}\`\n\u200B`},
+      {name: '__Weekly Rankings__', value: `Includes: Rare Containers Opened, Personal Quarters Visits, and Time Attack (Map Selection & Times)\nResets: \`Mondays at 15:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(WeeklyRanking - now.getTime())}\`\n\u200B`},
 
-      {name: '__Weekly Missions__', value: `Includes: Tier Missions, Alliance Orders, certain Extreme Quests, Divide Quests, and all Limited Buster Medals, Prize Medals, Battle Coin, and Casino Coin Shop Exchanges\nResets: \`Wednesdays at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\`\n\u200B`},
+      {name: '__Weekly Missions__', value: `Includes: Tier Missions, Alliance Orders, certain Extreme Quests, and Divide Quests (Rewards & Rankings)\nResets: \`Wednesdays at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\`\n\u200B`},
+      
+      {name: '__Limited Shops (Weekly)__', value: `Includes: Buster Medals, Prize Medals, Battle Coins, and Casino Coins\nResets: \`Wednesdays at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(WeeklyMission - now.getTime())}\`\n\u200B`},
 
-      {name: '__Limited Class EX Cube Shop__', value: `Includes: EXP 500,000 ticket, Augment Transfer Passes\nResets: \`Every 28 days at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(MonthlyClassEXCubes)}\`\n\u200B`}
+      {name: '__Limited Shops (Monthly)__', value: `Includes: Limited Class EX Cube Shop, and Divide Medals Shop\nResets: \`Every 28 days at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(MonthlyClassEXCubes)}\`\n\u200B`}
     );
     embed.setTimestamp();
     embed.setFooter('Hopefully things will be more consistent');
