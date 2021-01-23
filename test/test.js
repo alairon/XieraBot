@@ -1,8 +1,7 @@
-//require('./components/events/events.test');
-
 const toTest = [
-  // [Name of function to be tested, Testing file location]
+  // Array Format: [Name of function to be tested, Testing file location]
   ["TimeStrings", "./components/Core/Date/TimeStrings.test"],
+  ["Messages", "./components/Core/Messages/Messages.test"],
 ];
 
 for (const idx in toTest){
