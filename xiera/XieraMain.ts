@@ -209,11 +209,11 @@ client.on('message', async (message) => {
         // Determine what info the user wants Xiera to provide them
         const desiredAction = Token.getUserAction(content);
         // Log when and where the message originated from
-        console.log(`${message.author.username} via ${message.guild.name} ${time}`);
+        console.log(`${message.member.displayName} via ${message.guild.name} ${time}`);
 
         const res = await switchboard(desiredAction);
         if (!res){
-          message.channel.send(generateHelpMessage(message.author.username));
+          message.channel.send(generateHelpMessage(message.member.displayName));
         }
         else{
           message.channel.send(res);
