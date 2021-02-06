@@ -2,7 +2,7 @@ import quests = require('./Quests');
 import casino = require('./Casino');
 import WebJSON = require('../Network/WebJSON');
 import Search = require('./SearchEvents');
-import UTCStrings = require('../Core/Date/UTCStrings');
+import { UTCStrings } from '../Core/Date/UTCStrings';
 import { Messages } from '../Core/Messages/Messages';
 import { TimeStrings } from '../Core/Date/TimeStrings';
 import { EventObject, IndexedEventObject, IndexedQueryEventObject, SearchEntity, SearchIndexEntity } from './@types/Events';
@@ -179,8 +179,8 @@ export class Events{
         const eventData: EventObject = {
           title: ScheduleEvents[idx].title,
           categoryId: ScheduleEvents[idx].categoryId,
-          startTime: UTCStrings.UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].startDate, ScheduleEvents[idx].schedule.timeZone),
-          endTime: UTCStrings.UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].endDate, ScheduleEvents[idx].schedule.timeZone)
+          startTime: UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].startDate, ScheduleEvents[idx].schedule.timeZone),
+          endTime: UTCStrings.getISOStringWithLocale(ScheduleEvents[idx].events[idy].endDate, ScheduleEvents[idx].schedule.timeZone)
         }
 
         // Skip the current event if it has already passed
@@ -249,10 +249,13 @@ export class Events{
   }
 
   // Searches for the events
-  public async searchEvents(searchTerm: string, embedFlag?: boolean): Promise<string|MessageEmbed>{
+  public async searchEvents(searchTerm: string, embedFlag?: boolean, name?: string): Promise<string|MessageEmbed>{
     const results = await this.questsSearch.searchEvents(searchTerm);
 
     if (embedFlag){
+      if (name){
+        return (this.generateSearchResultsMessageEmbed(<SearchIndexEntity>results, searchTerm, name));  
+      }
       return (this.generateSearchResultsMessageEmbed(<SearchIndexEntity>results, searchTerm));
     }
     return (this.generateSearchResultsMessage(<SearchIndexEntity>results, searchTerm));
@@ -298,7 +301,7 @@ export class Events{
             MessageResponse.addMessageln(`There's **${omittedResults}** more events related to \`${searchTerm}\` scheduled to happen soon`);
           }
         }
-        MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))} UTC`);
+        MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.getTimestamp(new Date(now))} UTC`);
       }
     }
     else {
@@ -309,7 +312,7 @@ export class Events{
     return (MessageResponse.getMessage());
   }
 
-  private generateSearchResultsMessageEmbed(searchResults: SearchIndexEntity, searchTerm: string): MessageEmbed{
+  private generateSearchResultsMessageEmbed(searchResults: SearchIndexEntity, searchTerm: string, user?: string): MessageEmbed{
     const embed = new MessageEmbed();
     let now = Date.now();
     const maxResults = 5;
@@ -327,14 +330,14 @@ export class Events{
 
         if (results < maxResults){
           if ((now >= eventStartTime) && (now <= eventEndTime)){
-            embed.addField(`${searchResults[idx].item.title}`, `**This event is currently active!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+            embed.addField(`${searchResults[idx].item.title}`, `**This event is currently active!**\nEnds in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
             results++;
           }
           else if (((eventStartTime-now) < 900000) && (now < eventEndTime)){
-            embed.addField(`${searchResults[idx].item.title}`, `**This event will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+            embed.addField(`${searchResults[idx].item.title}`, `**This event will start soon!**\nStarts in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
           }
           else if (now < eventStartTime){
-            embed.addField(`${searchResults[idx].item.title}`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+            embed.addField(`${searchResults[idx].item.title}`, `Scheduled for \`${UTCStrings.getShortTimestamp(new Date(searchResults[idx].item.startTime))} UTC\`\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
             results++;
           }
         }
@@ -344,22 +347,47 @@ export class Events{
       }
 
       if (results == 0){
-        embed.setDescription(`There doesn't seem to be any upcoming events related to \`${searchTerm}\` for this time period.`);
+        if (user){
+          embed.setDescription(`Hey ${user}! I tried looking for \`${searchTerm}\`, but there doesn't seem to be any more events for this time period.`);
+        }
+        else {
+          embed.setDescription(`There doesn't seem to be any more events containing \`${searchTerm}\` for this time period`);
+        }
       }
       else{
-        embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\``);
+        if (user){
+          embed.setDescription(`Hi ${user}, thanks for waiting! Here's what I could find for \`${searchTerm}\``);
+        }
+        else {
+          embed.setDescription(`Thanks for waiting! Here's what I could find for \`${searchTerm}\``);
+        }
         if (omittedResults > 0){
           if (omittedResults == 1){
-            embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\`. There's also **${omittedResults}** more result for \`${searchTerm}\` that is scheduled to happen soon`);
+            if (user){
+              embed.setDescription(`Hey ${user}, thanks for waiting! Here's what I could find for \`${searchTerm}\`. There's also **${omittedResults}** more result for \`${searchTerm}\` that is scheduled to happen soon\n\u200B`);
+            }
+            else {
+              embed.setDescription(`Thanks for waiting! Here's what I could find for \`${searchTerm}\`. There's also **${omittedResults}** more result for \`${searchTerm}\` that is scheduled to happen soon\n\u200B`);
+            }
           }
           else{
-            embed.setDescription(`Thanks for waiting! Here's what I could find for: \`${searchTerm}\`. There's also **${omittedResults}** more results for \`${searchTerm}\` that are scheduled to happen soon`);
+            if (user){
+              embed.setDescription(`Hey ${user}, thanks for waiting! Here's what I could find for \`${searchTerm}\`. There's also **${omittedResults}** more results for \`${searchTerm}\` that are scheduled to happen soon\n\u200B`);
+            }
+            else {
+              embed.setDescription(`Thanks for waiting! Here's what I could find for \`${searchTerm}\`. There's also **${omittedResults}** more results for \`${searchTerm}\` that are scheduled to happen soon\n\u200B`);
+            }
           }
         }
       }
     }
     else {
-      embed.setDescription(`There doesn't seem to be any results for \`${searchTerm}\`.`);
+      if (user){
+        embed.setDescription(`Hey ${user}, there doesn't seem to be any results coming up for \`${searchTerm}\`.`);
+      }
+      else {
+        embed.setDescription(`There doesn't seem to be any results coming up for \`${searchTerm}\`.`);
+      }
     }
 
     // Return the message
@@ -401,7 +429,7 @@ export class Events{
       if (results < maxResults){
         MessageResponse.addMessageln(`That's all I could find for this week! Hopefully Casra will give me the intel - in a neat, organized package for once!`);
       }
-      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))} UTC`);
+      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.getTimestamp(new Date(now))} UTC`);
     }
     else{
       MessageResponse.addMessage(`There doesn't seem to be any upcoming events. I can feel Casra dumping a large unorganized pile of events on me any moment now...`)
@@ -410,7 +438,7 @@ export class Events{
     return (MessageResponse.getMessage());
   }
 
-  public async searchUpcomingEventsEmbed(): Promise<MessageEmbed>{
+  public async searchUpcomingEventsEmbed(user?: string): Promise<MessageEmbed>{
     const embed = new MessageEmbed();
     const maxResults = 5;
     let results = 0;
@@ -429,62 +457,67 @@ export class Events{
         // An active event
         if ((now >= eventStartTime) && (now <= eventEndTime)){
           switch(data[idx].categoryId){
+            // Code 9: UQ
             case 9:
               embed.setColor('#da0000');
-              embed.addField(`__${data[idx].title}__`, `**This is an active Urgent Quest!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**This is an active Urgent Quest!**\nEnds in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
               embed.setFooter('Good luck out there, ARKS!');
               activeUQ = true;
               break;
+            // Code 10: Concert
             case 10:
               if (!activeUQ) {
                 embed.setColor('#007900');
                 embed.setTitle('Live Concert!');
                 embed.setFooter('KOI☆恋！');
               }
-              embed.addField(`__${data[idx].title}__`, `**There is a live concert happening now!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**There is a live concert happening now!**\nEnds in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
               break;
+            // Code 12: ARKS League
             case 12:
               if (!activeUQ){
                 embed.setTitle('Active ARKS League');
                 embed.setFooter('Good luck, operatives!');
               }
-              embed.addField(`__${data[idx].title}__`, `**The ARKS League is currently active!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**The ARKS League is currently active!**\nEnds in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
               break;
             default:
               if (!activeUQ){
                 embed.setTitle('Active Event');
               }
-              embed.addField(`__${data[idx].title}__`, `> **This event is in progress!**\n> Ends in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `> **This event is in progress!**\n> Ends in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
           }
           results++;
         }
         // An upcoming event within 15 minutes of it starting
         else if (((eventStartTime-now) < 900000) && (now < eventEndTime)){
           switch(data[idx].categoryId){
+            // Code 9: UQ
             case 9:
               embed.setColor('#da0000');
               embed.setFooter('Be sure to check your classes/loadouts and don\'t forget your buffs!');
-              embed.addField(`__${data[idx].title}__`, `**This urgent quest will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**This urgent quest will start soon!**\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
               activeUQ = true;
               break;
+            // Code 10: Concert
             case 10:
               if (!activeUQ) {
-                embed.setColor('#007900');
                 embed.setFooter('Be prepared for an urgent quest right after!');
               }
-              embed.addField(`__${data[idx].title}__`, `**This concert will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**This concert will start soon!**\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
               break;
+            // Code 12: ARKS League
             case 12:
-              embed.addField(`__${data[idx].title}__`, `**The league will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**The league will start soon!**\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
             default:
-              embed.addField(`__${data[idx].title}__`, `**This event will start soon!**\nStarts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**This event will start soon!**\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
               break;
           }
           results++;
         }
         // An upcoming event
         else if (now < eventStartTime){
-          embed.addField(`__${data[idx].title}__`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+          embed.addField(`${data[idx].title}`, `Scheduled for \`${UTCStrings.getShortTimestamp(new Date(data[idx].startTime))} UTC\`\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
           results++;
         }
       }
@@ -495,17 +528,37 @@ export class Events{
 
     if (results > 0){
       if (results == 1){
-        embed.setDescription(`Here's the last scheduled event`);
+        if (user){
+          embed.setDescription(`Hello ${user}! Here's the last scheduled event`);
+        }
+        else {
+          embed.setDescription(`Here's the last scheduled event`);
+        }
       }
       else if (results < maxResults){
-        embed.setDescription(`Here's all the events I could find! Hopefully Casra will give me the intel in a neat, organized package for once!`);
+        if (user){
+          embed.setDescription(`Hey ${user}! Here's all the events I could find. Hopefully there will be a new list soon!`);
+        }
+        else {
+          embed.setDescription(`Here's all the events I could find! Hopefully Casra will give me the intel in a neat, organized package for once!`);
+        }
       }
       else {
-        embed.setDescription(`Here's the next few scheduled events`);
+        if (user){
+          embed.setDescription(`Hello ${user}! Here's the next few scheduled events\n\u200B`);
+        }
+        else {
+          embed.setDescription(`Here's the next few scheduled events\n\u200B`);
+        }
       }
     }
     else{
-      embed.setDescription(`There doesn't seem to be any upcoming events. I can feel Casra dumping a large unorganized pile of events on me any moment now...`)
+      if (user){
+        embed.setDescription(`Hmm... There doesn't seem to be any upcoming events, ${user}. Hopefully we won't have to wait long for the next set of events`);
+      }
+      else {
+        embed.setDescription(`Hmm, there doesn't seem to be any upcoming events. I can feel Casra dumping a large unorganized pile of events on me any moment now...`)
+      }
     }
 
     return (embed);
@@ -546,7 +599,7 @@ export class Events{
       if (results < maxResults){
         MessageResponse.addMessageln(`That's all I could find. Hopefully Diehl will provide an update soon!`);
       }
-      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.UTCStrings.getTimestamp(new Date(now))} UTC`);
+      MessageResponse.addMessage(`These countdown times shown were based on ${UTCStrings.getTimestamp(new Date(now))} UTC`);
     }
     else{
       MessageResponse.addMessage(`There doesn't seem to be any boosts at the casino for now. Hopefully Diehl will provide an update soon!`);
@@ -556,7 +609,7 @@ export class Events{
   }
 
   // Generates an embed containing information about casino boosts
-  public async searchUpcomingCasinoEventsEmbed(): Promise<MessageEmbed>{
+  public async searchUpcomingCasinoEventsEmbed(user?: string): Promise<MessageEmbed>{
     const embed = new MessageEmbed();
     const maxResults = 5;
     let results = 0;
@@ -569,11 +622,11 @@ export class Events{
 
       if (results < maxResults){
         if ((now >= eventStartTime) && (now <= eventEndTime)){
-          embed.addField(`__${data[idx].title}__`, `**Currently in progress!**\nEnds in ${TimeStrings.totalTimeString(eventEndTime-now)}\n\u200B`);
+          embed.addField(`${data[idx].title}`, `**Currently in progress!**\nEnds in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
           results++;
         }
         else if (now < eventStartTime){
-          embed.addField(`__${data[idx].title}__`, `Starts in ${TimeStrings.totalTimeString(eventStartTime-now)}\n\u200B`);
+          embed.addField(`${data[idx].title}`, `Scheduled for \`${UTCStrings.getShortTimestamp(new Date(data[idx].startTime))} UTC\`\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
           results++;
         }
       }
@@ -584,13 +637,23 @@ export class Events{
 
     if (results > 0){
       if (results == 1){
-        embed.setDescription(`Here's the last scheduled casino event. Hopefully Diehl wil provide an update soon!`);
+        if (user){
+          embed.setDescription(`Hey ${user}! Here's the last scheduled casino event. Hopefully Diehl wil provide an update soon!\n\u200B`);
+        }
+        else {
+          embed.setDescription(`Here's the last scheduled casino event. Hopefully Diehl wil provide an update soon!\n\u200B`);
+        }
       }
       else if (results < maxResults){
-        embed.setDescription(`These are the last few scheduled casino events. Hopefully Diehl will provide an update soon!`);
+        embed.setDescription(`These are the last few scheduled casino events. Hopefully Diehl will provide an update soon!\n\u200B`);
       }
       else {
-        embed.setDescription(`Here's the next few scheduled boosts:`);
+        if (user){
+          embed.setDescription(`Hey ${user}! Here's the next few scheduled boosts\n\u200B`);
+        }
+        else {
+          embed.setDescription(`Here's the next few scheduled boosts\n\u200B`);
+        }
       }
     }
     else{
