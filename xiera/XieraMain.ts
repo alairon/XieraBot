@@ -5,6 +5,7 @@ import Discord = require('discord.js');
 
 import TokenManager = require('./components/Core/Token/TokenManager');
 import Events = require('./components/Event/Events');
+//import News = require('./components/News/News');
 import { XieraConfig, XieraString } from './@types/XieraMain';
 import { Reset } from './components/Reset/Reset';
 import { DailyCrafting } from './components/DailyCrafting/DailyCrafting';
@@ -111,8 +112,8 @@ let XieraStrings: XieraString = readStrings(path.join(__dirname, 'XieraStrings.j
 const client = new Discord.Client();
 const Token = new TokenManager.TokenManager(config.xiera.token, config.xiera.flags);
 const Event = new Events.Events();
+//const NewsWebhook = new News.News(config.news);
 const DailyCraft = new DailyCrafting();
-const HelpMessage = XieraStrings.client.message.usage;
 
 /**
  * STARTUP FUNCTIONS
@@ -120,6 +121,7 @@ const HelpMessage = XieraStrings.client.message.usage;
  */
 ;(async () => {
   await Event.initEvents(config.data.options, config.data.refreshInterval);
+  //await NewsWebhook.initService();
 })();
 
 /**
@@ -192,7 +194,7 @@ client.on('message', async (message) => {
       // Log when and where the message originated from
       console.log(`${message.author.username} via DM ${time}`);
       
-      const res = await switchboard(desiredAction);
+      const res = await switchboard(desiredAction, message.author.username);
       if (!res){
         message.channel.send(generateHelpMessageDM(message.author.username));
       }
@@ -211,7 +213,7 @@ client.on('message', async (message) => {
         // Log when and where the message originated from
         console.log(`${message.member.displayName} via ${message.guild.name} ${time}`);
 
-        const res = await switchboard(desiredAction);
+        const res = await switchboard(desiredAction, message.member.displayName);
         if (!res){
           message.channel.send(generateHelpMessage(message.member.displayName));
         }
@@ -230,31 +232,31 @@ client.on('message', async (message) => {
   }
 });
 
-async function switchboard(desiredAction: Array<string>): Promise<string|Discord.MessageEmbed>{
+async function switchboard(desiredAction: Array<string>, name: string): Promise<string|Discord.MessageEmbed>{
   if (desiredAction){
     console.log(`> Action: '${desiredAction[0]}' | '${desiredAction[1]}'`);
-    if (/^s?uq2/mi.test(desiredAction[0])){
+    if (/^s?uq/mi.test(desiredAction[0])){
       if (desiredAction[1]){
-        const results = await Event.searchEvents(desiredAction[1], true);
+        const results = await Event.searchEvents(desiredAction[1], true, name);
         return (results);
       }
-      const results = await Event.searchUpcomingEventsEmbed();
+      const results = await Event.searchUpcomingEventsEmbed(name);
       return (results);
     }
-    else if (/^\s?uq/mi.test(desiredAction[0])){
+    /*
+    else if (/^\s?uq2/mi.test(desiredAction[0])){
       if (desiredAction[1]){
-        const results = await Event.searchEvents(desiredAction[1]);
+        const results = await Event.searchEvents(desiredAction[1], false);
         return(results);
       }
-      else {
-        const results = await Event.searchUpcomingEvents();
-        return(results);
-      }
-    }
-    else if (/^\s?casino2/mi.test(desiredAction[0])){
-      const results = await Event.searchUpcomingCasinoEventsEmbed();
+      const results = await Event.searchUpcomingEvents();
+      return(results);
+    }*/
+    else if (/^\s?casino/mi.test(desiredAction[0])){
+      const results = await Event.searchUpcomingCasinoEventsEmbed(name);
       return (results);
     }
+    /*
     else if (/^\s?casino/mi.test(desiredAction[0])){
       const results = await Event.searchUpcomingCasinoEvents();
       return(results);
@@ -262,9 +264,9 @@ async function switchboard(desiredAction: Array<string>): Promise<string|Discord
     else if (/^\s?reset2/mi.test(desiredAction[0])){
       const results = Reset.getResetTable();
       return (results);
-    }
+    }*/
     else if (/^\s?reset/mi.test(desiredAction[0])){
-      const results = Reset.getResetTableEmbed();
+      const results = Reset.getResetTableEmbed(name);
       return(results);
     }
     else if (/^\s?dc/mi.test(desiredAction[0])){
