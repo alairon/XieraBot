@@ -110,10 +110,17 @@
     "tags": "Armada, AIS Vega"
   },
   {
+    "title": "Armada Training: Final Lament",
+    "tags": "VR Armada, Armada VR, Varuna, Shiva, Mitra, Goddess of Annihilation, Goddess of Demise",
+    "alt": "Mourning of Demise"
+  },
+  {
     "title": "Primordial Glare from the Void",
-    "tags": "Primordial Darkness Sodam"
+    "tags": "Primordial Gomorroth, Primordial Darkness Sodam, True Profound Darkness, True PD, True Final Boss",
+    "alt": "Primordial Void"
   },
 
+  
   {
     "title": "Christmas on Ice",
     "tags": "Xmas, Xmas Event, Christmas Event"
@@ -137,11 +144,6 @@
   {
     "title": "Gone with the Wind and Rain",
     "tags": "Spring Event, Wedding Event"
-  },
-  {
-    "title": "Death, Destroyer of Worlds",
-    "tags": "Space Magatsu",
-    "alt": "Death: Destroyer of Worlds, Cosmic Calamity"
   },
 
 

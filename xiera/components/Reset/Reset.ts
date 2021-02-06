@@ -78,12 +78,14 @@ export class Reset {
     return (2419200000 - time);
   }
 
+  // Gets the name of the event happening today
   private static getDCScheduleType(): string{
     const dc = new DailyCrafting();
     return (dc.getDailyName());
   }
   
-  public static getResetTable(){
+  // Returns a formatted string containing a list of when events reset
+  public static getResetTable(): string{
     const Message = new Messages();
     const now = new Date();
 
@@ -121,7 +123,8 @@ export class Reset {
     return (Message.getMessage());
   }
 
-  public static getResetTableEmbed(): MessageEmbed {
+  // Creates an embed containing a list of events that reset. Accepts a string for personalization
+  public static getResetTableEmbed(user?: string): MessageEmbed {
     const now = new Date();
     const DailyCrafting: number = this.buildDailyResetDate(now, this.DailyCraftingResetHour);
     const FreshFinds: number = this.buildDailyResetDate(now, this.FreshFindsResetHour);
@@ -135,7 +138,14 @@ export class Reset {
     const embed = new MessageEmbed();
     embed.setColor('#da79b1');
     embed.setTitle('PSO2 Reset Schedule');
-    embed.setDescription('There\'s a lot of different times when things reset around here, so here\'s a handy list showing when they\'ll happen.');
+
+    if (user){
+      embed.setDescription(`Hello ${user}! Here\'s a handy list showing when things will reset around here!`);
+    }
+    else {
+      embed.setDescription('There\'s a lot of different times when things reset around here, so here\'s a handy list showing when they\'ll happen.');
+    }
+
     embed.addFields(
       {name: '__Daily Crafting__', value: `Today's Rewards: ${dcScheduleType}\nResets: \`Daily at 04:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(DailyCrafting - now.getTime())}\`\n\u200B`},
 
@@ -153,6 +163,7 @@ export class Reset {
 
       {name: '__Limited Shops (Monthly)__', value: `Includes: Limited Class EX Cube Shop, and Divide Medals Shop\nResets: \`Every 28 days at 08:00 UTC\`\nNext Reset: \`${TimeStrings.totalTimeString(MonthlyClassEXCubes)}\`\n\u200B`}
     );
+    
     embed.setTimestamp();
     embed.setFooter('Hopefully things will be more consistent');
 
