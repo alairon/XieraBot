@@ -334,7 +334,7 @@ export class Events{
             results++;
           }
           else if (((eventStartTime-now) < 900000) && (now < eventEndTime)){
-            embed.addField(`${searchResults[idx].item.title}`, `**This event will start soon!**\nStarts in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
+            embed.addField(`${searchResults[idx].item.title}`, `**This event will start soon!**\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
           }
           else if (now < eventStartTime){
             embed.addField(`${searchResults[idx].item.title}`, `Scheduled for \`${UTCStrings.getShortTimestamp(new Date(searchResults[idx].item.startTime))} UTC\`\nStarts in \`${TimeStrings.totalTimeString(eventStartTime-now)}\`\n\u200B`);
@@ -351,15 +351,15 @@ export class Events{
           embed.setDescription(`Hey ${user}! I tried looking for \`${searchTerm}\`, but there doesn't seem to be any more events for this time period.`);
         }
         else {
-          embed.setDescription(`There doesn't seem to be any more events containing \`${searchTerm}\` for this time period`);
+          embed.setDescription(`There doesn't seem to be any more events containing \`${searchTerm}\` for this time period.`);
         }
       }
       else{
         if (user){
-          embed.setDescription(`Hi ${user}, thanks for waiting! Here's what I could find for \`${searchTerm}\``);
+          embed.setDescription(`Hi ${user}, thanks for waiting! Here's what I could find for \`${searchTerm}\`\n\u200B`);
         }
         else {
-          embed.setDescription(`Thanks for waiting! Here's what I could find for \`${searchTerm}\``);
+          embed.setDescription(`Thanks for waiting! Here's what I could find for \`${searchTerm}\`\n\u200B`);
         }
         if (omittedResults > 0){
           if (omittedResults == 1){
@@ -460,7 +460,7 @@ export class Events{
             // Code 9: UQ
             case 9:
               embed.setColor('#da0000');
-              embed.addField(`${data[idx].title}`, `**This is an active Urgent Quest!**\nEnds in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
+              embed.addField(`${data[idx].title}`, `**This is an active urgent quest!**\nEnds in \`${TimeStrings.totalTimeString(eventEndTime-now)}\`\n\u200B`);
               embed.setFooter('Good luck out there, ARKS!');
               activeUQ = true;
               break;
