@@ -11,7 +11,14 @@ export interface ResetTable {
   dailyLogin: {
     hour: number
   },
+  dailySurpression: {
+    hour: number
+  },
   weeklyRankings: {
+    hour: number,
+    weekday: number
+  },
+  weeklyExtremeQuests: {
     hour: number,
     weekday: number
   },
