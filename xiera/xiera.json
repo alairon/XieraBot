@@ -8,7 +8,7 @@
       "options": {
         "family": 4,
         "headers": {
-          "Cookie": "pso2-AgeGate=true;HttpOnly"
+          "Cookie": "pso2-age.verification=true;HttpOnly"
         },
         "host": "pso2.com",
         "path": "/news/LoadScheduleCampaigns"
